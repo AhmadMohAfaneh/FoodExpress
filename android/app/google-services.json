@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "434163162643",
+    "project_id": "foodexpress-4200e",
+    "storage_bucket": "foodexpress-4200e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:434163162643:android:44ac09ffa01c0391e4e9e6",
+        "android_client_info": {
+          "package_name": "com.afaneh.store.e_commerce"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDBg1J7UV96DIp1t5dxhZAP_cEQ_Z8KNBI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
