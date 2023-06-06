@@ -3,7 +3,12 @@ import 'dart:ui';
 
 import 'package:e_commerce/consts/consts.dart';
 import 'package:e_commerce/consts/strings.dart';
+import 'package:e_commerce/controllers/auth.controller.dart';
+import 'package:e_commerce/screens/auth_screen/log_in_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import '../../consts/colors.dart';
 import '../../consts/styles.dart';
 import '../../customs/custom_auth_button.dart';
@@ -13,11 +18,10 @@ import '../../logo.dart';
 
 class ResetPassword extends StatelessWidget {
    ResetPassword({Key? key}) : super(key: key);
-
-  TextEditingController emailForResetPassword  = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
+    Get.find<AuthController>();
+    ForgetPassword forgetPassword = ForgetPassword();
     return Scaffold(
       appBar: AppBar(),
       backgroundColor: redColor,
@@ -29,7 +33,7 @@ class ResetPassword extends StatelessWidget {
               padding: const EdgeInsets.only(left: 85,top: 40,bottom: 42),
               child: AppConst.logoCons(),
             ),
-             Padding(
+             const Padding(
               padding: EdgeInsets.only(bottom: 22),
               child: Text(resetPasswordSt,style:TextStyle(color: myWhite,fontSize: 22),),
             ),
@@ -55,7 +59,7 @@ class ResetPassword extends StatelessWidget {
                             const Padding(
                               padding: EdgeInsets.only(bottom: 5),
                               child: Text(
-                                resetPassword,
+                                resetPasswordInstructionsSt,
                                 style: TextStyle(
                                     color: myBlack,
                                     fontSize: 17,
@@ -65,13 +69,23 @@ class ResetPassword extends StatelessWidget {
                            20.heightBox,
                            const Text(emailSt,style: TextStyle(color: redColor,fontSize: 16,fontFamily: semibold)),
                            10.heightBox,
-                           CustomTextField(controller: emailForResetPassword,hintText: hintEmail, obscureText: false,),
+                           CustomTextField(controller: forgetPassword.emailController ,hintText: hintEmail, obscureText: false,),
                             Padding(
                               padding: const EdgeInsets.only(top: 8),
                               child: Align(
                                 alignment: Alignment.center,
                                 child: CustomButton(
-                                  onPressed: () {},
+                                  onPressed: () async {
+                                  try{
+                                    await forgetPassword.resetYourPassword();
+                                    VxToast.show(context, msg: resetPassLinkSt);
+                                    Get.offAll(()=> const LogInPage());
+                                  }on FirebaseAuthException catch(e){
+                                    VxToast.show(context, msg: e.message.toString());
+
+                                  }
+
+                                  },
                                   text: resetPasswordButSt,
                                   color: redColor,
                                   textColor: myWhite,

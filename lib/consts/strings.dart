@@ -58,8 +58,8 @@ import 'package:e_commerce/consts/images.dart';
  const appUpdatesSt = "App Updates:";
  const updatesDone1St = "• Bug fixes and performance improvements";
  const updatesDone2St = "• Added new dishes to the menu";
- const resetPassword = "To reset your password, please enter your email "
-     "address and check your inbox for further instructions ";
+ const resetPasswordInstructionsSt = "To reset your password, please enter your email "
+     "address and check your inbox for further instructions. ";
  const resetPasswordButSt = "Reset Password";
  const resetPasswordSt = "Reset Your Password";
  const signOutSt = "Sign Out";
@@ -90,8 +90,26 @@ import 'package:e_commerce/consts/images.dart';
  const errorSt = "Error";
  const adminEmail = "admin@admin.com";
  const adminPassword = "admin12345";
-
-
-
-
+ const editYourProfileSt = "Edit Your Profile";
+ const saveSt = '  Save  ';
+ const weakPasswordSt = 'The password provided is too weak.';
+ const accountExistsSt = "The account already exists for that email.";
+ const notValidEmail = "Enter Valid Email";
+ const successLoginSt = "successfully logged in";
+ const noUserFountSt = "No user found for that email.";
+ const wrongPasswordSt = 'Wrong password provided for that user.';
+ const userIsSignedOutSt = 'User is currently signed out!';
+ const userIsSignedInSt = 'User is signed in!';
+ const loggingOutSt = "Logging Out";
+ const emptyUserNameSt = "Username is empty";
+const emptyUserPhoneNumberSt = "Phone number is empty";
+const emptyUserAddressSt = "address is empty ";
+const emptyUserEmailSt = "Email is empty";
+const emptyUserPassSt = "Password is empty";
+const emptyRetypePassSt = "retype your password";
+const passNotMatchesSt = "password does not matches ";
+const termsNotAcceptedSt = "you must agree to our terms";
+const dataUpdatedSt = "your data is updated";
+const resetPassLinkSt = "Password reset link sent! Check your email";
+//ahmadafaneh22 (123456789)
 

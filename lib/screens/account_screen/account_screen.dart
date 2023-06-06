@@ -32,9 +32,13 @@ class AccountScreen extends StatelessWidget {
             }
               else{
                 var data = snapshot.data!.docs[0];
+                 // controller.nameController.text = data['name'];
+                 // controller.addressController.text = data['address'];
+                 // controller.phoneNumberController.text = data['phone number'];
                return Column(
 
             children: [
+
               140.heightBox,
               Align(
                 alignment: Alignment.center,
@@ -60,7 +64,10 @@ class AccountScreen extends StatelessWidget {
                         elevation: 9,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(20),
-                          child: Image.asset(imgProfilePic, fit: BoxFit.cover,),
+                          child:
+                          data['imageUrl'] == '' ?
+                          Image.asset(imgProfle, fit: BoxFit.cover,)
+                              : Image.network(data['imageUrl'],fit: BoxFit.cover,)
                         ),
                       ),
                     ),
@@ -107,7 +114,9 @@ class AccountScreen extends StatelessWidget {
               10.heightBox,
               customTextButton (                                              // app dialop shows app informai
                 onTap : () async {
+
                 await Get.put(AuthController()).signOut(context);
+
                   Get.offAll(() => const LogInPage());
                 },
                 text: signOutSt,

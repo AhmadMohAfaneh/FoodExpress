@@ -8,6 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
+import '../consts/strings.dart';
 import '../screens/auth_screen/intro_screen.dart';
 import '../screens/home_screen/home_screen.dart';
 
@@ -27,16 +28,16 @@ class AuthController extends GetxController {
       if (e.code == 'weak-password') {
         VxToast.show(
            context,
-          msg: "The password provided is too weak.",
+          msg: weakPasswordSt,
         );
       } else if (e.code == 'email-already-in-use') {
         VxToast.show(
           context,
-          msg: "The account already exists for that email.",
+          msg: accountExistsSt,
         );
       }else if (e.toString().contains("email address is badly formatted") ){
         VxToast.show(
-          context, msg: "Enter Valid Email",);
+          context, msg: notValidEmail,);
       }
     } catch (e) {
       VxToast.show(context, msg: e.toString());
@@ -63,24 +64,26 @@ class AuthController extends GetxController {
 
         if(userType == "admin") {
           Get.offAll(() => const AdminHomePage());
-          VxToast.show(context, msg: "successfully logged in ");
+          VxToast.show(context, msg: successLoginSt);
+          isLoading.value = false;
         } else {
           Get.offAll(() => const Home());
-          VxToast.show(context, msg: "successfully logged in ");
+          VxToast.show(context, msg: successLoginSt);
+          isLoading.value = false;
         }
       }
     } on FirebaseAuthException catch (e) {
       isLoading.value = false;
       if (e.code == 'user-not-found') {
         VxToast.show(
-            context, msg: "No user found for that email.");
+            context, msg: noUserFountSt);
       } else if (e.code == 'wrong-password') {
         VxToast.show(
-          context, msg: "Wrong password provided for that user.",);
+          context, msg: wrongPasswordSt);
        // handling other errors
       }else if (e.toString().contains("email address is badly formatted") ){
         VxToast.show(
-          context, msg: "Enter Valid Email",);
+          context, msg: notValidEmail);
       }
     else{
          VxToast.show(context, msg: e.toString());
@@ -110,11 +113,11 @@ class AuthController extends GetxController {
         .authStateChanges()
         .listen((User? user) {
       if (user == null) {
-        print('User is currently signed out!');
+        print(userIsSignedOutSt);
         const IntroPage();
       } else {
 
-        print('User is signed in!');
+        print(userIsSignedInSt);
        const  Home();
       }
     });
@@ -127,7 +130,8 @@ class AuthController extends GetxController {
   signOut(context) async {
     try {
       await auth.signOut();
-      VxToast.show(context, msg: "Logging Out");
+      VxToast.show(context, msg: loggingOutSt);
+      isLoading.value = false;
     } catch (e) {
       VxToast.show(context, msg: e.toString());
     }
@@ -155,28 +159,28 @@ class SignupController extends AuthController {
   String userType = 'user';
   bool get emptyInfoFields {
     if(registerUsernameController.text.isEmpty){
-      errorMessage.value = "Username is empty";
+      errorMessage.value = emptyUserNameSt;
       return false;
     } else if (registerPhoneNumberController.text.isEmpty){
-      errorMessage.value = "phone number is empty";
+      errorMessage.value = emptyUserPassSt;
       return false;
     } else if(registerAddressController.text.isEmpty){
-      errorMessage.value = "address is empty";
+      errorMessage.value = emptyUserAddressSt;
       return false;
     } else if (registerEmailController.text.isEmpty){
-      errorMessage.value = "email is empty";
+      errorMessage.value = emptyUserEmailSt;
       return false;
     } else if (registerPassController.text.isEmpty){
-      errorMessage.value = "password is empty";
+      errorMessage.value = emptyUserPassSt;
       return false;
     } else if (registerRetypePasswordController.text.isEmpty){
-      errorMessage.value = "retype your password";
+      errorMessage.value = emptyRetypePassSt;
       return false;
     } else if(!validationPassword){
-      errorMessage.value = "password does not matches ";
+      errorMessage.value = passNotMatchesSt;
       return false;
     } else if(!isCheck.value){
-      errorMessage.value = "you must agree to our terms";
+      errorMessage.value = termsNotAcceptedSt;
       return false;
     } else {
       errorMessage.value = "";
@@ -192,10 +196,10 @@ class LoginController extends AuthController {
   RxString errorMessage = "".obs;
   bool get emptyInfoFields {
     if (emailController.text.isEmpty) {
-      errorMessage.value = "email is empty";
+      errorMessage.value = emptyUserEmailSt;
       return false;
     } else if (passwordController.text.isEmpty) {
-      errorMessage.value = "password is empty";
+      errorMessage.value = emptyUserPassSt;
       return false;
     }
     else{
@@ -204,5 +208,13 @@ class LoginController extends AuthController {
     }
   }
 
+
+}
+class ForgetPassword extends AuthController{
+  TextEditingController emailController = TextEditingController();
+  Future<void> resetYourPassword({email})async {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    auth.sendPasswordResetEmail(email: emailController.text);
+  }
 
 }

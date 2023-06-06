@@ -18,14 +18,15 @@ class UserEditProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var controller = Get.find<ProfileController>();
-    controller.nameController.text = data['name'];
-    controller.addressController.text = data['address'];
-    controller.phoneNumberController.text = data['phone number'];
+     controller.nameController.text = data['name'];
+     controller.addressController.text = data['address'];
+     controller.phoneNumberController.text = data['phone number'];
+
     return Scaffold(
       backgroundColor: myWhite,
       appBar: AppBar(
         backgroundColor: redColor,
-        title: const Text('Edit Profile'),
+
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -37,7 +38,7 @@ class UserEditProfileScreen extends StatelessWidget {
                 const Align(
                     heightFactor: 3,
                     child: Text(
-                      "Edit Your Profile",
+                      editYourProfileSt,
                       style: TextStyle(
                           fontFamily: bold, color: redColor, fontSize: 22),
                     )),
@@ -47,13 +48,20 @@ class UserEditProfileScreen extends StatelessWidget {
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                    controller.chosenImagePath.isEmpty
+                        // if data image url and controller path is empy
+                    data['imageUrl'] == '' && controller.chosenImagePath.isEmpty
                         ? Image.asset(
                             imgProfilePic,
                             width: 100,
                             fit: BoxFit.cover,
                           ).box.roundedFull.clip(Clip.antiAlias).make()
-                        : Image.file(
+                         // if data is not empty but controller path is empty
+                         :
+                       data['imageUrl'] != "" && controller.chosenImagePath.isEmpty ?
+
+                       Image.network(data['imageUrl'])
+                         // if both are empty (done)
+                      : Image.file(
                             File(controller.chosenImagePath.value),
                             width: 100,
                             fit: BoxFit.cover,
@@ -86,7 +94,7 @@ class UserEditProfileScreen extends StatelessWidget {
                 CustomTextField(
                   controller: controller.nameController,
                   labelText: hintUserName,
-                  hintText: 'Enter your restaurant name',
+                  hintText: hintUserName,
                   labelTextColor: myBlack,
                 ),
 
@@ -94,22 +102,30 @@ class UserEditProfileScreen extends StatelessWidget {
                 CustomTextField(
                   controller: controller.addressController,
                   labelText: addressSt,
-                  hintText: 'Enter your address',
+                  hintText: hintAddress,
                   labelTextColor: myBlack,
                 ),
                 const SizedBox(height: 16.0),
                 CustomTextField(
                   controller: controller.phoneNumberController,
                   labelText: hintPhoneNumber,
-                  hintText: 'Enter your phone number',
+                  hintText: hintPhoneNumber,
                   labelTextColor: myBlack,
                 ),
-                const SizedBox(height: 24.0),
+                controller.isLoading.value ? const CircularProgressIndicator(): const SizedBox(height: 24.0),
                 customElevatedButton(
-                  onPressed: () {
-                    // Handle save button click here
+                  onPressed: () async{
+                    controller.isLoading.value = true;
+                  await controller.uploadProfileImage();
+                  await controller.updateProfile(
+                    imageUrl: controller.profileImageLink,
+                    name: controller.nameController.text,
+                    address: controller.addressController.text,
+                    phoneNumber: controller.phoneNumberController.text,
+                  );
+                  VxToast.show(context, msg: dataUpdatedSt);
                   },
-                  child: const Text('  Save  '),
+                  child: const Text(saveSt),
                   fixedSize: const Size(double.infinity, 48.0),
                   color: redColor,
                 ),

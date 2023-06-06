@@ -25,7 +25,7 @@ const icPlus = "assets/images/plus.png";
 const icMyOrders = "assets/images/my_oders_icon.png";
 const icOffers = "assets/images/Offers_icon.png";
 const icInfo = "assets/images/info_icon.png";
-const imgProfilePic = "assets/images/profilepic.jpeg.jpeg";
+const imgProfilePic = "assets/images/profilepic.jpeg.png";
 const icoffers = "assets/images/price-tag (1).png";
 const icDiscount = "assets/images/discount.png";
 const icBestOffer = "assets/images/best-offer.png";
@@ -37,4 +37,5 @@ const icAdminOrders = "assets/images/admin_orders.png";
 const icDishes = "assets/images/dishes.png";
 const icLogOut = "assets/images/log-out.png";
 const icEditProfile = "assets/images/editProfile.png";
+const imgProfle = "assets/images/profile_pic.png";
 
