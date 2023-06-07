@@ -17,7 +17,7 @@ import '../../customs/custom_text-field.dart';
 import '../../logo.dart';
 
 class ResetPassword extends StatelessWidget {
-   ResetPassword({Key? key}) : super(key: key);
+   const ResetPassword({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     Get.find<AuthController>();
