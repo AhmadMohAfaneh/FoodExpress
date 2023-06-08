@@ -1,4 +1,5 @@
 import 'package:e_commerce/consts/consts.dart';
+import 'package:e_commerce/controllers/products_controller.dart';
 import 'package:e_commerce/customs/bg_widget.dart';
 import 'package:e_commerce/customs/custom_auth_button.dart';
 import 'package:e_commerce/screens/cart_screen/cart_screen.dart';
@@ -15,6 +16,7 @@ class Products extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     int count = 0;
     return bgWidget(
       child: Scaffold(

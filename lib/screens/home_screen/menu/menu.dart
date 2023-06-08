@@ -1,4 +1,5 @@
 import 'package:e_commerce/consts/consts.dart';
+import 'package:e_commerce/models/prducts_model.dart';
 import 'package:e_commerce/screens/home_screen/menu/products.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
 import '../../../consts/strings.dart';
+import '../../../controllers/products_controller.dart';
 import '../../../customs/bg_widget.dart';
 import '../../../customs/custom_menu_container.dart';
 
@@ -15,6 +17,7 @@ class MenuPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var productController = Get.put(ProductController());
     return bgWidget(
       child: Scaffold(
         appBar: AppBar(
@@ -79,31 +82,38 @@ class MenuPage extends StatelessWidget {
             ),
             10.heightBox,
             Expanded(
-              child: SizedBox(
-                height: MediaQuery
-                    .of(context)
-                    .size
-                    .height,
-                child: ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  itemCount: itemsList.length + 2,
-                  itemBuilder: (BuildContext context, int index) {
-                    return GestureDetector(
-                      onTap: () => Get.to((const Products())),
-                      child: Container(
-
-                          decoration: BoxDecoration(
-                            border: Border.all(width: 0.6, style: BorderStyle
-                                .none),),
-                          child: Align(
-                              alignment: Alignment.bottomLeft,
-                              child: menuContainer(
-                                  titleSt, discrSt, priceSt, itemsList[2]))),
-                    );
-                  },
-                ),
-              ),
+              child: StreamBuilder<List<Product>>(
+                  stream: productController.getProducts(),
+                  builder: (context, snapshot){
+                    if(snapshot.hasData){
+                      var products = snapshot.data!;
+                      return ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        itemCount: products.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return GestureDetector(
+                            onTap: () => Get.to((const Products())),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(width: 0.6, style: BorderStyle.none),),
+                              child: Align(
+                                  alignment: Alignment.bottomLeft,
+                                  child: menuContainer(products[index].name, products[index].description, products[index].price.toDouble().toString(), products[index].urlImage)
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    }
+                    if(snapshot.connectionState == ConnectionState.waiting){
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                    else{
+                      return Text("null${snapshot.error}");
+                    }
+                  }),
             ),
+
           ],
         ),
       ),

@@ -1,7 +1,7 @@
  import 'package:e_commerce/consts/consts.dart';
 import 'package:flutter/material.dart';
 
- Widget homeMenu() {
+ Widget homeMenu({categoryName, menuImage}) {
    return Column(
      children: [
        ClipRRect(
@@ -10,15 +10,15 @@ import 'package:flutter/material.dart';
            height: 90,
            width: 140,
            color: Colors.transparent, // Set the color to transparent
-           child: Image.asset(
-             imgBurgersMenu,
+           child: Image.network(
+              menuImage,
              fit: BoxFit.cover,
            ),
          ),
        ),
        const SizedBox(height: 5),
-       const Text(
-         "burgers",
+        Text(
+         categoryName,
          style: TextStyle(fontFamily: semibold, color: Colors.black,fontSize: 18),
        ),
      ],

@@ -25,7 +25,7 @@ import 'package:e_commerce/consts/images.dart';
  const dishesSt = "Dishes";
  const titleSt = "Tomato Pottery";
  const discrSt = "Pottery and 1 chapati bread";
- const priceSt = "JOD 4.00";
+ const priceSt = "JOD ";
  const itemsImg = "assets/images/item pic.jpg";
  const itemsList = [itemsImg,itemsImg,itemsImg];
  const addToCartSt = "Add to Cart";
@@ -111,5 +111,6 @@ const passNotMatchesSt = "password does not matches ";
 const termsNotAcceptedSt = "you must agree to our terms";
 const dataUpdatedSt = "your data is updated";
 const resetPassLinkSt = "Password reset link sent! Check your email";
+const categoryErrorMessage = "There was an error loading categories";
 //ahmadafaneh22 (123456789)
 
