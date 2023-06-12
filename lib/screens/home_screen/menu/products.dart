@@ -2,6 +2,7 @@ import 'package:e_commerce/consts/consts.dart';
 import 'package:e_commerce/controllers/products_controller.dart';
 import 'package:e_commerce/customs/bg_widget.dart';
 import 'package:e_commerce/models/prducts_model.dart';
+import 'package:e_commerce/screens/home_screen/menu/menu.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -18,6 +19,11 @@ class Products extends StatelessWidget {
     return bgWidget(
       child: Scaffold(
         appBar: AppBar(
+          leading: IconButton(onPressed: (){
+            productsController.resetData();
+            Get.back();
+          },
+              icon: const Icon(Icons.arrow_back)),
           backgroundColor: Colors.transparent,
         ),
         body: Column(
@@ -79,7 +85,7 @@ class Products extends StatelessWidget {
                   decoration:  BoxDecoration(
                     border: Border.all(width: 0.3,),
                     color: lightGrey,
-                      borderRadius: BorderRadius.circular(18)
+                      borderRadius: BorderRadius.circular(12)
                   ),
                   child: Obx( () => Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -99,12 +105,14 @@ class Products extends StatelessWidget {
                 ),
 
                40.heightBox,
-               ElevatedButton(onPressed: () {},
+               ElevatedButton(onPressed: () {
+                   productsController.addToCart(productsDada!, currentUser!.uid,context);
+               },
                    style: ElevatedButton.styleFrom(
                      backgroundColor: redColor,
                      fixedSize: const Size( 340, 55),
                      shape: RoundedRectangleBorder(
-                       borderRadius: BorderRadius.circular(30)
+                       borderRadius: BorderRadius.circular(10)
                      )
                    ),
                    child: Row(
@@ -113,10 +121,6 @@ class Products extends StatelessWidget {
                    const Text(addToCartSt,style:
                    TextStyle(fontSize: 18,fontFamily: regular),),
                    15.widthBox,
-                   SizedBox(
-                       height: 40,
-                       width: 60,
-                       child: Image.asset(cartIcon))
                  ],
                ))
               ],

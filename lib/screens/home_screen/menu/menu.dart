@@ -14,8 +14,8 @@ import '../../../models/category.model.dart';
 
 
 class MenuPage extends StatelessWidget {
-  final Category categoryData;
-   const MenuPage({Key? key, required this.categoryData}) : super(key: key);
+  final Category ?categoryData;
+   const MenuPage({Key? key, this.categoryData}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +52,7 @@ class MenuPage extends StatelessWidget {
                       elevation: 9,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(20),
-                        child: Image.network(categoryData.categoryUrlImage, fit: BoxFit.fill,),
+                        child: Image.network(categoryData!.categoryUrlImage, fit: BoxFit.fill,),
                       ),
                     ),
                   ),
@@ -84,7 +84,7 @@ class MenuPage extends StatelessWidget {
             10.heightBox,
             Expanded(
               child: StreamBuilder<List<Product>>(
-                  stream: FirestoreServices.getProductsByCat(categoryData.categoryId),
+                  stream: FirestoreServices.getProductsByCat(categoryData!.categoryId),
                   builder: (context, snapshot){
                     if(snapshot.hasData){
                       var products = snapshot.data!;

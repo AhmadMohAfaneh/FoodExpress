@@ -1,21 +1,31 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CartModel {
-   final String cartId;
-   final String userId;
-   final num totalPrice;
-   final Map<String, num> productId;
+  final String cartId;
+  final String userId;
+   num totalPrice = 0 ;
+  final List<Map<String, dynamic>> products;
 
-  CartModel({required this.cartId, required this.userId,
-    required this.totalPrice, required this.productId});
-
+  CartModel({
+    required this.cartId,
+    required this.userId,
+    required this.totalPrice,
+    required this.products,
+  });
 
   factory CartModel.fromFirestore(DocumentSnapshot doc){
+    List<Map<String, dynamic>> productList = [];
+    for (var element in List.from(doc['product_ids'])) {
+      productList.add({
+        'p_id' : element['p_id'],
+        'quantity': element['quantity'],
+      });
+    }
     return CartModel(
-      cartId : doc['cart_id'],
-      userId : doc['userId'],
-      totalPrice: doc['total_Price'],
-      productId : doc[{'p_id','quantity'}]
+      cartId : doc['c_id'],
+      userId : doc['user_Id'],
+      totalPrice: doc['total_price'],
+      products: productList,
     );
   }
 }

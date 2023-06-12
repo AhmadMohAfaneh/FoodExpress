@@ -19,7 +19,7 @@ class Product {
 
     return Product(
       productId: doc['p_id'],
-      name: data['p_name'] ?? '',
+      name: data['p_name'] ,
       categoryId: data['category_id'] ?? '',
       description: data['p_description'] ?? '',
       price: data['p_price'] ?? 0,
