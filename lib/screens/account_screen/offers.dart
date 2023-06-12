@@ -65,7 +65,7 @@ class Offers extends StatelessWidget {
                   itemCount: itemsList.length,
                   itemBuilder: (BuildContext context, int index) {
                     return GestureDetector(
-                      onTap: () => Get.to((const Products())),
+                      onTap: () => Get.to(( Products())),
                       child: Container(
 
                           decoration: BoxDecoration(

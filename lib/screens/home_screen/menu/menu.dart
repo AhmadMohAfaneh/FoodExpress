@@ -1,23 +1,24 @@
 import 'package:e_commerce/consts/consts.dart';
 import 'package:e_commerce/models/prducts_model.dart';
 import 'package:e_commerce/screens/home_screen/menu/products.dart';
+import 'package:e_commerce/services/firestore_services.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
 import '../../../consts/strings.dart';
-import '../../../controllers/products_controller.dart';
 import '../../../customs/bg_widget.dart';
 import '../../../customs/custom_menu_container.dart';
+import '../../../models/category.model.dart';
 
 
 class MenuPage extends StatelessWidget {
-  const MenuPage({Key? key}) : super(key: key);
+  final Category categoryData;
+   const MenuPage({Key? key, required this.categoryData}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var productController = Get.put(ProductController());
     return bgWidget(
       child: Scaffold(
         appBar: AppBar(
@@ -51,7 +52,7 @@ class MenuPage extends StatelessWidget {
                       elevation: 9,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(20),
-                        child: Image.asset(imgBurgersMenu, fit: BoxFit.fill,),
+                        child: Image.network(categoryData.categoryUrlImage, fit: BoxFit.fill,),
                       ),
                     ),
                   ),
@@ -61,7 +62,7 @@ class MenuPage extends StatelessWidget {
             15.heightBox,
             Column(
               children: [
-                 const Text(restNameSt, style: TextStyle(
+                 const Text(restaurantNameSt, style: TextStyle(
                     fontFamily: bold, fontSize: 22, color: myBlack),),
                 GestureDetector(
                     child: const Text(callUsSt, style: TextStyle(fontSize: 17,
@@ -83,7 +84,7 @@ class MenuPage extends StatelessWidget {
             10.heightBox,
             Expanded(
               child: StreamBuilder<List<Product>>(
-                  stream: productController.getProducts(),
+                  stream: FirestoreServices.getProductsByCat(categoryData.categoryId),
                   builder: (context, snapshot){
                     if(snapshot.hasData){
                       var products = snapshot.data!;
@@ -92,7 +93,7 @@ class MenuPage extends StatelessWidget {
                         itemCount: products.length,
                         itemBuilder: (BuildContext context, int index) {
                           return GestureDetector(
-                            onTap: () => Get.to((const Products())),
+                            onTap: () => Get.to(( Products(productsDada: products[index]))),
                             child: Container(
                               decoration: BoxDecoration(
                                 border: Border.all(width: 0.6, style: BorderStyle.none),),

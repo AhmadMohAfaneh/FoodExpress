@@ -80,7 +80,7 @@ class HomeScreen extends StatelessWidget {
                                     padding: const EdgeInsets.fromLTRB(
                                         10, 5, 10, 5),
                                     child: GestureDetector(
-                                      onTap: () => Get.to((const MenuPage())),
+                                      onTap: () => Get.to(MenuPage(categoryData: categories[index])),
                                       child: Container(
                                         child: homeMenu(
                                           categoryName: categories[index]

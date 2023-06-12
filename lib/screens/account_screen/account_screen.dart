@@ -1,6 +1,8 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce/controllers/auth.controller.dart';
+import 'package:e_commerce/controllers/category_controller.dart';
+import 'package:e_commerce/controllers/products_controller.dart';
 import 'package:e_commerce/controllers/profile_controller.dart';
 import 'package:e_commerce/customs/bg_widget.dart';
 import 'package:e_commerce/customs/custom_text_button.dart';
@@ -12,6 +14,8 @@ import 'package:e_commerce/screens/auth_screen/log_in_screen.dart';
 import 'package:e_commerce/services/firestore_services.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+
 import '../../consts/consts.dart';
 import '../../consts/strings.dart';
 
@@ -21,11 +25,13 @@ class AccountScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var controller = Get.put(ProfileController());
+    var productsController = Get.put(ProductController());
+    var categoryController = Get.find<CategoryController>();
 
     return bgWidget(
       child: Scaffold(
         body: StreamBuilder(
-          stream: FirestoreServices.getUser(currentUser!.uid),
+          stream: FirestoreServices.getUser(currentUser?.uid),
           builder:(BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if(!snapshot.hasData){
               return const CircularProgressIndicator();

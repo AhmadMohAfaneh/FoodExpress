@@ -1,23 +1,20 @@
 import 'package:e_commerce/consts/consts.dart';
 import 'package:e_commerce/controllers/products_controller.dart';
 import 'package:e_commerce/customs/bg_widget.dart';
-import 'package:e_commerce/customs/custom_auth_button.dart';
-import 'package:e_commerce/screens/cart_screen/cart_screen.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:e_commerce/models/prducts_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import '../../../consts/strings.dart';
-import '../../../controllers/home_controller.dart';
 
 
 class Products extends StatelessWidget {
-  const Products({Key? key}) : super(key: key);
+  final Product? productsDada;
+   const Products({Key? key,  this.productsDada}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
-    int count = 0;
+    var productsController = Get.put(ProductController());
     return bgWidget(
       child: Scaffold(
         appBar: AppBar(
@@ -51,7 +48,7 @@ class Products extends StatelessWidget {
                       elevation: 9,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(20),
-                        child: Image.asset(itemsImg, fit: BoxFit.fill,),
+                        child: Image.network(productsDada!.urlImage, fit: BoxFit.fill,),
                       ),
                     ),
                   ),
@@ -61,18 +58,20 @@ class Products extends StatelessWidget {
             15.heightBox,
             Column(
               children:  [
-                const Text(titleSt, style: TextStyle(
+                 Text(productsDada!.name, style: const TextStyle(
                     fontFamily: bold, fontSize: 22, color: myBlack,)
                   ,),
                 5.heightBox,
-                const Text(discrSt,style: TextStyle(fontFamily: regular,fontSize: 18),),
+                 Container(margin:const EdgeInsets.only(left: 20,right:10 ), child: Text(productsDada!.description,style: const TextStyle(fontFamily: regular,fontSize: 18),textAlign: TextAlign.center,)),
                 5.heightBox,
-                const Text(priceSt, style: TextStyle(fontSize: 17,
-                    fontFamily: orgenao,
-                    color: redColor,
-                    fontWeight: FontWeight.bold
+                 Obx(()=>
+                    Text(priceSt + productsController.totalPrice.value.toString(), style: const TextStyle(fontSize: 19,
+                      fontFamily: orgenao,
+                      color: redColor,
+                      fontWeight: FontWeight.bold
                 )
                 ),
+                 ),
                 15.heightBox,
                 Container(
                   height: 50,
@@ -82,15 +81,23 @@ class Products extends StatelessWidget {
                     color: lightGrey,
                       borderRadius: BorderRadius.circular(18)
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      IconButton(onPressed: (){}, icon: const ImageIcon(AssetImage(icMinus))),
-                      Text(count.toString(),style: const TextStyle(fontSize: 30,fontFamily: bold),),
-                      IconButton(onPressed: (){}, icon: const ImageIcon(AssetImage(icPlus),color: redColor,))
-                    ],
+                  child: Obx( () => Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        IconButton(onPressed: (){
+                          productsController.decreaseQuantity();
+                          productsController.getProductAddedTotalPrice(productPrice: productsDada!.price);
+                        }, icon: const ImageIcon(AssetImage(icMinus))),
+                        Text(productsController.quantity.value.toString(),style: const TextStyle(fontSize: 30,fontFamily: bold),),
+                        IconButton(onPressed: (){
+                          productsController.increaseQuantity();
+                          productsController.getProductAddedTotalPrice(productPrice: productsDada!.price);
+                        }, icon: const ImageIcon(AssetImage(icPlus),color: redColor,))
+                      ],
+                    ),
                   ),
                 ),
+
                40.heightBox,
                ElevatedButton(onPressed: () {},
                    style: ElevatedButton.styleFrom(
