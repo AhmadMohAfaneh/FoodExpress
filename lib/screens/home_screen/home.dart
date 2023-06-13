@@ -32,7 +32,7 @@ class HomeScreen extends StatelessWidget {
                     aspectRatio: 16 / 9,
                     autoPlay: true,
                     autoPlayAnimationDuration: const Duration(seconds: 5),
-                    height: 140,
+                    height: 160,
                     enlargeCenterPage: true,
                     itemCount: offersList.length,
                     itemBuilder: (context, index) {
@@ -48,7 +48,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                   5.heightBox,
                   const Padding(
-                    padding: EdgeInsets.only(left: 5),
+                    padding: EdgeInsets.only(left: 14),
                     child: Text(
                       menuSt,
                       style: TextStyle(fontFamily: bold, fontSize: 20),
@@ -69,7 +69,7 @@ class HomeScreen extends StatelessWidget {
                           } else {
                             var categories = snapshot.data!;
                             return SizedBox(
-                              height: 145,
+                              height: 150,
                               child: ListView.builder(
                                 scrollDirection: Axis.horizontal,
 
@@ -102,7 +102,7 @@ class HomeScreen extends StatelessWidget {
                         child: VxSwiper.builder(
                           aspectRatio: 16 / 9,
                           autoPlay: false,
-                          height: 140,
+                          height: 150,
                           enlargeCenterPage: false,
                           itemCount: randomList.length,
                           itemBuilder: (context, index) {
@@ -132,7 +132,7 @@ class HomeScreen extends StatelessWidget {
                     ],
                   ),
                   SizedBox(
-                    height: 145,
+                    height: 135,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemCount: topRatingList.length,

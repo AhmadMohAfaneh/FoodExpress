@@ -9,7 +9,7 @@ import 'package:e_commerce/consts/images.dart';
  const String passwordSt = "password";
  const String hintEmail = "example@gmeil.com";
  const String hintPassword = "* * * * * *";
- const String loginSt = "Log in";
+ const String loginSt ="Log in";
  const String signupSt = " Sign up";
  const String googleSt = " Login With Google";
  const String createAccountSt = "Create Account";
@@ -112,5 +112,10 @@ const termsNotAcceptedSt = "you must agree to our terms";
 const dataUpdatedSt = "your data is updated";
 const resetPassLinkSt = "Password reset link sent! Check your email";
 const categoryErrorMessage = "There was an error loading categories";
+const welcomingSt = "Welcome to Our App!";
+const swipeRegSt = "Swipe right to register";
+const alreadyHaveAccSt = "Already have an account?";
+const doesNotHaveAccountSt = "Do not have account?";
+const registerSt = "Register";
 //ahmadafaneh22 (123456789)
 

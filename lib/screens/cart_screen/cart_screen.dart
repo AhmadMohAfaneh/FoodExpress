@@ -37,7 +37,7 @@ class CartScreen extends StatelessWidget {
                       height: MediaQuery
                           .of(context)
                           .size
-                          .height - 160,
+                          .height - 248,
                       width: MediaQuery
                           .of(context)
                           .size
@@ -101,7 +101,7 @@ class CartScreen extends StatelessWidget {
                                            builder: (context, snapshot) {
                                         var productsData = snapshot.data;
                                         return ListView.builder(
-                                          itemCount: cartData![0].products.length,
+                                          itemCount: cartData[0].products.length,
                                           itemBuilder: (context,  index) {
                                             return cartContainer(
                                                 productsData![index].name,
@@ -134,7 +134,7 @@ class CartScreen extends StatelessWidget {
                                             fontWeight: FontWeight.bold)),
                                         100.widthBox,
                                         Text(priceSt +
-                                            cartData![0].totalPrice.toDouble()
+                                            cartData[0].totalPrice.toDouble()
                                                 .toString(),
                                             style: const TextStyle(fontSize: 20,
                                                 fontFamily: regular,

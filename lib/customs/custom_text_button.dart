@@ -21,12 +21,12 @@ Widget customTextButton({
               SizedBox(
                 height: 25,
                 width: 25,
-                child: ImageIcon(assetImage, size: 25, color: myBlack),
+                child: ImageIcon(assetImage, size: 28, color: myBlack),
               ),
               const SizedBox(width: 25),
               Text(
                 text,
-                style: const TextStyle(fontSize: 14, color: darkFontGrey, fontFamily: regular),
+                style: const TextStyle(fontSize: 16, color: darkFontGrey, fontFamily: regular),
               ),
             ],
           ),

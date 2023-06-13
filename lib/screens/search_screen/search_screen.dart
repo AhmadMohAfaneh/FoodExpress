@@ -15,7 +15,7 @@ class SearchScreen extends StatelessWidget {
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              40.heightBox,
+              70.heightBox,
                Align(
                  alignment: Alignment.center,
                  child: SizedBox(

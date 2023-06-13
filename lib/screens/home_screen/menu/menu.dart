@@ -27,7 +27,7 @@ class MenuPage extends StatelessWidget {
         body: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            40.heightBox,
+            75.heightBox,
             Align(
               alignment: Alignment.center,
               child: Container(

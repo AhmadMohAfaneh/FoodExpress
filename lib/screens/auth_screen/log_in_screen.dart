@@ -18,24 +18,28 @@ class LogInPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var authController = Get.put(AuthController());
-    LoginController loginController = LoginController();
-   return  Scaffold(
+    var loginController = Get.put(LoginController());
+    return  Scaffold(
      backgroundColor: redColor,
      body: SingleChildScrollView(
        child: Column(
          mainAxisAlignment: MainAxisAlignment.center,
          children: [
-           Padding(
-             padding: const EdgeInsets.only(left: 85,top: 100,bottom: 90),
-             child: AppConst.logoCons(),
+           Center(
+             child: Padding(
+               padding:  EdgeInsets.only( top: MediaQuery.of(context).size.height/4-20, bottom: 25),
+               child: Image.asset(imgWrittenLogo,width: MediaQuery.of(context).size.width-150),
+             ),
            ),
 
            Center(
              child: Column(
                children: [
                  SizedBox(
-                   width: 400,
-                   height: 325,
+                   height: MediaQuery.of(context).size.height/2.19,
+                   width: MediaQuery.of(context).size.width-20,
+                   // width: 400,
+                   // height: 325,
                    child: Card(
                      shape: RoundedRectangleBorder(
                        borderRadius: BorderRadius.circular(20.0),
@@ -64,7 +68,15 @@ class LogInPage extends StatelessWidget {
                            5.heightBox,
                            CustomPassTextField(controller: loginController.passwordController,
                              hintText: hintPassword,),
-                           10.heightBox,
+                           15.heightBox,
+                               Align(
+                                 alignment: Alignment.bottomRight,
+                                 child: GestureDetector(
+                                     onTap: () {
+                                       Get.to(() =>  const ResetPassword());
+                                     },
+                                     child: const Text(forgetPasswordSt,style: TextStyle(fontSize: 12,fontFamily: regular),)),
+                               )
                              ],
                            ),
                            10.heightBox,
@@ -94,14 +106,22 @@ class LogInPage extends StatelessWidget {
                                ),
                              ),
                            ),
-                            Align(
-                              alignment: Alignment.bottomRight,
-                              child: GestureDetector(
-                                onTap: () {
-                                  Get.to(() =>  ResetPassword());
-                                },
-                                  child: const Text(forgetPasswordSt,style: TextStyle(fontSize: 12,fontFamily: regular),)),
-                            )
+                           Row(
+                             mainAxisAlignment: MainAxisAlignment.center,
+                             children: <Widget>[
+                               const Text(doesNotHaveAccountSt,style: TextStyle(fontSize: 12),),
+                               TextButton(
+                                 child: const Text(
+                                   registerSt,
+                                   style: TextStyle(fontSize: 13,fontWeight: FontWeight.bold,color: myBlack),
+                                 ),
+                                 onPressed: () {
+                                   Get.back();
+                                 },
+                               )
+                             ],
+                           ),
+
                          ],
                        ),
                      ),
@@ -109,7 +129,9 @@ class LogInPage extends StatelessWidget {
                  ),
                 Padding(
                   padding: const EdgeInsets.only(top: 15),
-                  child: GoogleButton(onPressed: () {}),
+                  child: GoogleButton(onPressed: () {
+
+                  }),
                 ),
 
                ],

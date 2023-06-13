@@ -14,6 +14,13 @@ import '../screens/home_screen/home_screen.dart';
 
 class AuthController extends GetxController {
   RxBool isLoading = false.obs;
+  var currentPage = 0.obs;
+
+  void changePage(int index) {
+    currentPage.value = index;
+  }
+
+
   Future<UserCredential?> signupMethod({email, password,context}) async {
 
     UserCredential? userCredential;

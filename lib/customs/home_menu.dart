@@ -7,8 +7,8 @@ import 'package:flutter/material.dart';
        ClipRRect(
          borderRadius: BorderRadius.circular(20),
          child: Container(
-           height: 90,
-           width: 140,
+           height: 100,
+           width: 150,
            color: Colors.transparent, // Set the color to transparent
            child: Image.network(
               menuImage,
@@ -19,7 +19,7 @@ import 'package:flutter/material.dart';
        const SizedBox(height: 5),
         Text(
          categoryName,
-         style: TextStyle(fontFamily: semibold, color: Colors.black,fontSize: 18),
+         style: const TextStyle(fontFamily: semibold, color: Colors.black,fontSize: 18),
        ),
      ],
    );

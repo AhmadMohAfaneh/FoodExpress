@@ -13,6 +13,8 @@ const imgTopRating2 = "assets/images/top-rating3.jpg";
 const imgChapati = "assets/images/chapati.png";
 const imgSlider1 = "assets/images/offer1.jpg";
 const imgSlider2 = "assets/images/offer2.jpg";
+const imgNewLogo = "assets/images/foodexpress-newlogo.png";
+const imgWrittenLogo = "assets/images/foodexpress-written-logo.png";
 // my ions
 const icAdd = "assets/images/add.png";
 const icMinus = "assets/images/minus.png";
@@ -38,4 +40,6 @@ const icDishes = "assets/images/dishes.png";
 const icLogOut = "assets/images/log-out.png";
 const icEditProfile = "assets/images/editProfile.png";
 const imgProfle = "assets/images/profile_pic.png";
+const icLocation = "assets/images/location.png";
+const icPinLocation = "assets/images/pin.png";
 
