@@ -14,7 +14,7 @@ import '../../consts/styles.dart';
 import '../../customs/custom_auth_button.dart';
 import '../../customs/custom_password_text_field.dart';
 import '../../customs/custom_text-field.dart';
-import '../../logo.dart';
+import '../../customs/logo.dart';
 
 class ResetPassword extends StatelessWidget {
    const ResetPassword({Key? key}) : super(key: key);

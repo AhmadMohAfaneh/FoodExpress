@@ -31,7 +31,7 @@ class AccountScreen extends StatelessWidget {
     return bgWidget(
       child: Scaffold(
         body: StreamBuilder(
-          stream: FirestoreServices.getUser(currentUser?.uid),
+          stream: FirestoreServices.getUser(),
           builder:(BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if(!snapshot.hasData){
               return const CircularProgressIndicator();

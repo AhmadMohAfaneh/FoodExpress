@@ -2,7 +2,7 @@ import 'package:e_commerce/consts/consts.dart';
 import 'package:flutter/material.dart';
 
 import '../consts/colors.dart';
-import '../logo.dart';
+import 'logo.dart';
 
 class CustomPassTextField extends StatefulWidget {
   final TextEditingController controller;

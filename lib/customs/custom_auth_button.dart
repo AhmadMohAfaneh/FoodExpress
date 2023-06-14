@@ -1,5 +1,5 @@
 import 'package:e_commerce/consts/consts.dart';
-import 'package:e_commerce/logo.dart';
+import 'package:e_commerce/customs/logo.dart';
 import 'package:flutter/material.dart';
 
 import '../consts/colors.dart';

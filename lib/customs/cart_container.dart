@@ -5,7 +5,7 @@ import 'package:e_commerce/consts/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
-Widget cartContainer(String title,String description,String price,itemsImgs,quantity){
+Widget cartContainer({required String title,required String description,required String price,required itemsImgs,required quantity}){
   return Padding(
     padding: const EdgeInsets.all(8.0),
     child: Column(
@@ -37,7 +37,7 @@ Widget cartContainer(String title,String description,String price,itemsImgs,quan
                       10.heightBox,
                       Row(
                         children: [
-                          Text(price,style:  const TextStyle(fontFamily: regular,fontSize: 15,color: redColor),),
+                          Text(priceSt+price,style:  const TextStyle(fontFamily: regular,fontSize: 15,color: redColor),),
                           15.widthBox,
                           Text(
                             quantity.toString(),

@@ -2,6 +2,7 @@
 import 'package:e_commerce/consts/consts.dart';
 import 'package:e_commerce/controllers/auth.controller.dart';
 import 'package:e_commerce/screens/auth_screen/reset_password_screen.dart';
+import 'package:e_commerce/screens/auth_screen/sign_up_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../consts/strings.dart';
@@ -9,7 +10,7 @@ import '../../customs/custom_auth_button.dart';
 import '../../customs/custom_google_Button.dart';
 import '../../customs/custom_password_text_field.dart';
 import '../../customs/custom_text-field.dart';
-import '../../logo.dart';
+import '../../customs/logo.dart';
 
 
 class LogInPage extends StatelessWidget {
@@ -116,7 +117,7 @@ class LogInPage extends StatelessWidget {
                                    style: TextStyle(fontSize: 13,fontWeight: FontWeight.bold,color: myBlack),
                                  ),
                                  onPressed: () {
-                                   Get.back();
+                                   Get.offAll(SignUpPage());
                                  },
                                )
                              ],

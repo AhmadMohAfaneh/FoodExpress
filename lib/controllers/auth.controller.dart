@@ -65,6 +65,7 @@ class AuthController extends GetxController {
         password: password,
       );
       if(userCredential != null) {
+
         DocumentReference store = FirebaseFirestore.instance.collection(usersCollection).doc(userCredential.user!.uid);
         DocumentSnapshot snapshot = await store.get();
         String userType = (snapshot.data() as Map<String, dynamic>)["user_type"] ?? "user";

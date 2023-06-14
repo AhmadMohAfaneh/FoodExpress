@@ -8,14 +8,14 @@ import '../../controllers/auth.controller.dart';
 import '../../customs/custom_auth_button.dart';
 import '../../customs/custom_password_text_field.dart';
 import '../../customs/custom_text-field.dart';
-import '../../logo.dart';
+import '../../customs/logo.dart';
 import '../home_screen/home_screen.dart';
-
+//afaneh22222
 class SignUpPage extends StatelessWidget {
   SignUpPage({Key? key}) : super(key: key);
 
   final AuthController authController = Get.put(AuthController());
-  final SignupController signupController = SignupController();
+  final SignupController signupController =Get.put(SignupController());
 
   @override
   Widget build(BuildContext context) {

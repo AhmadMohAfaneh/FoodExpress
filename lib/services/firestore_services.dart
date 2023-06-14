@@ -2,17 +2,21 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce/consts/consts.dart';
 import 'package:e_commerce/models/cart_model.dart';
 import 'package:e_commerce/models/category.model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import '../models/prducts_model.dart';
 
 class FirestoreServices {
   // to get the user data
-
-  static getUser(uid) {
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  static getUser() {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    String userId = auth.currentUser!.uid;
     FirebaseFirestore firestore = FirebaseFirestore.instance;
+
     return firestore.collection(usersCollection)
-        .where('id', isEqualTo: uid)
+        .where('id', isEqualTo: userId)
         .snapshots();
   }
 

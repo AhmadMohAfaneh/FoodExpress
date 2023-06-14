@@ -117,5 +117,6 @@ const swipeRegSt = "Swipe right to register";
 const alreadyHaveAccSt = "Already have an account?";
 const doesNotHaveAccountSt = "Do not have account?";
 const registerSt = "Register";
+const emptyCartSt = "Your cart is Empty!";
 //ahmadafaneh22 (123456789)
 
