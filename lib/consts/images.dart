@@ -15,6 +15,8 @@ const imgSlider1 = "assets/images/offer1.jpg";
 const imgSlider2 = "assets/images/offer2.jpg";
 const imgNewLogo = "assets/images/foodexpress-newlogo.png";
 const imgWrittenLogo = "assets/images/foodexpress-written-logo.png";
+const imgAlertMessage = "assets/images/alert.png";
+const imgError = "assets/images/error-message.png";
 // my ions
 const icAdd = "assets/images/add.png";
 const icMinus = "assets/images/minus.png";

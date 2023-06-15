@@ -5,7 +5,7 @@ import 'package:e_commerce/consts/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
-Widget cartContainer({required String title,required String description,required String price,required itemsImgs,required quantity}){
+Widget cartContainer({required String title,required String description,required String price,required itemsImgs,required quantity,required void Function()?  onTapTrash}){
   return Padding(
     padding: const EdgeInsets.all(8.0),
     child: Column(
@@ -44,8 +44,16 @@ Widget cartContainer({required String title,required String description,required
                             style: const TextStyle(fontFamily: regular,fontSize: 15,),
                           ),
                           25.widthBox,
-                          const Text(removeFromCart,style: TextStyle(fontSize:14,fontFamily: regular),),
-                          GestureDetector(child: const ImageIcon(AssetImage(icTrash),size: 18,)),
+                          GestureDetector(
+                            onTap:  onTapTrash,
+                            child: Row(
+                              children: const[
+                                 Text(removeSt,style: TextStyle(fontSize:14,fontFamily: regular),),
+                                 ImageIcon(AssetImage(icTrash),size: 18,),
+                              ],
+                            ),
+                          ),
+
                         ],
                       ),
                       5.heightBox,

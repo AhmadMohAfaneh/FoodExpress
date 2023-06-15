@@ -2,10 +2,13 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce/consts/strings.dart';
+import 'package:e_commerce/controllers/products_controller.dart';
 import 'package:e_commerce/models/cart_model.dart';
 import 'package:e_commerce/screens/cart_screen/emptyCart.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+
+import '../models/prducts_model.dart';
 
 class CartController extends GetxController{
 
@@ -40,26 +43,47 @@ class CartController extends GetxController{
     return totalPrice.toString();
   }
 
-  // Future<void> removeCartOrder(String cartId, String productId) async {
-  //   FirebaseFirestore firestore = FirebaseFirestore.instance;
-  //
-  //   // fetch the cart
-  //   DocumentSnapshot doc = await firestore.collection('carts').doc(cartId).get();
-  //   CartModel cart = CartModel.fromFirestore(doc);
-  //
-  //   // remove the product from the cart's product list
-  //   cart.products.removeWhere((product) => product['p_id'] == productId);
-  //
-  //   // update the cart in firestore
-  //   return firestore.collection('carts').doc(cartId).update({
-  //     'product_ids': cart.products,
-  //     'total_price': calculateTotalPrice(cart.products), // calculateTotalPrice needs to be implemented
-  //   });
-  // }
+  Future<void> removeCartOrder(String cartId, String productId) async {
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  // removeCartOrder(){
+    // Fetch the cart
+    DocumentSnapshot cartDoc = await firestore.collection('carts').doc(cartId).get();
+    CartModel cart = CartModel.fromFirestore(cartDoc);
+
+    // Find the product in the cart's product list
+    var productInCart = cart.products.firstWhere((product) => product['p_id'] == productId, orElse: () => {});
+
+    if (productInCart.isNotEmpty) {
+      // Calculate the price of the product being removed
+      double? productPrice = productInCart['price']?.toDouble();
+      int quantity = productInCart['quantity'];
+
+      if (productPrice != null) {
+        double removedProductPrice = productPrice * quantity;
+
+        // Remove the product from the cart's product list
+        cart.products.removeWhere((product) => product['p_id'] == productId);
+
+        // Calculate the new total price
+        double newTotalPrice = cart.totalPrice - removedProductPrice;
+
+        // Update the cart in Firestore
+        return firestore.collection('carts').doc(cartId).update({
+          'product_ids': cart.products,
+          'total_price': newTotalPrice,
+        });
+      }
+    }
+  }
+
+
+
+
+
+// removeCartOrder(){
   //   FirebaseFirestore firestore = FirebaseFirestore.instance;
   //   var cartDoc = CartModel.fromFirestore('product_Ids' as DocumentSnapshot<Object?>);
   //   firestore.collection('carts').doc(cartDoc as String?).delete();
   // }
+
 }

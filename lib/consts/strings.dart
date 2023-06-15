@@ -32,7 +32,7 @@ import 'package:e_commerce/consts/images.dart';
  const cartIcon = "assets/images/shopping-cart.png";
  const yourOrderFromSt = "Your Order From ";
  const orderDetSt = "Order Details";
- const removeFromCart = "Remove";
+ const removeSt = "Remove";
  const totalPrice = "Total Price:";
  const checkOutSt = "Check Out";
  const cancelSt = "Cancel";
@@ -118,5 +118,23 @@ const alreadyHaveAccSt = "Already have an account?";
 const doesNotHaveAccountSt = "Do not have account?";
 const registerSt = "Register";
 const emptyCartSt = "Your cart is Empty!";
+const removeAllCartDialogTitleSt = "Are your sure you want to delete your cart?";
+const removeAllCartDialogMidTextSt = "All items will be removed from your cart";
+const warningSt = "Warning!";
 //ahmadafaneh22 (123456789)
 
+// changed the service add by cart method and connted the old one
+// then changed the call in the cart screen the streem from
+//stream: FirestoreServices
+//                                                     .getProductsByCart(
+//                                                         cartData[0]
+//                                                             .products
+//                                                             .map((product) =>
+//                                                                 product['p_id'])
+//                                                              .toList()),
+// to
+//  stream: FirestoreServices.getProductsByCart(
+//                                                   cartData[0].products.map((product) => product['p_id'].toString()).toList(),
+//                                                 ),
+
+// and changed the remove method ..

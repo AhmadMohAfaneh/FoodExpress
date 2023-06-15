@@ -29,13 +29,13 @@ class CartScreen extends StatelessWidget {
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 var cartData = snapshot.data;
-                return cartData!.isEmpty
+                return cartData!.isEmpty || cartData[0].products.isEmpty
                     ? Padding(
-                      padding:  EdgeInsets.only(top: MediaQuery.of(context).size.height/2-160),
+                      padding:  EdgeInsets.only(top: MediaQuery.of(context).size.height/2-220),
                       child: Center(
                         child: SizedBox(
-                          height: MediaQuery.of(context).size.height / 2,
-                          width: MediaQuery.of(context).size.width - 25,
+                          height: MediaQuery.of(context).size.height - 248,
+                          width: MediaQuery.of(context).size.width - 30,
                           child: Card(
                             color: myWhite,
                             shape: RoundedRectangleBorder(
@@ -77,15 +77,7 @@ class CartScreen extends StatelessWidget {
                                       fontSize: 18),
                                 ),
                                 5.heightBox,
-                                Container(
-                                  height: 30,
-                                  decoration: BoxDecoration(
-                                      borderRadius: const BorderRadius.vertical(
-                                          top: Radius.circular(5),
-                                          bottom: Radius.circular(10)),
-                                      border: Border.all(width: 0.5)),
 
-                                ),
 
                                const  Padding(
                                   padding: EdgeInsets.only(top: 30),
@@ -154,14 +146,10 @@ class CartScreen extends StatelessWidget {
                                             height: 330,
                                             // Set the desired height for the ListView
                                             child: StreamBuilder<List<Product>>(
-                                                stream: FirestoreServices
-                                                    .getProductsByCart(
-                                                        cartData[0]
-                                                            .products
-                                                            .map((product) =>
-                                                                product['p_id'])
-                                                            .toList()),
-                                                //FirestoreServices.getProductsByCart(cartData![0].products.),
+                                                stream: FirestoreServices.getProductsByCart(
+                                                  cartData[0].products.map((product) => product['p_id'].toString()).toList(),
+                                                ),
+
                                                 builder: (context, snapshot) {
                                                   if (snapshot
                                                           .connectionState ==
@@ -181,7 +169,12 @@ class CartScreen extends StatelessWidget {
                                                           .length,
                                                       itemBuilder:
                                                           (context, index) {
-                                                        return cartContainer(
+                                                        return  cartContainer(
+                                                          onTapTrash:(){
+                                                            print("done");
+                                                            cartController.removeCartOrder(cartData[0].cartId, productsData[index].productId);
+                                                            print("done");
+                                                          },
                                                           title: productsData![
                                                                   index]
                                                               .name,
@@ -256,10 +249,49 @@ class CartScreen extends StatelessWidget {
                                         Padding(
                                           padding:
                                               const EdgeInsets.only(left: 5),
-                                          child: customElevatedButton(
-                                              onPressed: () {
-                                                cartController.deleteCart(
-                                                    cartData[0].cartId);
+                                          child: customElevatedButton (
+                                              onPressed: () async {
+                                              await Get.defaultDialog(
+                                                     title: removeAllCartDialogTitleSt,
+                                                     titleStyle: const TextStyle(color: fontGrey),
+                                                  content: SizedBox(
+                                                    height: MediaQuery.of(context).size.height/3-60,
+                                                    width: MediaQuery.of(context).size.width-80,
+                                                    child: Column(
+                                                      mainAxisAlignment: MainAxisAlignment.center,
+                                                      children:   [
+                                                        SizedBox(height: MediaQuery.of(context).size.height/8-30, width: MediaQuery.of(context).size.width-200,child: Image.asset(imgAlertMessage),),
+                                                       const Text(warningSt,style: TextStyle(color: redColor),),
+                                                       const Padding(
+                                                         padding: EdgeInsets.only(left: 10,top: 5),
+                                                         child: Center(child: Text(removeAllCartDialogMidTextSt,style: TextStyle(color: fontGrey,fontSize: 14),softWrap: true,maxLines: 2,)),
+                                                       ),
+                                                        20.heightBox,
+                                                        Row(
+                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                          children: [
+                                                            customElevatedButton(onPressed: (){
+                                                              Get.back();},
+                                                                child: const Text(cancelSt,
+                                                                  style: TextStyle(color: redColor,fontSize: 16),),
+                                                                fixedSize: const Size(110, 50), color: whiteColor),
+                                                            20.widthBox,
+                                                            customElevatedButton(onPressed: (){
+                                                              cartController.deleteCart(
+                                                                cartData[0].cartId).then((back) => Get.back());
+                                                              },
+                                                                child: const Text(removeSt,
+                                                                  style: TextStyle(color: whiteColor,fontSize: 16)),
+                                                                fixedSize: const Size(110, 50), color: redColor),
+
+
+                                                          ],
+                                                        ),
+
+                                                      ],
+                                                    ),
+                                                  ),
+                                                );
                                               },
                                               color: myWhite,
                                               fixedSize: const Size(170, 50),
@@ -271,7 +303,7 @@ class CartScreen extends StatelessWidget {
                                         ),
                                         customElevatedButton(
                                             onPressed: () {},
-                                            color: Colors.red,
+                                            color: redColor,
                                             fixedSize: const Size(170, 50),
                                             child: const Text(checkOutSt))
                                       ],
