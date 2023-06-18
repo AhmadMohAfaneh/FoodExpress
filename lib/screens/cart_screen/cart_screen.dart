@@ -3,6 +3,7 @@ import 'package:e_commerce/controllers/cart_controller.dart';
 import 'package:e_commerce/controllers/products_controller.dart';
 import 'package:e_commerce/customs/bg_widget.dart';
 import 'package:e_commerce/customs/cart_container.dart';
+import 'package:e_commerce/customs/checkOutSheet.dart';
 import 'package:e_commerce/models/cart_model.dart';
 import 'package:e_commerce/models/prducts_model.dart';
 import 'package:e_commerce/screens/search_screen/search_screen.dart';
@@ -16,8 +17,8 @@ import '../../customs/custom_menu_container.dart';
 import '../../customs/custom_elvated_button.dart';
 
 class CartScreen extends StatelessWidget {
-  const CartScreen({Key? key}) : super(key: key);
-
+    CartScreen({Key? key}) : super(key: key);
+  List<Product>? productDataParam;
   @override
   Widget build(BuildContext context) {
     var cartController = Get.put(CartController());
@@ -143,8 +144,8 @@ class CartScreen extends StatelessWidget {
                                           ),
                                           5.heightBox,
                                           SizedBox(
-                                            height: 330,
-                                            // Set the desired height for the ListView
+                                            height: MediaQuery.of(context).size.height/2.35,
+
                                             child: StreamBuilder<List<Product>>(
                                                 stream: FirestoreServices.getProductsByCart(
                                                   cartData[0].products.map((product) => product['p_id'].toString()).toList(),
@@ -163,6 +164,7 @@ class CartScreen extends StatelessWidget {
                                                   } else {
                                                     var productsData =
                                                         snapshot.data;
+                                                    productDataParam = productsData;
                                                     return ListView.builder(
                                                       itemCount: cartData[0]
                                                           .products
@@ -218,7 +220,7 @@ class CartScreen extends StatelessWidget {
                                               mainAxisAlignment:
                                                   MainAxisAlignment.spaceEvenly,
                                               children: [
-                                                const Text(totalPrice,
+                                                const Text(totalPriceSt,
                                                     style: TextStyle(
                                                         fontSize: 20,
                                                         fontFamily: regular,
@@ -270,7 +272,8 @@ class CartScreen extends StatelessWidget {
                                                         Row(
                                                           mainAxisAlignment: MainAxisAlignment.center,
                                                           children: [
-                                                            customElevatedButton(onPressed: (){
+                                                            customElevatedButton(
+                                                                onPressed: (){
                                                               Get.back();},
                                                                 child: const Text(cancelSt,
                                                                   style: TextStyle(color: redColor,fontSize: 16),),
@@ -302,12 +305,15 @@ class CartScreen extends StatelessWidget {
                                               )),
                                         ),
                                         customElevatedButton(
-                                            onPressed: () {},
+                                            onPressed: () {
+                                              checkOutSheet(cartData[0],productDataParam,context);
+                                            },
                                             color: redColor,
                                             fixedSize: const Size(170, 50),
                                             child: const Text(checkOutSt))
                                       ],
                                     )
+                                    /////////////
                                   ],
                                 ),
                               ),

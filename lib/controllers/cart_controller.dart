@@ -1,5 +1,7 @@
 
 
+import 'dart:ffi';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce/consts/strings.dart';
 import 'package:e_commerce/controllers/products_controller.dart';
@@ -13,6 +15,7 @@ import '../models/prducts_model.dart';
 class CartController extends GetxController{
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
+
 
   Stream<List<CartModel>> getCartData() {
     // get the uid of the currently logged in user
@@ -44,20 +47,22 @@ class CartController extends GetxController{
   }
 
   Future<void> removeCartOrder(String cartId, String productId) async {
+    print("remove func is started");
     FirebaseFirestore firestore = FirebaseFirestore.instance;
 
     // Fetch the cart
     DocumentSnapshot cartDoc = await firestore.collection('carts').doc(cartId).get();
     CartModel cart = CartModel.fromFirestore(cartDoc);
+    DocumentSnapshot productDoc = await firestore.collection('products').doc(productId).get();
+    Product product = Product.fromFirestore(productDoc);
 
     // Find the product in the cart's product list
     var productInCart = cart.products.firstWhere((product) => product['p_id'] == productId, orElse: () => {});
-
     if (productInCart.isNotEmpty) {
       // Calculate the price of the product being removed
-      double? productPrice = productInCart['price']?.toDouble();
+       double? productPrice = product.price.toDouble();
+       // productInCart['price']?.toDouble();
       int quantity = productInCart['quantity'];
-
       if (productPrice != null) {
         double removedProductPrice = productPrice * quantity;
 
@@ -76,14 +81,10 @@ class CartController extends GetxController{
     }
   }
 
+  double calculateTaxes(cartTotal){
+    double salesTax = cartTotal * salesTaxRate;
+     return salesTax;
+  }
 
-
-
-
-// removeCartOrder(){
-  //   FirebaseFirestore firestore = FirebaseFirestore.instance;
-  //   var cartDoc = CartModel.fromFirestore('product_Ids' as DocumentSnapshot<Object?>);
-  //   firestore.collection('carts').doc(cartDoc as String?).delete();
-  // }
 
 }

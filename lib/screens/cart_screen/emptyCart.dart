@@ -71,7 +71,7 @@ class EmptyCartScreen extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    const Text(totalPrice,
+                    const Text(totalPriceSt,
                         style: TextStyle(
                             fontSize: 20,
                             fontFamily: regular,

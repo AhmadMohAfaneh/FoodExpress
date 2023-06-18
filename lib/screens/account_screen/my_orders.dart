@@ -201,7 +201,7 @@ class MyOrders extends StatelessWidget {
                                         children: const [
                                           Text(
                                             //                                                               totalPrice
-                                            totalPrice,
+                                            totalPriceSt,
                                             style: TextStyle(
                                               fontSize: 20,
                                               fontWeight: FontWeight.bold,

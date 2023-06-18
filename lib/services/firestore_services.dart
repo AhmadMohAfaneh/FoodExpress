@@ -31,23 +31,24 @@ class FirestoreServices {
             .map((doc) => Product.fromFirestore(doc))
             .toList());
   }
-  // here delete the new one and keep this
+//   here delete the new one and keep this
 // creating methode to get the cart product data by the product id
-   // creating method to get the cart product data by the product id
-  // static Stream<List<Product>> getProductsByCart(List<dynamic> cartProductIds){
-  //   FirebaseFirestore firestore = FirebaseFirestore.instance;
-  //   return firestore.collection('products').where('p_id' , whereIn: cartProductIds)
-  //   .snapshots()
-  //   .map((querySnapshot) => querySnapshot.docs.map((doc) => Product.fromFirestore(doc)).toList());
-  // }
-  static Stream<List<Product>> getProductsByCart(List<String> productIds) {
-    var db = FirebaseFirestore.instance;
-    return db.collection('products')
-        .where('p_id', whereIn: productIds)
-        .snapshots()
-        .map((querySnapshot) =>
-        querySnapshot.docs.map((doc) => Product.fromFirestore(doc)).toList());
+//    creating method to get the cart product data by the product id
+  static Stream<List<Product>> getProductsByCart(List<dynamic> cartProductIds){
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    return firestore.collection('products').where('p_id' , whereIn: cartProductIds)
+    .snapshots()
+    .map((querySnapshot) => querySnapshot.docs.map((doc) => Product.fromFirestore(doc)).toList());
   }
+// new one
+  // static Stream<List<Product>> getProductsByCart(List<String> productIds) {
+  //   var db = FirebaseFirestore.instance;
+  //   return db.collection('products')
+  //       .where('p_id', whereIn: productIds)
+  //       .snapshots()
+  //       .map((querySnapshot) =>
+  //       querySnapshot.docs.map((doc) => Product.fromFirestore(doc)).toList());
+  // }
 
 }
 
