@@ -40,15 +40,17 @@ class FirestoreServices {
     .snapshots()
     .map((querySnapshot) => querySnapshot.docs.map((doc) => Product.fromFirestore(doc)).toList());
   }
-// new one
-  // static Stream<List<Product>> getProductsByCart(List<String> productIds) {
-  //   var db = FirebaseFirestore.instance;
-  //   return db.collection('products')
-  //       .where('p_id', whereIn: productIds)
-  //       .snapshots()
-  //       .map((querySnapshot) =>
-  //       querySnapshot.docs.map((doc) => Product.fromFirestore(doc)).toList());
-  // }
 
+   
+  static Stream<List<Product>> getProductsHaveOffers() {
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+   return firestore.collection('products').where('p_offer' ,isEqualTo: "Yes").snapshots().map((querySnapshot) => querySnapshot.docs
+    .map((doc) => Product.fromFirestore(doc)).toList());
+    
+    
+}
+  
+  
+  
 }
 

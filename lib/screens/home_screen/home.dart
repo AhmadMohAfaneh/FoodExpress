@@ -17,7 +17,14 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
      Get.put(HomeController());
+     String screenHight = MediaQuery.of(context).size.height.toString();
+     String screenWidth = MediaQuery.of(context).size.width.toString();
+
+     //I/flutter (31515): 392.72727272727275
+     // I/flutter (31515): 802.9090909090909
      var categoryController = Get.put(CategoryController());
+     print(screenWidth);
+     print(screenHight);
     return SingleChildScrollView(
       child:  Container(
             color: lightGrey,
@@ -27,12 +34,12 @@ class HomeScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  20.heightBox,
+                  30.heightBox,
                   VxSwiper.builder(
                     aspectRatio: 16 / 9,
                     autoPlay: true,
                     autoPlayAnimationDuration: const Duration(seconds: 5),
-                    height: 160,
+                    height: 130,
                     enlargeCenterPage: true,
                     itemCount: offersList.length,
                     itemBuilder: (context, index) {
@@ -46,7 +53,7 @@ class HomeScreen extends StatelessWidget {
                       );
                     },
                   ),
-                  5.heightBox,
+                  10.heightBox,
                   const Padding(
                     padding: EdgeInsets.only(left: 14),
                     child: Text(
@@ -54,6 +61,7 @@ class HomeScreen extends StatelessWidget {
                       style: TextStyle(fontFamily: bold, fontSize: 20),
                     ),
                   ),
+                  10.heightBox,
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -69,7 +77,8 @@ class HomeScreen extends StatelessWidget {
                           } else {
                             var categories = snapshot.data!;
                             return SizedBox(
-                              height: 150,
+                              // here is to controll the space (hight between the category and the text under change here then in the homeMenu)
+                              height: 140,
                               child: ListView.builder(
                                 scrollDirection: Axis.horizontal,
 
@@ -82,6 +91,8 @@ class HomeScreen extends StatelessWidget {
                                     child: GestureDetector(
                                       onTap: () => Get.to(MenuPage(categoryData: categories[index])),
                                       child: Container(
+                                        height: 100,
+                                        width: 130,
                                         child: homeMenu(
                                           categoryName: categories[index]
                                               .categoryName,
@@ -102,7 +113,7 @@ class HomeScreen extends StatelessWidget {
                         child: VxSwiper.builder(
                           aspectRatio: 16 / 9,
                           autoPlay: false,
-                          height: 150,
+                          height: 120,
                           enlargeCenterPage: false,
                           itemCount: randomList.length,
                           itemBuilder: (context, index) {
@@ -131,8 +142,9 @@ class HomeScreen extends StatelessWidget {
                       5.heightBox,
                     ],
                   ),
+                  10.heightBox,
                   SizedBox(
-                    height: 135,
+                    height: 115,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemCount: topRatingList.length,
@@ -142,8 +154,8 @@ class HomeScreen extends StatelessWidget {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(20),
                             child: Container(
-                              height: 90,
-                              width: 140,
+                              height: 60,
+                              width: 110,
                               color: Colors.transparent,
                               child: Image.asset(
                                 topRatingList[index],

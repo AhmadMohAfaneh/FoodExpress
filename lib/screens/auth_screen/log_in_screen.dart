@@ -37,7 +37,7 @@ class LogInPage extends StatelessWidget {
              child: Column(
                children: [
                  SizedBox(
-                   height: MediaQuery.of(context).size.height/2.19,
+                   height: MediaQuery.of(context).size.height/1.88,
                    width: MediaQuery.of(context).size.width-20,
                    // width: 400,
                    // height: 325,

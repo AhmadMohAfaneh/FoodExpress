@@ -127,6 +127,8 @@ const cartTotalSt = "Cart total";
 const deliveryfeeSt = "Delivery fee";
 const salesTaxSt = "Sales Tax";
 const totalAmount = "Total amount";
+const enjoyOfferSt = "Enjoy Our Offers!";
+const noOfferFoundSt = "Oops! We're out of offers at the moment. Please check again later.";
 
 
 // const fee and taxes

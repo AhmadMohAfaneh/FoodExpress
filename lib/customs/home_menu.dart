@@ -7,8 +7,6 @@ import 'package:flutter/material.dart';
        ClipRRect(
          borderRadius: BorderRadius.circular(20),
          child: Container(
-           height: 100,
-           width: 150,
            color: Colors.transparent, // Set the color to transparent
            child: Image.network(
               menuImage,

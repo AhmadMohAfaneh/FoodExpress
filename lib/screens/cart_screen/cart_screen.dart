@@ -96,7 +96,7 @@ class CartScreen extends StatelessWidget {
                           Align(
                             alignment: Alignment.bottomCenter,
                             child: SizedBox(
-                              height: MediaQuery.of(context).size.height - 248,
+                              height: MediaQuery.of(context).size.height - 220,
                               width: MediaQuery.of(context).size.width - 30,
                               child: SingleChildScrollView(
                                 child: Column(
@@ -222,7 +222,7 @@ class CartScreen extends StatelessWidget {
                                               children: [
                                                 const Text(totalPriceSt,
                                                     style: TextStyle(
-                                                        fontSize: 20,
+                                                        fontSize: 17,
                                                         fontFamily: regular,
                                                         fontWeight:
                                                             FontWeight.bold)),
@@ -234,7 +234,7 @@ class CartScreen extends StatelessWidget {
                                                             .toDouble()
                                                             .toString(),
                                                     style: const TextStyle(
-                                                        fontSize: 20,
+                                                        fontSize: 17,
                                                         fontFamily: regular,
                                                         color: redColor)),
                                               ],
@@ -257,35 +257,40 @@ class CartScreen extends StatelessWidget {
                                                      title: removeAllCartDialogTitleSt,
                                                      titleStyle: const TextStyle(color: fontGrey),
                                                   content: SizedBox(
-                                                    height: MediaQuery.of(context).size.height/3-60,
-                                                    width: MediaQuery.of(context).size.width-80,
+                                                    height: MediaQuery.of(context).size.height/4,
+                                                    width: MediaQuery.of(context).size.width-10,
                                                     child: Column(
                                                       mainAxisAlignment: MainAxisAlignment.center,
                                                       children:   [
                                                         SizedBox(height: MediaQuery.of(context).size.height/8-30, width: MediaQuery.of(context).size.width-200,child: Image.asset(imgAlertMessage),),
-                                                       const Text(warningSt,style: TextStyle(color: redColor),),
+                                                       const Text(warningSt,style: TextStyle(color: redColor)),
                                                        const Padding(
                                                          padding: EdgeInsets.only(left: 10,top: 5),
-                                                         child: Center(child: Text(removeAllCartDialogMidTextSt,style: TextStyle(color: fontGrey,fontSize: 14),softWrap: true,maxLines: 2,)),
+                                                         child: Center(child: Text(removeAllCartDialogMidTextSt,style: TextStyle(color: fontGrey,fontSize: 13),softWrap: true,maxLines: 2,)),
                                                        ),
                                                         20.heightBox,
                                                         Row(
                                                           mainAxisAlignment: MainAxisAlignment.center,
                                                           children: [
-                                                            customElevatedButton(
-                                                                onPressed: (){
-                                                              Get.back();},
-                                                                child: const Text(cancelSt,
-                                                                  style: TextStyle(color: redColor,fontSize: 16),),
-                                                                fixedSize: const Size(110, 50), color: whiteColor),
+                                                            Expanded(
+                                                              // button for dialog box
+                                                              child: customElevatedButton(
+                                                                  onPressed: (){
+                                                                Get.back();},
+                                                                  child: const Text(cancelSt,
+                                                                    style: TextStyle(color: redColor,fontSize: 16),),
+                                                                  fixedSize: const Size(150, 50), color: whiteColor),
+                                                            ),
                                                             20.widthBox,
-                                                            customElevatedButton(onPressed: (){
-                                                              cartController.deleteCart(
-                                                                cartData[0].cartId).then((back) => Get.back());
-                                                              },
-                                                                child: const Text(removeSt,
-                                                                  style: TextStyle(color: whiteColor,fontSize: 16)),
-                                                                fixedSize: const Size(110, 50), color: redColor),
+                                                            Expanded(
+                                                              child: customElevatedButton(onPressed: (){
+                                                                cartController.deleteCart(
+                                                                  cartData[0].cartId).then((back) => Get.back());
+                                                                },
+                                                                  child: const Text(removeSt,
+                                                                    style: TextStyle(color: whiteColor,fontSize: 16)),
+                                                                  fixedSize: const Size(150, 50), color: redColor),
+                                                            ),
 
 
                                                           ],
@@ -297,22 +302,26 @@ class CartScreen extends StatelessWidget {
                                                 );
                                               },
                                               color: myWhite,
-                                              fixedSize: const Size(170, 50),
+                                              fixedSize: const Size(150, 50),
                                               child: const Text(
                                                 cancelSt,
                                                 style:
                                                     TextStyle(color: fontGrey),
                                               )),
                                         ),
-                                        customElevatedButton(
-                                            onPressed: () {
-                                              checkOutSheet(cartData[0],productDataParam,context);
-                                            },
-                                            color: redColor,
-                                            fixedSize: const Size(170, 50),
-                                            child: const Text(checkOutSt))
+                                        10.widthBox,
+                                        Expanded(
+                                          // button for dialog box
+                                          child: customElevatedButton(
+                                              onPressed: () {
+                                                checkOutSheet(cartData[0],productDataParam,context);
+                                              },
+                                              color: redColor,
+                                              fixedSize: const Size(130, 50),
+                                              child: const Text(checkOutSt)),
+                                        )
                                       ],
-                                    )
+                                    ),
                                     /////////////
                                   ],
                                 ),

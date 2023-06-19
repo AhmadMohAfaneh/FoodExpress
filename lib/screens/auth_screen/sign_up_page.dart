@@ -37,7 +37,7 @@ class SignUpPage extends StatelessWidget {
                   alignment: Alignment.center,
                   child: SizedBox(
                     width: MediaQuery.of(context).size.width-20,
-                    height: MediaQuery.of(context).size.height-280,
+                    height: MediaQuery.of(context).size.height-210,
                     child: Card(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.0),

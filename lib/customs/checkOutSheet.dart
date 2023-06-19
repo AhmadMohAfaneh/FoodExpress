@@ -27,7 +27,6 @@ Future checkOutSheet(CartModel? cartData, List<Product>? productsData, BuildCont
               const Text(paymentSummarySt,style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),textAlign: TextAlign.start),
               10.heightBox,
               Card(
-                //    card is used for the main custom page
                 color: myWhite,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
@@ -93,7 +92,7 @@ Future checkOutSheet(CartModel? cartData, List<Product>? productsData, BuildCont
                           style: TextStyle(
                               fontFamily: regular,
                               fontSize: 17,
-                              color: redColor),
+                              color: myBlack),
                         ),
                       ],
                     ),
@@ -112,7 +111,7 @@ Future checkOutSheet(CartModel? cartData, List<Product>? productsData, BuildCont
                           priceSt + cartData!.totalPrice.toDouble().toString(),
                           style: const TextStyle(
                             fontSize: 17,
-                            color: redColor,
+                            color: myBlack,
                           ),
                         ),
                       ],
@@ -133,7 +132,7 @@ Future checkOutSheet(CartModel? cartData, List<Product>? productsData, BuildCont
                             priceSt + deliveryFeeSt.toString(),
                             style: const TextStyle(
                               fontSize: 17,
-                              color: redColor,
+                              color: myBlack,
                             ),
                           ),
                         ],
@@ -156,7 +155,7 @@ Future checkOutSheet(CartModel? cartData, List<Product>? productsData, BuildCont
                             priceSt + cartController.calculateTaxes(cartData.totalPrice.toDouble()).roundToDouble().toString(),
                             style: const TextStyle(
                               fontSize: 17,
-                              color: redColor,
+                              color: myBlack,
                             ),
                           ),
                         ],
@@ -179,7 +178,7 @@ Future checkOutSheet(CartModel? cartData, List<Product>? productsData, BuildCont
                             priceSt + (cartData.totalPrice.toDouble() + cartController.calculateTaxes(cartData.totalPrice.toDouble())).toString(),
                             style: const TextStyle(
                               fontSize: 20,
-                              color: redColor,
+                              color: myBlack,
                             ),
                           ),
                         ],
