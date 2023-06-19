@@ -136,4 +136,8 @@ const salesTaxRate = 0.07;
 const deliveryFeeSt = 1.0;
 
 //ahmadafaneh22 (123456789)
+// in the product controller the fuction is reseting all the amount to 1.0
+// if we remove the productId and remove also  remove the update function so it becames working
+// remove the round that i have added in the offer container
+// data of p_price in the firebase is zero add amount to it
 

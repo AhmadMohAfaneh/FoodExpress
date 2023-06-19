@@ -1,4 +1,5 @@
 import 'package:e_commerce/consts/consts.dart';
+import 'package:e_commerce/controllers/products_controller.dart';
 import 'package:e_commerce/customs/bg_widget.dart';
 import 'package:e_commerce/customs/offers_container.dart';
 import 'package:e_commerce/services/firestore_services.dart';
@@ -17,6 +18,7 @@ class Offers extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var productController = Get.put(ProductController());
     return bgWidget(
       child: Scaffold(
         appBar: AppBar(
@@ -111,9 +113,12 @@ class Offers extends StatelessWidget {
                                 child: Align(
                                     alignment: Alignment.bottomLeft,
                                     // offers data container is add data from firestore
-                                    child: offersContainer(
+                                    child: offersContainer (
                                         offerData[index].name, offerData[index].description, offerData[index].price.toDouble().toString(),
-                                        offerData[index].urlImage))),
+                                        offerData[index].urlImage,
+                                         productController.getProductPriceAfterDiscount(offerData[index].price.toDouble(), offerData[index].productDiscountRate.toDouble())
+
+                                    ))),
                           );
                         },
                       ),

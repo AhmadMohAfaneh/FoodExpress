@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 
 import '../consts/strings.dart';
 
-Widget offersContainer(String title,String description,String price,itemsImgs){
+Widget offersContainer(String title,String description,String price,itemsImgs,newPrice){
   return Padding(
     padding: const EdgeInsets.all(8.0),
     child: Row(
@@ -20,7 +20,13 @@ Widget offersContainer(String title,String description,String price,itemsImgs){
                 5.heightBox,
                 Text(description,style: const TextStyle(fontFamily: regular,fontSize: 15), softWrap: true), // removed maxLines
                 10.heightBox,
-                Text(priceSt +price,style: const TextStyle(fontFamily: regular,fontSize: 15,color: redColor),)
+                Row(
+                  children: [
+                    Text(priceSt + price, style: const TextStyle(fontFamily: regular, fontSize: 15, color: redColor, decoration: TextDecoration.lineThrough),),
+                    20.widthBox,
+                    Text(priceSt + newPrice,style: const TextStyle(fontFamily: regular,fontSize: 15,color: redColor),),
+                  ],
+                )
               ],
             ),
           ),

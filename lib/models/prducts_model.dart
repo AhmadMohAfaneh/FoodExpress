@@ -10,9 +10,11 @@ class Product {
   final String offer;
   final String categoryId;
   final String productId;
+  final num productDiscountRate;
+  // p_discount_rate
 
-  Product({required this.name, required this.price, required this.description, required this.urlImage,
-    required this.offer, required this.categoryId, required this.productId});
+  Product( {required this.name, required this.price, required this.description, required this.urlImage,
+    required this.offer, required this.categoryId, required this.productId, required this.productDiscountRate});
   /////////////////////////////////////////////////////////////////
   factory Product.fromFirestore(DocumentSnapshot doc) {
     Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
@@ -25,6 +27,7 @@ class Product {
       price: data['p_price'] ?? 0,
       urlImage: data['p_urlimage'] ?? '',
       offer: data['p_offer'] ?? '',
+      productDiscountRate: data['p_discount_rate'] ?? 0,
       // all is done
     );
   }
