@@ -108,7 +108,7 @@ Future checkOutSheet(CartModel? cartData, List<Product>? productsData, BuildCont
                           ),
                         ),
                         Text(
-                          priceSt + cartData!.totalPrice.toDouble().toString(),
+                          priceSt + cartData!.totalPrice.toDouble().toStringAsFixed(2),
                           style: const TextStyle(
                             fontSize: 17,
                             color: myBlack,
@@ -129,7 +129,7 @@ Future checkOutSheet(CartModel? cartData, List<Product>? productsData, BuildCont
                             ),
                           ),
                           Text(
-                            priceSt + deliveryFeeSt.toString(),
+                            priceSt + deliveryFeeSt.toStringAsFixed(2),
                             style: const TextStyle(
                               fontSize: 17,
                               color: myBlack,
@@ -152,7 +152,7 @@ Future checkOutSheet(CartModel? cartData, List<Product>? productsData, BuildCont
                           ),
                           Text(
                             //                                                               priceSt
-                            priceSt + cartController.calculateTaxes(cartData.totalPrice.toDouble()).roundToDouble().toString(),
+                            priceSt + cartController.calculateTaxes(cartData.totalPrice.toDouble()).roundToDouble().toStringAsFixed(2),
                             style: const TextStyle(
                               fontSize: 17,
                               color: myBlack,
@@ -175,7 +175,7 @@ Future checkOutSheet(CartModel? cartData, List<Product>? productsData, BuildCont
                           ),
                           Text(
                             //                                                               priceSt
-                            priceSt + (cartData.totalPrice.toDouble() + cartController.calculateTaxes(cartData.totalPrice.toDouble())).toString(),
+                            priceSt + (cartData.totalPrice.toDouble() + cartController.calculateTaxes(cartData.totalPrice.toDouble())).toStringAsFixed(2),
                             style: const TextStyle(
                               fontSize: 20,
                               color: myBlack,

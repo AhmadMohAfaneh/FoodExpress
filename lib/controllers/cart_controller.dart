@@ -41,26 +41,27 @@ class CartController extends GetxController{
   //   return db.collection('carts').where('user_Id', isEqualTo: currentUserId).snapshots().map((querySnapshot) =>
   //       querySnapshot.docs.map((doc) => CartModel.fromFirestore(doc)).toList());
 
-  getQuantityPrice(singlePrice, quantity){
-   var totalPrice = singlePrice * quantity;
-    return totalPrice.toString();
+  double getQuantityPrice(Product product,  quantity){
+    double priceToUse = product.offer.toLowerCase() == 'yes' ? ProductController().calculateDiscountedPrice(product.price.toDouble(), product.productDiscountRate.toDouble()) : product.price.toDouble();
+    double totalPrice = priceToUse * quantity;
+    return double.tryParse(totalPrice.toStringAsFixed(2)) ?? 0.0;
   }
+
 
   Future<void> removeCartOrder(String cartId, String productId) async {
     print("remove func is started");
     FirebaseFirestore firestore = FirebaseFirestore.instance;
-
     // Fetch the cart
     DocumentSnapshot cartDoc = await firestore.collection('carts').doc(cartId).get();
     CartModel cart = CartModel.fromFirestore(cartDoc);
     DocumentSnapshot productDoc = await firestore.collection('products').doc(productId).get();
     Product product = Product.fromFirestore(productDoc);
-
+    double priceToUse = product.offer.toLowerCase() == 'yes' ? ProductController().calculateDiscountedPrice(product.price.toDouble(), product.productDiscountRate.toDouble()) : product.price.toDouble();
     // Find the product in the cart's product list
     var productInCart = cart.products.firstWhere((product) => product['p_id'] == productId, orElse: () => {});
     if (productInCart.isNotEmpty) {
       // Calculate the price of the product being removed
-       double? productPrice = product.price.toDouble();
+       double? productPrice = priceToUse.toDouble();
        // productInCart['price']?.toDouble();
       int quantity = productInCart['quantity'];
       if (productPrice != null) {
@@ -71,7 +72,7 @@ class CartController extends GetxController{
 
         // Calculate the new total price
         double newTotalPrice = cart.totalPrice - removedProductPrice;
-
+         double.tryParse(newTotalPrice.toStringAsFixed(2));
         // Update the cart in Firestore
         return firestore.collection('carts').doc(cartId).update({
           'product_ids': cart.products,

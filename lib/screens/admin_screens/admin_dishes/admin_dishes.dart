@@ -88,7 +88,7 @@ class _AdminDishesState extends State<AdminDishes> with SingleTickerProviderStat
                   // Replace with your actual item count
                   itemBuilder: (context, index) {
                     return menuContainer(
-                        titleSt, discrSt, priceSt, itemsList[2]);
+                        titleSt, discrSt, priceSt, itemsList[2],0,'no');
                   },
                 ),
               ),

@@ -186,13 +186,11 @@ class CartScreen extends StatelessWidget {
                                                                   .description,
                                                           price: cartController
                                                               .getQuantityPrice(
-                                                            productsData[index]
-                                                                .price
-                                                                .toDouble(),
+                                                            productsData[index],
                                                             cartData[0].products[
                                                                     index]
                                                                 ['quantity'],
-                                                          ),
+                                                          ).toString(),
                                                           itemsImgs:
                                                               productsData[
                                                                       index]
@@ -230,9 +228,8 @@ class CartScreen extends StatelessWidget {
                                                 Text(
                                                     priceSt +
                                                         cartData[0]
-                                                            .totalPrice
-                                                            .toDouble()
-                                                            .toString(),
+                                                            .totalPrice.toStringAsFixed(2)
+                                                            ,
                                                     style: const TextStyle(
                                                         fontSize: 17,
                                                         fontFamily: regular,

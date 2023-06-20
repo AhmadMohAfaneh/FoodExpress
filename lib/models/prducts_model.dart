@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Product {
   final String name;
-  final num price;
+   num price;
   final String description;
   final String urlImage;
   final String offer;

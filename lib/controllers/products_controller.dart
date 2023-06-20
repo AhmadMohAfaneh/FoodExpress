@@ -6,7 +6,6 @@ import '../models/prducts_model.dart';
 class ProductController extends GetxController {
   var quantity = 0.obs;
   var totalPrice = 0.0.obs ;
-  var oldPrice = 0.0.obs;
 
   Stream<List<Product>> getProducts(){
     var db = FirebaseFirestore.instance;
@@ -24,8 +23,9 @@ class ProductController extends GetxController {
       quantity--;
     }
   }
-  getProductAddedTotalPrice({productPrice}){
-    return totalPrice.value = productPrice * quantity.value.toDouble();
+  getProductAddedTotalPrice({required Product product }){
+    double priceToUse = product.offer.toLowerCase() == 'yes' ? calculateDiscountedPrice(product.price.toDouble(), product.productDiscountRate.toDouble()) : product.price.toDouble();
+    return totalPrice.value = priceToUse * quantity.value.toDouble();
   }
   resetData(){
     quantity.value = 0;
@@ -36,14 +36,17 @@ class ProductController extends GetxController {
     var db = FirebaseFirestore.instance;
     var cartRef = db.collection('carts').doc(userId);
     var cartDoc = await cartRef.get();
-
+    double priceToUse = product.offer.toLowerCase() == 'yes' ? calculateDiscountedPrice(product.price.toDouble(), product.productDiscountRate.toDouble()) : product.price.toDouble();
+    print(calculateDiscountedPrice(product.price.toDouble(), product.productDiscountRate.toDouble()));
+    print(product.price.toDouble());
+    print(priceToUse);
     if(quantity > 0 ){
       if (cartDoc.exists == false ) {
         // create new cart document
         await cartRef.set({
           'c_id': cartRef.id,
           'user_Id': userId,
-          'total_price': product.price * quantity.value,
+          'total_price': priceToUse * quantity.value,
           'product_ids': [{
             'p_id': product.productId,
             'quantity': quantity.value,
@@ -68,7 +71,7 @@ class ProductController extends GetxController {
         }
 
         // update the price also
-        cart.totalPrice += product.price * quantity.value;
+        cart.totalPrice += priceToUse * quantity.value;
 
         await cartRef.update({
           'total_price': cart.totalPrice,
@@ -83,19 +86,34 @@ class ProductController extends GetxController {
 
     resetData();
   }
-
-  getProductPriceAfterDiscount  (originalPrice,discountRate) {
-    //Price after discount = Original Price - (Original price × Discount %)
-    // oldPrice.value = originalPrice;
-    FirebaseFirestore firestore = FirebaseFirestore.instance;
-    double priceAfterDiscount;
-    priceAfterDiscount = originalPrice -(originalPrice * discountRate);
-     // firestore.collection('products').doc(productId).update({
-     //  'p_price' : priceAfterDiscount.toDouble()
-    // });
-    return  priceAfterDiscount.roundToDouble().toString();
-
+  double calculateDiscountedPrice(double originalPrice, double discountRate) {
+   double discountedPrice = originalPrice - (originalPrice * discountRate);
+    return double.tryParse(discountedPrice.toStringAsFixed(2)) ?? 0.0;
   }
+
+
+
+
+
+
+
+  // getProductPriceAfterDiscount (originalPrice,discountRate,productId) async {
+  //   FirebaseFirestore firestore = FirebaseFirestore.instance;
+  //   double priceAfterDiscount;
+  //   oldPrice.value = originalPrice;
+  //   priceAfterDiscount = originalPrice -(originalPrice * discountRate);
+  //       // update the p_ price with the new offer price after calc..
+  //   var  productDoc = await firestore.collection('products').doc(productId).get();
+  //   var product = Product.fromFirestore(productDoc);
+  //   product.price = offerPrice.value;
+  //   await firestore.collection('products').doc(productId).update({
+  //     'p_price' : product.price
+  //   });
+  //
+  //   offerPrice.value = priceAfterDiscount.roundToDouble();
+  //   return  priceAfterDiscount.roundToDouble().toString();
+  // }
+
 
 
 

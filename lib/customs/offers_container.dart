@@ -1,5 +1,8 @@
 import 'package:e_commerce/consts/consts.dart';
+import 'package:e_commerce/controllers/products_controller.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
 import '../consts/strings.dart';
 
@@ -20,6 +23,7 @@ Widget offersContainer(String title,String description,String price,itemsImgs,ne
                 5.heightBox,
                 Text(description,style: const TextStyle(fontFamily: regular,fontSize: 15), softWrap: true), // removed maxLines
                 10.heightBox,
+
                 Row(
                   children: [
                     Text(priceSt + price, style: const TextStyle(fontFamily: regular, fontSize: 15, color: redColor, decoration: TextDecoration.lineThrough),),

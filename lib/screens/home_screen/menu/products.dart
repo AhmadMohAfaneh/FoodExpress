@@ -71,7 +71,7 @@ class Products extends StatelessWidget {
                  Container(margin:const EdgeInsets.only(left: 20,right:10 ), child: Text(productsDada!.description,style: const TextStyle(fontFamily: regular,fontSize: 18),textAlign: TextAlign.center,)),
                 5.heightBox,
                  Obx(()=>
-                    Text(priceSt + productsController.totalPrice.value.toString(), style: const TextStyle(fontSize: 19,
+                    Text(priceSt + productsController.totalPrice.value.toStringAsFixed(2), style: const TextStyle(fontSize: 19,
                       fontFamily: orgenao,
                       color: redColor,
                       fontWeight: FontWeight.bold
@@ -92,12 +92,12 @@ class Products extends StatelessWidget {
                       children: [
                         IconButton(onPressed: (){
                           productsController.decreaseQuantity();
-                          productsController.getProductAddedTotalPrice(productPrice: productsDada!.price);
+                          productsController.getProductAddedTotalPrice(product: productsDada!);
                         }, icon: const ImageIcon(AssetImage(icMinus))),
                         Text(productsController.quantity.value.toString(),style: const TextStyle(fontSize: 30,fontFamily: bold),),
                         IconButton(onPressed: (){
                           productsController.increaseQuantity();
-                          productsController.getProductAddedTotalPrice(productPrice: productsDada!.price);
+                          productsController.getProductAddedTotalPrice(product: productsDada!);
                         }, icon: const ImageIcon(AssetImage(icPlus),color: redColor,))
                       ],
                     ),

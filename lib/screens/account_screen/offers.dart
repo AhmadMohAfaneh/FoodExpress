@@ -114,11 +114,13 @@ class Offers extends StatelessWidget {
                                     alignment: Alignment.bottomLeft,
                                     // offers data container is add data from firestore
                                     child: offersContainer (
-                                        offerData[index].name, offerData[index].description, offerData[index].price.toDouble().toString(),
-                                        offerData[index].urlImage,
-                                         productController.getProductPriceAfterDiscount(offerData[index].price.toDouble(), offerData[index].productDiscountRate.toDouble())
-
-                                    ))),
+                                      offerData[index].name,
+                                      offerData[index].description,
+                                      offerData[index].price.toStringAsFixed(2),
+                                      offerData[index].urlImage,
+                                      productController.calculateDiscountedPrice(offerData[index].price.toDouble(), offerData[index].productDiscountRate.toDouble()).toStringAsFixed(2),
+                                    )
+                                )),
                           );
                         },
                       ),

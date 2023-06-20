@@ -1,4 +1,5 @@
 import 'package:e_commerce/consts/consts.dart';
+import 'package:e_commerce/controllers/products_controller.dart';
 import 'package:e_commerce/models/prducts_model.dart';
 import 'package:e_commerce/screens/home_screen/menu/products.dart';
 import 'package:e_commerce/services/firestore_services.dart';
@@ -19,6 +20,7 @@ class MenuPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var productController = Get.put(ProductController());
     return bgWidget(
       child: Scaffold(
         appBar: AppBar(
@@ -99,7 +101,11 @@ class MenuPage extends StatelessWidget {
                                 border: Border.all(width: 0.6, style: BorderStyle.none),),
                               child: Align(
                                   alignment: Alignment.bottomLeft,
-                                  child: menuContainer(products[index].name, products[index].description, products[index].price.toDouble().toString(), products[index].urlImage)
+                                  child: menuContainer(products[index].name, products[index].description,
+                                      products[index].price.toDouble().toString(), products[index].urlImage,
+                                  productController.calculateDiscountedPrice(products[index].price.toDouble(), products[index].productDiscountRate.toDouble()),
+                                    products[index].offer
+                                  )
                               ),
                             ),
                           );
