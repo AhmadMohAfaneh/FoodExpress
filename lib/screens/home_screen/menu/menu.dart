@@ -86,7 +86,7 @@ class MenuPage extends StatelessWidget {
             10.heightBox,
             Expanded(
               child: StreamBuilder<List<Product>>(
-                  stream: FirestoreServices.getProductsByCat(categoryData!.categoryId),
+                  stream: FirestoreServices.getProductsByCategory(categoryData!.categoryId),
                   builder: (context, snapshot){
                     if(snapshot.hasData){
                       var products = snapshot.data!;

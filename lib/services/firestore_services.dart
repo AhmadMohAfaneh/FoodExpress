@@ -1,10 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce/consts/consts.dart';
-import 'package:e_commerce/models/cart_model.dart';
-import 'package:e_commerce/models/category.model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-
 import '../models/prducts_model.dart';
 
 class FirestoreServices {
@@ -20,7 +16,7 @@ class FirestoreServices {
         .snapshots();
   }
  // here delete the new one and keep this
-  static Stream<List<Product>> getProductsByCat(String? categoryId) {
+  static Stream<List<Product>> getProductsByCategory(String? categoryId) {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     return firestore
         .collection('products')
