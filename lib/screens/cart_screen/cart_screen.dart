@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce/consts/strings.dart';
 import 'package:e_commerce/controllers/cart_controller.dart';
 import 'package:e_commerce/controllers/products_controller.dart';
@@ -13,6 +14,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
 import '../../consts/consts.dart';
+import '../../controllers/orders_controller.dart';
 import '../../customs/custom_menu_container.dart';
 import '../../customs/custom_elvated_button.dart';
 
@@ -23,6 +25,10 @@ class CartScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var cartController = Get.put(CartController());
     var productController = Get.put(ProductController());
+    var ordersController = Get.put(OrdersController());
+    var quantityDataForOrders;
+    var productDataIdForOrders;
+    var totalAmountForOrders;
     return bgWidget(
       child: Scaffold(
         body: StreamBuilder<List<CartModel>>(
@@ -171,6 +177,11 @@ class CartScreen extends StatelessWidget {
                                                           .length,
                                                       itemBuilder:
                                                           (context, index) {
+                                                        quantityDataForOrders = cartData[0].products[index];
+                                                        print(quantityDataForOrders);
+                                                        productDataIdForOrders =  productsData![index];
+                                                        print(productDataIdForOrders);
+                                                       totalAmountForOrders =  (cartData[0].totalPrice.toDouble() + cartController.calculateTaxes(cartData[0].totalPrice.toDouble())).toStringAsFixed(2);
                                                         return  cartContainer(
                                                           onTapTrash:(){
                                                             print("done");
@@ -311,7 +322,17 @@ class CartScreen extends StatelessWidget {
                                           // button for dialog box
                                           child: customElevatedButton(
                                               onPressed: () {
-                                                checkOutSheet(cartData[0],productDataParam,context);
+                                                checkOutSheet(cartData[0],productDataParam,context,() async {
+                                                  // bottom sheet code on pressed
+                                                 await ordersController.addOrder(
+                                                      productDataIdForOrders,
+                                                      cartData[0],
+                                                      currentUser!.uid,
+                                                     double.tryParse(totalAmountForOrders),
+                                                    quantityDataForOrders,
+
+                                                  );
+                                                },);
                                               },
                                               color: redColor,
                                               fixedSize: const Size(130, 50),

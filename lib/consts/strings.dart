@@ -136,8 +136,6 @@ const salesTaxRate = 0.07;
 const deliveryFeeSt = 1.0;
 
 //ahmadafaneh22 (123456789)
-// in the product controller the fuction is reseting all the amount to 1.0
-// if we remove the productId and remove also  remove the update function so it becames working
-// remove the round that i have added in the offer container
-// data of p_price in the firebase is zero add amount to it
-
+// in the check out after you click on it and the dialog appears then clicking on the next check out button
+// it saves the order but in the order it takes only one papra (product)so fix this to keep it make it take all
+// the products from the cart not only the last product you chose.

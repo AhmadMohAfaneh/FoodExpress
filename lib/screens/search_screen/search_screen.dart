@@ -50,8 +50,9 @@ class SearchScreen extends StatelessWidget {
                             TextField(
                                 onChanged: (value) {
                                   print(searchController.searchTextController.text);
-                                  if(snapshot.hasData){searchController.checkingControllerWithList();
-                                  searchController.filterdProductsName.clear();
+                                  if (snapshot.hasData) {
+                                    searchController.filterdProductsName.clear();
+                                    searchController.checkingControllerWithList();
                                   }
                                 },
                                 controller: searchController.searchTextController,
@@ -79,7 +80,7 @@ class SearchScreen extends StatelessWidget {
                             Expanded( // here I added Expanded
                               child: SingleChildScrollView(
                                 child: StreamBuilder<List<Product>>(
-                                    stream: searchController.getProductsAsSearched(),
+                                    stream: searchController.getProductsAsSearched(searchController.filterdProductsName),
                                     builder: (context, snapshot) {
                                       if (snapshot.connectionState ==
                                           ConnectionState.waiting) {
@@ -87,10 +88,10 @@ class SearchScreen extends StatelessWidget {
                                           child: CircularProgressIndicator(),
                                         );
                                       }
-                                      else if (snapshot.hasError || snapshot.data!.isEmpty) {
+                                      else if (snapshot.hasError || !snapshot.hasData) {
                                         return Center(
                                           child: Text(errorSt +
-                                              snapshot.error.toString()),
+                                              snapshot.error.toString() ?? 'no data'),
                                         );
                                       }
                                       else {
@@ -103,13 +104,13 @@ class SearchScreen extends StatelessWidget {
                                               int index) {
                                             print( "here is the name ${productsAsSearched![index]
                                                 .name}");
-                                            print("here is the price${productsAsSearched![index]
+                                            print("here is the price${productsAsSearched[index]
                                                 .price}");
-                                            print(productsAsSearched![index]
+                                            print(productsAsSearched[index]
                                                 .offer);
-                                            print(productsAsSearched![index]
+                                            print(productsAsSearched[index]
                                                 .urlImage);
-                                            print(productsAsSearched![index]
+                                            print(productsAsSearched[index]
                                                 .description);
                                             return GestureDetector(
                                               onTap: () => Get.to((Products(
@@ -119,11 +120,11 @@ class SearchScreen extends StatelessWidget {
                                                   border: Border.all(width: 0.6,
                                                       style: BorderStyle
                                                           .none),),
-                                                child: Align(
+                                                child:  Align(
                                                     alignment: Alignment
                                                         .bottomLeft,
                                                     child: menuContainer(
-                                                        productsAsSearched![index]
+                                                        productsAsSearched[index]
                                                             .name,
                                                         productsAsSearched[index]
                                                             .description,

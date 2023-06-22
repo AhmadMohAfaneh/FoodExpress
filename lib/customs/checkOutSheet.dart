@@ -12,7 +12,7 @@ import '../controllers/cart_controller.dart';
 import '../models/prducts_model.dart';
 import 'custom_elvated_button.dart';
 
-Future checkOutSheet(CartModel? cartData, List<Product>? productsData, BuildContext context){
+Future checkOutSheet(CartModel? cartData, List<Product>? productsData, BuildContext context, void Function() onPressed){
   var cartController = Get.find<CartController>();
   return Get.bottomSheet(
     SingleChildScrollView(
@@ -198,8 +198,7 @@ Future checkOutSheet(CartModel? cartData, List<Product>? productsData, BuildCont
                         style: TextStyle(color: redColor,fontSize: 16),),
                       fixedSize: const Size(130, 50), color: whiteColor),
                   40.widthBox,
-                  customElevatedButton(onPressed: (){
-                  },
+                  customElevatedButton(onPressed: onPressed,
                       child: const Text(checkOutSt,
                           style: TextStyle(color: whiteColor,fontSize: 16)),
                       fixedSize: const Size(130, 50), color: redColor),
