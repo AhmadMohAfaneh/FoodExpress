@@ -129,6 +129,8 @@ const salesTaxSt = "Sales Tax";
 const totalAmount = "Total amount";
 const enjoyOfferSt = "Enjoy Our Offers!";
 const noOfferFoundSt = "Oops! We're out of offers at the moment. Please check again later.";
+const thanksStatment = "Thank you For Ordering From ";
+const waintingOrderSt = "";
 
 
 // const fee and taxes

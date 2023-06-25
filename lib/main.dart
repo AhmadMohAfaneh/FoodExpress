@@ -1,4 +1,5 @@
 import 'package:e_commerce/consts/consts.dart';
+import 'package:e_commerce/screens/admin_screens/admin_home_screen.dart';
 import 'package:e_commerce/screens/auth_screen/intro_screen.dart';
 import 'package:e_commerce/screens/home_screen/home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -13,7 +14,7 @@ import 'controllers/auth.controller.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  Get.put(AuthController()); // Put your controller in GetX
+  Get.put(AuthController());
 
   runApp(GetMaterialApp(
     debugShowCheckedModeBanner: false,
@@ -32,7 +33,7 @@ void main() async {
           if (snapshot.hasData) {
             //  signed in
             print("///////////////////////////////////////${snapshot.data!.uid}");
-            return const Home();
+            return const AdminHomePage();
 
           } else {
             //  not signed in

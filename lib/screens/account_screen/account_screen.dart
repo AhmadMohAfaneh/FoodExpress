@@ -34,10 +34,15 @@ class AccountScreen extends StatelessWidget {
           stream: FirestoreServices.getUser(),
           builder:(BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if(!snapshot.hasData){
-              return const CircularProgressIndicator();
+              return const Center(child: CircularProgressIndicator());
+            }
+            else if (snapshot.hasError){
+              return Center(
+                child: Text(errorSt + snapshot.error.toString()),
+              );
             }
               else{
-                var data = snapshot.data!.docs[0];
+                var data = snapshot.data!.docs;
                  // controller.nameController.text = data['name'];
                  // controller.addressController.text = data['address'];
                  // controller.phoneNumberController.text = data['phone number'];
@@ -68,20 +73,20 @@ class AccountScreen extends StatelessWidget {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(20),
                         child:
-                        data['imageUrl'] == '' ?
+                        data[0]['imageUrl'] == '' ?
                         Image.asset(imgProfle, fit: BoxFit.cover,)
-                            : Image.network(data['imageUrl'],fit: BoxFit.cover,)
+                            : Image.network(data[0]['imageUrl'],fit: BoxFit.cover,)
                       ),
                     ),
                   ),
                 ),
               ),
-               Text("${data['name'].toString().capitalizeFirst}",style: const TextStyle(fontSize: 23,fontFamily: bold)),
+               Text("${data[0]['name'].toString().capitalizeFirst}",style: const TextStyle(fontSize: 23,fontFamily: bold)),
                Row(
                  mainAxisAlignment: MainAxisAlignment.center,
                  children: [
                    Image.asset(icLocation,width: 26,height: 20,),
-                   Text("${data["address"].toString().capitalizeFirst}",style: const TextStyle(fontSize: 17,fontFamily: regular),),
+                   Text("${data[0]["address"].toString().capitalizeFirst}",style: const TextStyle(fontSize: 17,fontFamily: regular),),
                  ],
                ),
               35.heightBox,

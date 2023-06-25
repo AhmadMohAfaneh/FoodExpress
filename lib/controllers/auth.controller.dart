@@ -68,14 +68,18 @@ class AuthController extends GetxController {
 
         DocumentReference store = FirebaseFirestore.instance.collection(usersCollection).doc(userCredential.user!.uid);
         DocumentSnapshot snapshot = await store.get();
-        String userType = (snapshot.data() as Map<String, dynamic>)["user_type"] ?? "user";
+        String userType = (snapshot.data() as Map<String, dynamic>)["user_type"];
 
         if(userType == "admin") {
+          await Future.delayed(Duration.zero);
           Get.offAll(() => const AdminHomePage());
           VxToast.show(context, msg: successLoginSt);
           isLoading.value = false;
         } else {
+          await Future.delayed(Duration.zero);
           Get.offAll(() => const Home());
+          print("hehhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
+          print(userType);
           VxToast.show(context, msg: successLoginSt);
           isLoading.value = false;
         }

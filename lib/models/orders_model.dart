@@ -15,6 +15,9 @@ class Orders{
       required this.products,
     required this.totalPrice});
 
+  //factory Product.fromFirestore(DocumentSnapshot doc) {
+  //     Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+
   factory Orders.fromFirestore(DocumentSnapshot doc){
     List<Map<String, dynamic>> productList = [];
     for (var element in List.from(doc['product_ids'])) {

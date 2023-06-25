@@ -5,8 +5,10 @@ import 'package:e_commerce/controllers/products_controller.dart';
 import 'package:e_commerce/customs/bg_widget.dart';
 import 'package:e_commerce/customs/cart_container.dart';
 import 'package:e_commerce/customs/checkOutSheet.dart';
+import 'package:e_commerce/customs/orderWaitingDialog.dart';
 import 'package:e_commerce/models/cart_model.dart';
 import 'package:e_commerce/models/prducts_model.dart';
+import 'package:e_commerce/screens/cart_screen/orderWaitingScreen.dart';
 import 'package:e_commerce/screens/search_screen/search_screen.dart';
 import 'package:e_commerce/services/firestore_services.dart';
 import 'package:flutter/material.dart';
@@ -188,7 +190,7 @@ class CartScreen extends StatelessWidget {
                                                             cartController.removeCartOrder(cartData[0].cartId, productsData[index].productId);
                                                             print("done");
                                                           },
-                                                          title: productsData![
+                                                          title: productsData[
                                                                   index]
                                                               .name,
                                                           description:
@@ -323,15 +325,15 @@ class CartScreen extends StatelessWidget {
                                           child: customElevatedButton(
                                               onPressed: () {
                                                 checkOutSheet(cartData[0],productDataParam,context,() async {
-                                                  // bottom sheet code on pressed
+
                                                  await ordersController.addOrder(
                                                       productDataIdForOrders,
                                                       cartData[0],
                                                       currentUser!.uid,
                                                      double.tryParse(totalAmountForOrders),
-                                                    quantityDataForOrders,
-
+                                                    quantityDataForOrders,////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                                                   );
+                                                 Get.to(()=> const OrderWaitingScreen());
                                                 },);
                                               },
                                               color: redColor,
