@@ -24,8 +24,6 @@ class AdminOrders extends StatelessWidget {
         body: StreamBuilder<List<Orders>>(
           stream: orderController.getAllUserOrdersData(),
           builder: (context, snapshot) {
-            print('This is the order admin dataaaaaaaaaaaaaaaaaaaaa');
-            print(snapshot.data);
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
                 child: CircularProgressIndicator(),
@@ -93,7 +91,7 @@ class AdminOrders extends StatelessWidget {
                                             text: orderForIdSt,
                                             style: const TextStyle(
                                                 color: Colors.black,
-                                                fontSize: 20,
+                                                fontSize: 15,
                                                 fontFamily: regular,
                                                 fontWeight: FontWeight.bold
                                             ),
@@ -103,6 +101,7 @@ class AdminOrders extends StatelessWidget {
                                                 // change to order id
                                                 style: const TextStyle(
                                                   fontWeight: FontWeight.bold,
+                                                  fontSize: 15
                                                 ),
                                               ),
                                             ],
@@ -140,8 +139,7 @@ class AdminOrders extends StatelessWidget {
                                                     .centerRight,
                                                 child: customElevatedButton(
                                                   onPressed: () {
-                                                    Get
-                                                        .to(() => const AdminOrdersDetails());
+                                                    Get.to(() => const AdminOrdersDetails());
                                                   },
                                                   child: const Text(detailsSt),
                                                   fixedSize: const Size(90, 40),

@@ -1,30 +1,30 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:e_commerce/consts/consts.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-
 import '../models/prducts_model.dart';
-class SearchController extends GetxController{
-  TextEditingController searchTextController = TextEditingController();
-   var productsName = [];
-   var dataFromStreamList = [];
-   List<String> filterdProductsName = [];
 
-  Stream<List<Product>> getProducts(){
-      var db = FirebaseFirestore.instance;
-     var productsNameData =  db.collection('products').snapshots().map((querySnapshot) =>
-          querySnapshot.docs.map((doc) => Product.fromFirestore(doc)).toList());
-         return productsNameData;
+class SearchController extends GetxController {
+  TextEditingController searchTextController = TextEditingController();
+  var productsName = [];
+  var dataFromStreamList = [];
+  List<String> filterdProductsName = [];
+
+  Stream<List<Product>> getProducts() {
+    var db = FirebaseFirestore.instance;
+    var productsNameData = db.collection('products').snapshots().map(
+        (querySnapshot) => querySnapshot.docs
+            .map((doc) => Product.fromFirestore(doc))
+            .toList());
+    return productsNameData;
   }
+
   checkingControllerWithList() {
-    if(searchTextController.text.isNotEmpty) {
+    if (searchTextController.text.isNotEmpty) {
       var searchText = searchTextController.text;
       print(searchText.length);
 
-
-      for(var element in dataFromStreamList) {
-        if(element.startsWith(searchText)) {
+      for (var element in dataFromStreamList) {
+        if (element.startsWith(searchText)) {
           filterdProductsName.add(element);
         }
       }
@@ -33,6 +33,7 @@ class SearchController extends GetxController{
       print(filterdProductsName.length);
     }
   }
+
   // List<Product> getProductsAsSearched(List<String> ourList,List<Product> product) {
   //   List<Product> productList = [];
   //   if (ourList.isNotEmpty) {
@@ -42,18 +43,20 @@ class SearchController extends GetxController{
   //       }
   //     }
   //   }
-    //return productList;
+  //return productList;
 
   Stream<List<Product>> getProductsAsSearched(List<String> ourList) {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     if (ourList.isNotEmpty) {
-      return firestore.collection('products').where('p_name', whereIn: ourList).snapshots().map((querySnapshot) => querySnapshot.docs
-          .map((doc) => Product.fromFirestore(doc)).toList());
+      return firestore
+          .collection('products')
+          .where('search_keys', arrayContains: searchTextController.text)
+          .snapshots()
+          .map((querySnapshot) => querySnapshot.docs
+              .map((doc) => Product.fromFirestore(doc))
+              .toList());
     } else {
       return Stream.value([]);
     }
   }
 }
-
-
-

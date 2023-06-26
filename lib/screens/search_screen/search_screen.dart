@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce/consts/consts.dart';
 import 'package:e_commerce/consts/strings.dart';
 import 'package:e_commerce/controllers/products_controller.dart';
@@ -6,7 +7,6 @@ import 'package:e_commerce/customs/bg_widget.dart';
 import 'package:e_commerce/models/prducts_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import '../../customs/custom_menu_container.dart';
 import '../home_screen/menu/products.dart';
 
@@ -15,153 +15,153 @@ class SearchScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var searchController = Get.put(SearchController());
     var productController = Get.put(ProductController());
     return bgWidget(
       child: Scaffold(
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(height: 70), // here I replaced your heightBox
-            Align(
-              alignment: Alignment.center,
-              child: SizedBox(
-                height: MediaQuery.of(context).size.height/2,
-                width: MediaQuery.of(context).size.width-40,
-                child: StreamBuilder<List<Product>>(
-                    stream: searchController.getProducts(),
-                    builder: (context, snapshot) {
-                      var products = snapshot.data;
-                      if(snapshot.connectionState == ConnectionState.waiting){
-                        return const Center(child: CircularProgressIndicator());
-                      }
-                      else if (snapshot.hasError){
-                        return Center(child: Text(errorSt + snapshot.error.toString()));
-                      }
-                      else {
-                        searchController.dataFromStreamList.clear();
-                        for (int i = 0; i < snapshot.data!.length; i++) {
-                          searchController.dataFromStreamList.add(snapshot
-                              .data![i].name.toLowerCase());
-                        }
+        body: GetBuilder<SearchController>(
+            init: SearchController(),
+            builder: (searchController) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(height: 70),
+                 Expanded(child:
+                 Column(
+                   children: [
+                     TextField(
+                         onChanged: (value) {
 
-                        return Column(
-                          children: [
-                            TextField(
-                                onChanged: (value) {
-                                  print(searchController.searchTextController.text);
-                                  if (snapshot.hasData) {
-                                    searchController.filterdProductsName.clear();
-                                    searchController.checkingControllerWithList();
-                                  }
-                                },
-                                controller: searchController.searchTextController,
-                                keyboardType: TextInputType.text,
-                                decoration: InputDecoration(
-                                    focusedBorder:  OutlineInputBorder(
-                                      borderSide: const BorderSide(color: myBlack,width: 1),
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    suffixIconColor: myBlack,
-                                    filled: true,
-                                    hoverColor: myWhite,
-                                    focusColor: myWhite,
-                                    isDense: true,
-                                    fillColor: myWhite,
-                                    suffixIcon: IconButton(onPressed: () {
-                                    },
-                                        icon: const Icon(Icons.search,size: 30,)),
-                                    hintText: searchHint,
-                                    border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(20)
-                                    )
-                                )
-                            ),
-                            Expanded( // here I added Expanded
-                              child: SingleChildScrollView(
-                                child: StreamBuilder<List<Product>>(
-                                    stream: searchController.getProductsAsSearched(searchController.filterdProductsName),
-                                    builder: (context, snapshot) {
-                                      if (snapshot.connectionState ==
-                                          ConnectionState.waiting) {
-                                        return const Center(
-                                          child: CircularProgressIndicator(),
-                                        );
-                                      }
-                                      else if (snapshot.hasError || !snapshot.hasData) {
-                                        return Center(
-                                          child: Text(errorSt +
-                                              snapshot.error.toString() ?? 'no data'),
-                                        );
-                                      }
-                                      else {
-                                        var productsAsSearched = snapshot.data;
-                                        return ListView.builder(
-                                          shrinkWrap: true,
-                                          scrollDirection: Axis.vertical,
-                                          itemCount: productsAsSearched?.length,
-                                          itemBuilder: (BuildContext context,
-                                              int index) {
-                                            print( "here is the name ${productsAsSearched![index]
-                                                .name}");
-                                            print("here is the price${productsAsSearched[index]
-                                                .price}");
-                                            print(productsAsSearched[index]
-                                                .offer);
-                                            print(productsAsSearched[index]
-                                                .urlImage);
-                                            print(productsAsSearched[index]
-                                                .description);
-                                            return GestureDetector(
-                                              onTap: () => Get.to((Products(
-                                                  productsDada: productsAsSearched[index]))),
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                  border: Border.all(width: 0.6,
-                                                      style: BorderStyle
-                                                          .none),),
-                                                child:  Align(
-                                                    alignment: Alignment
-                                                        .bottomLeft,
-                                                    child: menuContainer(
-                                                        productsAsSearched[index]
-                                                            .name,
-                                                        productsAsSearched[index]
-                                                            .description,
-                                                        productsAsSearched[index]
-                                                            .price.toDouble()
-                                                            .toString(),
-                                                        productsAsSearched[index]
-                                                            .urlImage,
-                                                        productController
-                                                            .calculateDiscountedPrice(
-                                                            productsAsSearched[index]
-                                                                .price
-                                                                .toDouble(),
-                                                            productsAsSearched[index]
-                                                                .productDiscountRate
-                                                                .toDouble()),
-                                                        productsAsSearched[index]
-                                                            .offer
-                                                    )
-                                                ),
-                                              ),
-                                            );
-                                          },
-                                        );
-                                      }
-                                    } ),
-                              ),
-                            )
-                          ],
-                        );
-                      }
-                    }
-                ),
-              ),
-            )
-          ],
-        ),
+                           searchController.update();
+                         },
+                         controller:
+                         searchController.searchTextController,
+                         keyboardType: TextInputType.text,
+                         decoration: InputDecoration(
+                             focusedBorder: OutlineInputBorder(
+                               borderSide: const BorderSide(
+                                   color: myBlack, width: 1),
+                               borderRadius:
+                               BorderRadius.circular(10),
+                             ),
+                             suffixIconColor: myBlack,
+                             filled: true,
+                             hoverColor: myWhite,
+                             focusColor: myWhite,
+                             isDense: true,
+                             fillColor: myWhite,
+                             suffixIcon: IconButton(
+                                 onPressed: () {},
+                                 icon: const Icon(
+                                   Icons.search,
+                                   size: 30,
+                                 )),
+                             hintText: searchHint,
+                             border: OutlineInputBorder(
+                                 borderRadius:
+                                 BorderRadius.circular(20)))),
+                     // Expanded(
+                     //   child: SingleChildScrollView(
+                     //     child: StreamBuilder<List<Product>>(
+                     //         stream: searchController.getProductsAsSearched(searchController.filterdProductsName),
+                     //         builder: (context, snapshot) {
+                     //           if (snapshot.connectionState ==
+                     //               ConnectionState.waiting) {
+                     //             return const Center(
+                     //               child: CircularProgressIndicator(),
+                     //             );
+                     //           }
+                     //           else if (snapshot.hasError || !snapshot.hasData) {
+                     //             return Center(
+                     //               child: Text(errorSt +
+                     //                   snapshot.error.toString() ),
+                     //             );
+                     //           }
+                     //           else {
+                     //             var productsAsSearched = snapshot.data;
+                     //             return ListView.builder(
+                     //               shrinkWrap: true,
+                     //               scrollDirection: Axis.vertical,
+                     //               itemCount: productsAsSearched?.length,
+                     //               itemBuilder: (BuildContext context,
+                     //                   int index) {
+                     //                 print( "here is the name ${productsAsSearched![index]
+                     //                     .name}");
+                     //                 print("here is the price${productsAsSearched[index]
+                     //                     .price}");
+                     //                 print(productsAsSearched[index]
+                     //                     .offer);
+                     //                 print(productsAsSearched[index]
+                     //                     .urlImage);
+                     //                 print(productsAsSearched[index]
+                     //                     .description);
+                     //                 return GestureDetector(
+                     //                   onTap: () => Get.to((Products(
+                     //                       productsDada: productsAsSearched[index]))),
+                     //                   child: Container(
+                     //                     decoration: BoxDecoration(
+                     //                       border: Border.all(width: 0.6,
+                     //                           style: BorderStyle
+                     //                               .none),),
+                     //                     child:  Align(
+                     //                         alignment: Alignment
+                     //                             .bottomLeft,
+                     //                         child: menuContainer(
+                     //                             productsAsSearched[index]
+                     //                                 .name,
+                     //                             productsAsSearched[index]
+                     //                                 .description,
+                     //                             productsAsSearched[index]
+                     //                                 .price.toDouble()
+                     //                                 .toString(),
+                     //                             productsAsSearched[index]
+                     //                                 .urlImage,
+                     //                             productController
+                     //                                 .calculateDiscountedPrice(
+                     //                                 productsAsSearched[index]
+                     //                                     .price
+                     //                                     .toDouble(),
+                     //                                 productsAsSearched[index]
+                     //                                     .productDiscountRate
+                     //                                     .toDouble()),
+                     //                             productsAsSearched[index]
+                     //                                 .offer
+                     //                         )
+                     //                     ),
+                     //                   ),
+                     //                 );
+                     //               },
+                     //             );
+                     //           }
+                     //         } ),
+                     //   ),
+                     // )
+                     Expanded(
+                         child: StreamBuilder(
+                           stream: FirebaseFirestore.instance
+                               .collection('products')
+                               .where('search_keys',
+                               arrayContains: searchController
+                                   .searchTextController.text)
+                               .snapshots(),
+                           builder: (context, snapshot) {
+                             if (snapshot.hasData) {
+                               return ListView.builder(
+                                   itemCount:
+                                   snapshot.data?.docs.length,
+                                   itemBuilder: (context, index) {
+                                     return Text(snapshot
+                                         .data?.docs[index]
+                                         .data()['p_name']);
+                                   });
+                             }
+                             return const SizedBox();
+                           },
+                         ))
+                   ],
+                 ))
+                ],
+              );
+            }),
       ),
     );
   }

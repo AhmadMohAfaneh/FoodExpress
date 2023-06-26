@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class Orders{
   final String orderId;
   final String userId;
-  final DateTime date;
+  final Timestamp date;
   final  String orderStatusId;
   final List<Map<String, dynamic>> products;
   final num totalPrice;
@@ -15,9 +15,6 @@ class Orders{
       required this.products,
     required this.totalPrice});
 
-  //factory Product.fromFirestore(DocumentSnapshot doc) {
-  //     Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-
   factory Orders.fromFirestore(DocumentSnapshot doc){
     List<Map<String, dynamic>> productList = [];
     for (var element in List.from(doc['product_ids'])) {
@@ -27,10 +24,10 @@ class Orders{
       });
     }
     return Orders(
-      orderId: doc['order_id'],
+      orderId: doc['order_Id'],
       userId : doc['user_Id'],
-      date : doc['order_date'],
-      orderStatusId : doc['status_id'],
+      date : doc['date'],
+      orderStatusId : doc['order_status_id'],
       totalPrice: doc['total_price'],
       products: productList,
     );

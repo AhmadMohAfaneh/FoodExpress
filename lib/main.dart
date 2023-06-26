@@ -33,7 +33,7 @@ void main() async {
           if (snapshot.hasData) {
             //  signed in
             print("///////////////////////////////////////${snapshot.data!.uid}");
-            return const AdminHomePage();
+            return const Home();
 
           } else {
             //  not signed in
