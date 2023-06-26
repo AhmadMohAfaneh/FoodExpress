@@ -28,14 +28,18 @@ void main() async {
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const CircularProgressIndicator(); // Show a loading spinner while waiting
+          return const CircularProgressIndicator();
         } else {
           if (snapshot.hasData) {
+            if (snapshot.data!.uid == 'oWcbxlRmPPd70GDJlFensXZ0ofV2'){
+              return const AdminHomePage();
+            }else{
             //  signed in
-            print("///////////////////////////////////////${snapshot.data!.uid}");
+            print(
+                "///////////////////////////////////////${snapshot.data!.uid}");
             return const Home();
-
-          } else {
+            }
+          }  else {
             //  not signed in
             return const  IntroPage();
           }

@@ -1,12 +1,10 @@
 import 'package:e_commerce/consts/consts.dart';
 import 'package:e_commerce/controllers/orders_controller.dart';
 import 'package:e_commerce/customs/custom_admin_orders_container.dart';
+import 'package:e_commerce/models/prducts_model.dart';
 import 'package:e_commerce/screens/admin_screens/admin_orders/admin_orders_details.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import '../../../consts/colors.dart';
 import '../../../consts/strings.dart';
 import '../../../customs/bg_widget.dart';
 import '../../../customs/custom_elvated_button.dart';
@@ -17,6 +15,7 @@ class AdminOrders extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Product? productsDataForDetails;
     var orderController = Get.put(OrdersController());
     return bgWidget(
       child: Scaffold(
@@ -86,41 +85,75 @@ class AdminOrders extends StatelessWidget {
                                       Align(
                                         widthFactor: 3.6,
                                         alignment: Alignment.topLeft,
-                                        child: RichText(
-                                          text:  TextSpan(
-                                            text: orderForIdSt,
-                                            style: const TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 15,
-                                                fontFamily: regular,
-                                                fontWeight: FontWeight.bold
-                                            ),
-                                            children: [
-                                              TextSpan(
-                                                text: ordersData[index].orderId,
-                                                // change to order id
-                                                style: const TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 15
-                                                ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(left: 15),
+                                          child: RichText(
+                                            text:  TextSpan(
+                                              text: orderForIdSt,
+                                              style: const TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 15,
+                                                  fontFamily: regular,
+                                                  fontWeight: FontWeight.bold
                                               ),
-                                            ],
+                                              children: [
+                                                TextSpan(
+                                                  text: ordersData[index].orderId,
+                                                  // change to order id
+                                                  style: const TextStyle(
+                                                    color: fontGrey,
+                                                    fontSize: 15
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ),
                                       ),
 
                                       5.heightBox,
-                                      SizedBox(
-                                        height: 250,
-                                        //////////////////////////////////////////////////////////////here get the data of the orders
-                                        child: ListView.builder(
-                                          itemCount: ordersData[index].products.length,
-                                          itemBuilder: (context, index) {
-                                            return adminContainer(
-                                                titleSt, discrSt, priceSt,
-                                                itemsList[1], 2);
-                                          },
-                                        ),
+                                      StreamBuilder<List<Product>>(
+                                        stream: orderController.getProductDataFromOrderData(ordersData[index].products.map((product) => product['p_id'].toString()).toList()),
+                                        builder: (context, snapshot) {
+                                          if (snapshot.connectionState ==
+                                              ConnectionState.waiting) {
+                                            return const Center(
+                                              child: CircularProgressIndicator(),
+                                            );
+                                          }
+                                          else if (snapshot.hasError ||
+                                              snapshot.data!.isEmpty) {
+                                           return Center(
+                                              child: Text(errorSt +
+                                                  snapshot.error.toString()),
+                                            );
+                                          }
+                                          else {
+                                            // print('okkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk');
+                                            // print(ordersData[index].products[index]['p_id']);
+                                            var productFromOrderData = snapshot.data!;
+                                            // print("dsssssssssssssssssssssssssssssssssssssss");
+                                            // print(productFromOrderData);
+                                            // print('here is the products dataaaaaaaaaaaaaaaaaaaa');
+                                            // print(snapshot.data);
+                                            // print(ordersData[index].products);
+                                            return SizedBox(
+                                              height: 250,
+                                              child: ListView.builder(
+                                                itemCount: ordersData[index]
+                                                    .products.length,
+                                                itemBuilder: (context, index) {
+                                                  productsDataForDetails = snapshot.data![index];
+                                                  return adminContainer(
+                                                      productFromOrderData[index]
+                                                          .name, productFromOrderData[index].description,
+                                                      productFromOrderData[index].urlImage, ordersData[index].products[index]['quantity']);
+                                                },
+                                              ),
+                                            );
+                                          }
+
+                                        }
                                       ),
                                       20.heightBox,
                                       Row(
@@ -139,7 +172,7 @@ class AdminOrders extends StatelessWidget {
                                                     .centerRight,
                                                 child: customElevatedButton(
                                                   onPressed: () {
-                                                    Get.to(() => const AdminOrdersDetails());
+                                                    Get.to(() =>  AdminOrdersDetails());
                                                   },
                                                   child: const Text(detailsSt),
                                                   fixedSize: const Size(90, 40),

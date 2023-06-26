@@ -138,6 +138,6 @@ const salesTaxRate = 0.07;
 const deliveryFeeSt = 1.0;
 
 //ahmadafaneh22 (123456789)
-// in the check out after you click on it and the dialog appears then clicking on the next check out button
-// it saves the order but in the order it takes only one papra (product)so fix this to keep it make it take all
-// the products from the cart not only the last product you chose.
+// in the admin_orders_deetails the problem with streaming the data it gives the same name and data
+//for all orders fix this and also you can pass the productData and order data with index also and see product
+// and menu to know more about this

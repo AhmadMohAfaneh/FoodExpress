@@ -55,6 +55,16 @@ class OrdersController extends GetxController{
         .snapshots();
 
   }
+  
+  Stream<List<Product>>getProductDataFromOrderData(orderProductsArray){
+    var db = FirebaseFirestore.instance;
+   return db.collection('products').where('p_id' , whereNotIn:  orderProductsArray).snapshots().
+    map((querySnapshot) => querySnapshot.docs.map((doc) => Product.fromFirestore(doc)).toList());
+    
+  }
+  
+  
+  
   Stream getOrderData(statusId){
     var db = FirebaseFirestore.instance;
    return db.collection('orders').where('user_Id' , isEqualTo: statusId).snapshots();
@@ -64,6 +74,11 @@ class OrdersController extends GetxController{
   getOrderStatus(statusId){
     var db = FirebaseFirestore.instance;
     return db.collection('status').where('status_id' , isEqualTo: statusId).snapshots();
+  }
+  getUserrDataForOrders(userId){
+    var db = FirebaseFirestore.instance;
+    return db.collection('users').where('id', isEqualTo: userId).snapshots();
+    
   }
 
 
