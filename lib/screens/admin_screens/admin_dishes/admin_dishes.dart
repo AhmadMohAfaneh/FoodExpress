@@ -82,7 +82,7 @@ class _AdminDishesState extends State<AdminDishes> with SingleTickerProviderStat
               20.heightBox,
               SizedBox(
                 height: MediaQuery.of(context).size.height-370,
-                // Set the  height for the ListView
+
                 child: ListView.builder(
                   itemCount: 12,
                   // Replace with your actual item count

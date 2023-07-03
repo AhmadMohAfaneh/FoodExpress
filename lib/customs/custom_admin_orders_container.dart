@@ -11,6 +11,7 @@ Widget adminContainer(title, description,  itemsImgs,quantity){
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
+
         // padding for screen and border
         Expanded(
           child: Padding(

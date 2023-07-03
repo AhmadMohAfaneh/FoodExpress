@@ -138,6 +138,7 @@ const salesTaxRate = 0.07;
 const deliveryFeeSt = 1.0;
 
 //ahmadafaneh22 (123456789)
-// in the admin_orders_deetails the problem with streaming the data it gives the same name and data
-//for all orders fix this and also you can pass the productData and order data with index also and see product
-// and menu to know more about this
+// in the admin orders details bring it down a little also when the admin
+// press on the accept button it should accepts the order then it will directly be on binding
+// then after it is on binding now the user can see the status of the meal if it is in the kitchen or if it is
+//     out of the resturant and ......

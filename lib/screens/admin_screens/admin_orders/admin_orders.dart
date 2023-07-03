@@ -36,7 +36,6 @@ class AdminOrders extends StatelessWidget {
             }
             else {
               var ordersData = snapshot.data;
-
               return Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -129,14 +128,10 @@ class AdminOrders extends StatelessWidget {
                                             );
                                           }
                                           else {
-                                            // print('okkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk');
-                                            // print(ordersData[index].products[index]['p_id']);
+
                                             var productFromOrderData = snapshot.data!;
-                                            // print("dsssssssssssssssssssssssssssssssssssssss");
-                                            // print(productFromOrderData);
-                                            // print('here is the products dataaaaaaaaaaaaaaaaaaaa');
-                                            // print(snapshot.data);
-                                            // print(ordersData[index].products);
+                                            print(productFromOrderData);
+
                                             return SizedBox(
                                               height: 250,
                                               child: ListView.builder(
@@ -172,7 +167,7 @@ class AdminOrders extends StatelessWidget {
                                                     .centerRight,
                                                 child: customElevatedButton(
                                                   onPressed: () {
-                                                    Get.to(() =>  AdminOrdersDetails());
+                                                    Get.to(() =>   AdminOrdersDetails(ordersData: ordersData[index],orderDataWithoutIndex: ordersData));
                                                   },
                                                   child: const Text(detailsSt),
                                                   fixedSize: const Size(90, 40),
