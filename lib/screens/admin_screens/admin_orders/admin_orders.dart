@@ -2,7 +2,7 @@ import 'package:e_commerce/consts/consts.dart';
 import 'package:e_commerce/controllers/orders_controller.dart';
 import 'package:e_commerce/customs/custom_admin_orders_container.dart';
 import 'package:e_commerce/models/prducts_model.dart';
-import 'package:e_commerce/screens/admin_screens/admin_orders/admin_orders_details.dart';
+import 'package:e_commerce/screens/admin_screens/admin_orders/admin_orders_details/admin_orders_details.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../consts/strings.dart';

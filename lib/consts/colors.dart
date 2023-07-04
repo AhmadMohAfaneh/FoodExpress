@@ -12,5 +12,6 @@ const Color myDarkOrange = Color(0xFFCF0A0A);
  const Color myWhite= Color(0xFFEEEEEE);
 const Color myLightOrange = Color(0xFFDC5F00);
  const Color myBlack = Color(0xFF000000);
+ const Color lightRed = Color(0xFFFA462A);
 
 

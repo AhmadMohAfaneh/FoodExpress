@@ -22,54 +22,149 @@ class AdminHomePage extends StatelessWidget {
     return bgWidget(
       child: Scaffold(
         body: Column(
-          children:   [
-                const Align(
-                  heightFactor: 10,
-                  alignment: Alignment.center,
-                  child: Text(
-                    restNameSt,style: TextStyle(
-                      fontFamily: bold, fontSize: 22, color: myWhite)
-                  ),
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            SizedBox(
+                height: MediaQuery.of(context).size.height/8,
+                width: MediaQuery.of(context).size.width/1.5,
+                child: Image.asset(imgWrittenLogo,fit: BoxFit.fill,)),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children:[
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height/5.5,
+                      width: MediaQuery.of(context).size.width/2.2,
+                      child: LayoutBuilder(
+                        builder: (BuildContext ctx, BoxConstraints constraints) {
+                          return Column(
+                            children: [
+                              GestureDetector(
+                                child: Card(
+                                  color: lightRed,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15)
+                                  ),
+                                  child: SizedBox(
+                                      height: constraints.minHeight-30 ,
+                                      width: constraints.maxWidth-15 ,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(15),
+                                        child: Image.asset(icAccountAvatar),
+                                      )),
+                                ),
+                                onTap: () => Get.to(() => const AdminAccount()),
+                              ),
+                              const Text(accountSt,style: TextStyle(fontWeight: FontWeight.bold),),
+                            ],
+                          );
+                        },
+                      )
+                        ),
+                    SizedBox(
+                        height: MediaQuery.of(context).size.height/5.5,
+                        width: MediaQuery.of(context).size.width/2.2,
+                        child: LayoutBuilder(
+                          builder: (BuildContext ctx, BoxConstraints constraints) {
+                            return Column(
+                              children: [
+                                GestureDetector(
+                                  child: Card(
+                                    color: lightRed,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15)
+                                    ),
+                                    child: SizedBox(
+                                        height: constraints.maxHeight-30 ,
+                                        width: constraints.maxWidth-15 ,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(15),
+                                          child: Image.asset(icClipboard,),
+                                        )),
+                                  ),
+                                  onTap: () =>  Get.to(() => const AdminOrders())
+                                ),
+                                const Text(ordersSt,style: TextStyle(fontWeight: FontWeight.bold),),
+                              ],
+                            );
+                          },
+                        )
+                    ),
+                  ],
                 ),
-            30.heightBox,
-            customTextButton(
-              onTap: () {
-                Get.to(() => const AdminAccount());
-              },
-              text: accountSt,
-              assetImage: const AssetImage(icAccount),
-            ),
-            10.heightBox,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    SizedBox(
+                        height: MediaQuery.of(context).size.height/5.5,
+                        width: MediaQuery.of(context).size.width/2.2,
+                        child: LayoutBuilder(
+                          builder: (BuildContext ctx, BoxConstraints constraints) {
+                            return Column(
+                              children: [
+                                GestureDetector(
+                                  child: Card(
+                                    color: lightRed,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15)
+                                    ),
+                                    child: SizedBox(
+                                        height: constraints.maxHeight-30 ,
+                                        width: constraints.maxWidth-15 ,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(15),
+                                          child: Image.asset(icFoodDelivery,fit: BoxFit.contain,),
+                                        )),
+                                  ),
+                                  onTap: () =>  Get.to(() => const AdminDishes()),
+                                ),
+                                const Text(dishesSt,style: TextStyle(fontWeight: FontWeight.bold),),
+                              ],
+                            );
+                          },
+                        )
+                    ),
+                    SizedBox(
+                        height: MediaQuery.of(context).size.height/5.5,
+                        width: MediaQuery.of(context).size.width/2.2,
+                        child: LayoutBuilder(
+                          builder: (BuildContext ctx, BoxConstraints constraints) {
+                            return Column(
+                              children: [
+                                GestureDetector(
+                                  child: Card(
+                                    color: lightRed,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15)
+                                    ),
+                                    child: SizedBox(
+                                        height: constraints.maxHeight-30 ,
+                                        width: constraints.maxWidth-15 ,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(15),
+                                          child: Image.asset(icAdminDiscount,fit: BoxFit.contain,),
+                                        )),
+                                  ),
+                                  onTap: () => Get.to(() => const Offers()),
+                                ),
+                                const Text(offersSt,style: TextStyle(fontWeight: FontWeight.bold),),
+                              ],
+                            );
+                          },
+                        )
+                    ),
+                  ],
+                ),
 
-            customTextButton(                                              // app dialop shows app informai
-              onTap: () {
-                Get.to(() => const AdminOrders());
-              },
-              text: ordersSt,
-              assetImage: const AssetImage(icMyOrders),
-            ),
-            10.heightBox,
+                  ],
+                ),
+          ],
+        ),
 
-            customTextButton(                                              // app dialop shows app informai
-              onTap: () {
-                Get.to(() => AdminDishes());
-              },
-              text: dishesSt,
-              assetImage: const AssetImage(icMenu),
-            ),
-            10.heightBox,
-            customTextButton(
-              onTap: () {
-                Get.to(() => const Offers());
-              },
-              text: offersSt,
-              assetImage: const AssetImage(icOffers),
-            ),
-            10.heightBox,
-
-              ],
-            ),
-      ),
+      )
     );
   }
 }

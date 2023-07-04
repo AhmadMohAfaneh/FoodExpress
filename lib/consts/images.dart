@@ -44,4 +44,7 @@ const icEditProfile = "assets/images/editProfile.png";
 const imgProfle = "assets/images/profile_pic.png";
 const icLocation = "assets/images/location.png";
 const icPinLocation = "assets/images/pin.png";
-
+const icAccountAvatar = "assets/images/avatar.png";
+const icClipboard = "assets/images/clipboard.png";
+const icFoodDelivery = "assets/images/food-delivery.png";
+const icAdminDiscount = "assets/images/discount.png";
