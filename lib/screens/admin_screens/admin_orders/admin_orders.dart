@@ -68,7 +68,7 @@ class AdminOrders extends StatelessWidget {
                           .width - 30,
                       child: ListView.builder(
                         itemCount: ordersData!.length,
-                        itemBuilder: (context, index) {
+                        itemBuilder: (context, orderIndex) {
                         return SingleChildScrollView(
                             child: Column(
                               children: [
@@ -97,7 +97,7 @@ class AdminOrders extends StatelessWidget {
                                               ),
                                               children: [
                                                 TextSpan(
-                                                  text: ordersData[index].orderId,
+                                                  text: ordersData[orderIndex].orderId,
                                                   // change to order id
                                                   style: const TextStyle(
                                                     color: fontGrey,
@@ -112,7 +112,7 @@ class AdminOrders extends StatelessWidget {
 
                                       5.heightBox,
                                       StreamBuilder<List<Product>>(
-                                        stream: orderController.getProductDataFromOrderData(ordersData[index].products.map((product) => product['p_id'].toString()).toList()),
+                                        stream: orderController.getProductDataFromOrderData(ordersData[orderIndex].products.map((product) => product['p_id'].toString()).toList()),
                                         builder: (context, snapshot) {
                                           if (snapshot.connectionState ==
                                               ConnectionState.waiting) {
@@ -135,14 +135,14 @@ class AdminOrders extends StatelessWidget {
                                             return SizedBox(
                                               height: 250,
                                               child: ListView.builder(
-                                                itemCount: ordersData[index]
+                                                itemCount: ordersData[orderIndex]
                                                     .products.length,
                                                 itemBuilder: (context, index) {
                                                   productsDataForDetails = snapshot.data![index];
                                                   return adminContainer(
                                                       productFromOrderData[index]
                                                           .name, productFromOrderData[index].description,
-                                                      productFromOrderData[index].urlImage, ordersData[index].products[index]['quantity']);
+                                                      productFromOrderData[index].urlImage, ordersData[orderIndex].products[index]['quantity']);
                                                 },
                                               ),
                                             );
@@ -167,7 +167,7 @@ class AdminOrders extends StatelessWidget {
                                                     .centerRight,
                                                 child: customElevatedButton(
                                                   onPressed: () {
-                                                    Get.to(() =>   AdminOrdersDetails(ordersData: ordersData[index],orderDataWithoutIndex: ordersData));
+                                                    Get.to(() =>   AdminOrdersDetails(ordersData: ordersData[orderIndex],orderDataWithoutIndex: ordersData));
                                                   },
                                                   child: const Text(detailsSt),
                                                   fixedSize: const Size(90, 40),

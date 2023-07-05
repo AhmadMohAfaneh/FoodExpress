@@ -37,65 +37,68 @@ class OrderWaitingScreen extends StatelessWidget {
                 var lastOrderData = snapshot.data!.docs.first.data();
                 print("the lastOrderData");
                 print(lastOrderData);
-                return  StreamBuilder(
-                    stream: ordersController.getOrderStatus(lastOrderData[4]),
-                    builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }
-                      else if (snapshot.hasError) {
-                        return Center(
-                          child: Text(errorSt + snapshot.error.toString()),
-                        );
-                      }
-                      else {
-                        var statusData = snapshot.data!.docs[0];
-                        print('this is the status data');
-                        print(statusData);
-                        return Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            RichText(
-                              textAlign: TextAlign.center,
-                              text: const TextSpan(
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 12,
-                                  fontFamily: regular,
-                                ),
-                                children: <TextSpan>[
-                                  TextSpan(
-                                    // order waiting screen                                                           yourOrderFromSt
-                                    text: thanksStatment,
-                                    style: TextStyle(
-                                      color: myBlack,
-                                      fontFamily: brygadaVariable,
-                                      fontSize: 22,
-                                    ),
-                                  ),
-                                  TextSpan(
-                                    //                                                               restaurantName from the main page
-                                    text: restaurantNameSt,
-                                    style: TextStyle(
-                                      color: myBlack,
-                                      fontSize: 22,
-                                      fontFamily: regular,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const Text('Waiting for a response'),
-                            const Text("Your Orders status is "),
-                            Text(statusData['status_name'],style: const TextStyle(color: redColor),),
-
-                          ],
-                        );
-                      }
+                print(lastOrderData['order_status_id']);
+                return  StreamBuilder <QuerySnapshot>(
+                  stream: ordersController.getOrderStatus(lastOrderData['order_status_id']),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
                     }
+                    else if (snapshot.hasError) {
+                      print('order data ');
+                      print(snapshot.data);
+                      return Center(child: Text(errorSt + snapshot.error
+                          .toString()));
+                    }
+                    else {
+                      var statusData = snapshot.data!.docs.first.data() as Map<String, dynamic>;
+                      print("status data is here");
+                      print(statusData);
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          RichText(
+                            textAlign: TextAlign.center,
+                            text: const TextSpan(
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 12,
+                                fontFamily: regular,
+                              ),
+                              children: <TextSpan>[
+                                TextSpan(
+                                  // order waiting screen                                                           yourOrderFromSt
+                                  text: thanksStatment,
+                                  style: TextStyle(
+                                    color: myBlack,
+                                    fontFamily: brygadaVariable,
+                                    fontSize: 22,
+                                  ),
+                                ),
+                                TextSpan(
+                                  //                                                               restaurantName from the main page
+                                  text: restaurantNameSt,
+                                  style: TextStyle(
+                                    color: myBlack,
+                                    fontSize: 22,
+                                    fontFamily: regular,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const Text('Waiting for a response'),
+                          const Text("Your Orders status is"),
+                           Text(statusData['status_name'],
+                            style: TextStyle(color: redColor),),
+
+                        ],
+                      );
+                    }
+                  }
                 );
               }
             }

@@ -90,7 +90,7 @@ class HomeScreen extends StatelessWidget {
                                         10, 5, 10, 5),
                                     child: GestureDetector(
                                       onTap: () => Get.to(MenuPage(categoryData: categories[index])),
-                                      child: Container(
+                                      child: SizedBox(
                                         height: 100,
                                         width: 130,
                                         child: homeMenu(

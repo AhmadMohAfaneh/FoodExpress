@@ -26,7 +26,7 @@ class AdminHomePage extends StatelessWidget {
           children: [
             SizedBox(
                 height: MediaQuery.of(context).size.height/8,
-                width: MediaQuery.of(context).size.width/1.5,
+                width: MediaQuery.of(context).size.width/2,
                 child: Image.asset(imgWrittenLogo,fit: BoxFit.fill,)),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,

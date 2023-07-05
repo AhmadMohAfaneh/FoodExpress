@@ -55,7 +55,6 @@ class OrdersController extends GetxController{
         .where('user_Id', isEqualTo: userId)
         .orderBy('date', descending: true)
         .snapshots();
-
   }
   
   Stream<List<Product>>getProductDataFromOrderData(orderProductsArray){
@@ -69,13 +68,17 @@ class OrdersController extends GetxController{
   
   Stream getOrderData(statusId){
     var db = FirebaseFirestore.instance;
+
    return db.collection('orders').where('user_Id' , isEqualTo: statusId).snapshots();
     
   }
 
+// here foucus on that the status_id have space after the id
   getOrderStatus(statusId){
     var db = FirebaseFirestore.instance;
-    return db.collection('status').where('status_id' , isEqualTo: statusId).snapshots();
+    print('before function status ');
+    print(statusId);
+     return  db.collection('status').where('status_id ', isEqualTo: statusId).snapshots();
   }
   updateOrderStatus(statusId, statusName){
     var db = FirebaseFirestore.instance;
