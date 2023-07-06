@@ -3,7 +3,7 @@ import 'package:e_commerce/consts/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:e_commerce/screens/auth_screen/sign_up_page.dart';
-import 'package:e_commerce/controllers/auth.controller.dart';
+import 'package:e_commerce/controllers/auth_controller.dart';
 
 class IntroPage extends StatelessWidget {
   const IntroPage({Key? key}) : super(key: key);

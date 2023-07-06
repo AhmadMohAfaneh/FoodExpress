@@ -1,6 +1,6 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:e_commerce/controllers/auth.controller.dart';
+import 'package:e_commerce/controllers/auth_controller.dart';
 import 'package:e_commerce/controllers/category_controller.dart';
 import 'package:e_commerce/controllers/products_controller.dart';
 import 'package:e_commerce/controllers/profile_controller.dart';

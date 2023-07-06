@@ -9,7 +9,7 @@ import '../models/prducts_model.dart';
 
 class OrdersController extends GetxController{
    RxBool orderStatus = false.obs;
-  RxString displayedStatus = "".obs;
+ late RxString displayedStatus ;
   addOrder(Product product, CartModel? cartData , userId,totalPrice, qunatity)async{
     var db = FirebaseFirestore.instance;
     var orderRef = db.collection('orders').doc();
@@ -37,7 +37,7 @@ class OrdersController extends GetxController{
 
   Stream<List<Orders>> getAllUserOrdersData() {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
-    return firestore.collection('orders')
+    return firestore.collection('orders').orderBy('date',descending: true)
         .snapshots().map((querySnapshot) =>
         querySnapshot.docs
             .map((doc) => Orders.fromFirestore(doc))
@@ -82,13 +82,10 @@ class OrdersController extends GetxController{
   }
   updateOrderStatus(statusId, statusName){
     var db = FirebaseFirestore.instance;
-     orderStatus.value = true;
-    displayedStatus == statusName;
-    print(statusId);
     return db.collection('status').doc(statusId).
     update({
       'status_name' : statusName
-    });
+    }).then((value) => orderStatus.value = true);
 
   }
 

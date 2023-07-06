@@ -4,8 +4,8 @@ import 'package:e_commerce/controllers/cart_controller.dart';
 import 'package:e_commerce/controllers/products_controller.dart';
 import 'package:e_commerce/customs/bg_widget.dart';
 import 'package:e_commerce/customs/cart_container.dart';
-import 'package:e_commerce/customs/checkOutSheet.dart';
-import 'package:e_commerce/customs/orderWaitingDialog.dart';
+import 'package:e_commerce/customs/checkout_screen.dart';
+import 'package:e_commerce/customs/order_waiting_dialog.dart';
 import 'package:e_commerce/models/cart_model.dart';
 import 'package:e_commerce/models/prducts_model.dart';
 import 'package:e_commerce/screens/cart_screen/orderWaitingScreen.dart';
@@ -170,51 +170,41 @@ class CartScreen extends StatelessWidget {
                                                         snapshot.error
                                                             .toString());
                                                   } else {
+
                                                     var productsData =
                                                         snapshot.data;
-                                                    productDataParam = productsData;
-                                                    return ListView.builder(
-                                                      itemCount: cartData[0]
-                                                          .products
-                                                          .length,
-                                                      itemBuilder:
-                                                          (context, index) {
-                                                        quantityDataForOrders = cartData[0].products[index];
-                                                        print(quantityDataForOrders);
-                                                        productDataIdForOrders =  productsData![index];
-                                                        print(productDataIdForOrders);
-                                                       totalAmountForOrders =  (cartData[0].totalPrice.toDouble() + cartController.calculateTaxes(cartData[0].totalPrice.toDouble())).toStringAsFixed(2);
+                                                    return  ListView.builder(
+                                                      itemCount: cartData[0].products.length,
+                                                      itemBuilder: (context, index) {
+                                                        // Find the correct product in the list of products based on id
+                                                        var product = productsData!.firstWhere((p) => p.productId == cartData[0].products[index]['p_id']);
+                                                        productDataIdForOrders =  productsData[index];
+                                                        totalAmountForOrders =  (cartData[0].totalPrice.toDouble() + cartController.calculateTaxes(cartData[0].totalPrice.toDouble())).toStringAsFixed(2);
                                                         return  cartContainer(
-                                                          onTapTrash:(){
+                                                          key: ValueKey(cartData[0].products[index]['p_id']),
+                                                          onTapTrash:()async{
                                                             print("done");
-                                                            cartController.removeCartOrder(cartData[0].cartId, productsData[index].productId);
+                                                            await cartController.removeCartOrder(cartData[0].cartId, product.productId);
                                                             print("done");
                                                           },
-                                                          title: productsData[
-                                                                  index]
-                                                              .name,
-                                                          description:
-                                                              productsData[
-                                                                      index]
-                                                                  .description,
+                                                          title: product.name,
+                                                          description: product.description,
                                                           price: cartController
                                                               .getQuantityPrice(
-                                                            productsData[index],
+                                                            product,
                                                             cartData[0].products[
-                                                                    index]
-                                                                ['quantity'],
+                                                            index]
+                                                            ['quantity'],
                                                           ).toString(),
-                                                          itemsImgs:
-                                                              productsData[
-                                                                      index]
-                                                                  .urlImage,
+                                                          itemsImgs: product.urlImage,
                                                           quantity: cartData[0]
-                                                                      .products[
-                                                                  index]
-                                                              ['quantity'],
+                                                              .products[
+                                                          index]
+                                                          ['quantity'],
                                                         );
                                                       },
                                                     );
+
                                                   }
                                                 }),
                                           ),
@@ -323,17 +313,17 @@ class CartScreen extends StatelessWidget {
                                         Expanded(
                                           // button for dialog box
                                           child: customElevatedButton(
-                                              onPressed: () {
-                                                checkOutSheet(cartData[0],productDataParam,context,() async {
+                                              onPressed: () async{
+                                                checkOutSheet(cartData[0],productDataParam,context,()  {
 
-                                                 await ordersController.addOrder(
+                                                  ordersController.addOrder(
                                                       productDataIdForOrders,
                                                       cartData[0],
                                                       currentUser!.uid,
                                                      double.tryParse(totalAmountForOrders),
-                                                    quantityDataForOrders,////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                                    quantityDataForOrders,
                                                   );
-                                                 Get.to(()=> const OrderWaitingScreen());
+                                                 Get.to(const OrderWaitingScreen());
                                                 },);
                                               },
                                               color: redColor,

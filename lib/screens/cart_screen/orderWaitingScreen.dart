@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce/controllers/orders_controller.dart';
-import 'package:e_commerce/customs/orderWaitingDialog.dart';
+import 'package:e_commerce/customs/order_waiting_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -47,8 +47,6 @@ class OrderWaitingScreen extends StatelessWidget {
                       );
                     }
                     else if (snapshot.hasError) {
-                      print('order data ');
-                      print(snapshot.data);
                       return Center(child: Text(errorSt + snapshot.error
                           .toString()));
                     }
@@ -93,7 +91,7 @@ class OrderWaitingScreen extends StatelessWidget {
                           const Text('Waiting for a response'),
                           const Text("Your Orders status is"),
                            Text(statusData['status_name'],
-                            style: TextStyle(color: redColor),),
+                            style: const TextStyle(color: redColor),),
 
                         ],
                       );

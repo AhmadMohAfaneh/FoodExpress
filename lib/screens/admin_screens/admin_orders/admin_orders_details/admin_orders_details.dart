@@ -198,6 +198,8 @@ class AdminOrdersDetails extends StatelessWidget {
                                             child: ListView.builder(
                                               itemCount: ordersData.products.length,
                                               itemBuilder: (context, index) {
+                                                print("hohohoohoh ${orderController.displayedStatus.value}");
+                                                print(orderController.orderStatus);
                                                 return adminContainer(
                                                   productFromOrderData[index].name,
                                                   productFromOrderData[index].description,
@@ -216,7 +218,8 @@ class AdminOrdersDetails extends StatelessWidget {
                                      Stack(
                                       children: [
                                        orderController.orderStatus == true ?
-                                       Text(orderController.displayedStatus.value)
+
+                                       Text(orderController.displayedStatus.value, style: const TextStyle(fontSize: 20,color: redColor),)
 
                                        :Row(
                                           mainAxisAlignment:

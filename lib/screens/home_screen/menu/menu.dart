@@ -11,7 +11,7 @@ import 'package:get/get_core/src/get_main.dart';
 import '../../../consts/strings.dart';
 import '../../../customs/bg_widget.dart';
 import '../../../customs/custom_menu_container.dart';
-import '../../../models/category.model.dart';
+import '../../../models/category_model.dart';
 
 
 class MenuPage extends StatelessWidget {

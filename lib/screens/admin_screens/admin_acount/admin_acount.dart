@@ -1,5 +1,5 @@
 import 'package:e_commerce/consts/consts.dart';
-import 'package:e_commerce/controllers/auth.controller.dart';
+import 'package:e_commerce/controllers/auth_controller.dart';
 import 'package:e_commerce/screens/admin_screens/admin_acount/admin_edit_profile.dart';
 import 'package:e_commerce/screens/admin_screens/admin_home_screen.dart';
 import 'package:e_commerce/screens/auth_screen/log_in_screen.dart';

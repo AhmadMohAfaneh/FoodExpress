@@ -5,12 +5,13 @@ import 'package:e_commerce/consts/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
-Widget cartContainer({required String title,required String description,required String price,required itemsImgs,required quantity,required void Function()?  onTapTrash}){
+Widget cartContainer({required String title,required String description,required String price,required itemsImgs,required quantity,required void Function()?  onTapTrash, Key? key,}){
   return Padding(
     padding: const EdgeInsets.all(8.0),
     child: Column(
       children: [
         Container(
+          key: key,
           decoration:  BoxDecoration(border: Border.all(width: 1,color: Vx.gray300)),
           child: Row(
             children: [

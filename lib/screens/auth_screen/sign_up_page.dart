@@ -4,7 +4,7 @@ import 'package:e_commerce/screens/auth_screen/log_in_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../consts/strings.dart';
-import '../../controllers/auth.controller.dart';
+import '../../controllers/auth_controller.dart';
 import '../../customs/custom_auth_button.dart';
 import '../../customs/custom_password_text_field.dart';
 import '../../customs/custom_text-field.dart';

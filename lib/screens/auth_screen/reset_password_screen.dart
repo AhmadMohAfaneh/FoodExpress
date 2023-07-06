@@ -3,7 +3,7 @@ import 'dart:ui';
 
 import 'package:e_commerce/consts/consts.dart';
 import 'package:e_commerce/consts/strings.dart';
-import 'package:e_commerce/controllers/auth.controller.dart';
+import 'package:e_commerce/controllers/auth_controller.dart';
 import 'package:e_commerce/screens/auth_screen/log_in_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

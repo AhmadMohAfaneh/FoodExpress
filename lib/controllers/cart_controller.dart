@@ -6,14 +6,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce/consts/strings.dart';
 import 'package:e_commerce/controllers/products_controller.dart';
 import 'package:e_commerce/models/cart_model.dart';
-import 'package:e_commerce/screens/cart_screen/emptyCart.dart';
+import 'package:e_commerce/screens/cart_screen/empty_cart.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
 import '../models/prducts_model.dart';
 
 class CartController extends GetxController{
-
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
 
