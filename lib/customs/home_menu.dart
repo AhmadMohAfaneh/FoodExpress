@@ -4,22 +4,28 @@ import 'package:flutter/material.dart';
  Widget homeMenu({categoryName, menuImage}) {
    return Column(
      children: [
-       ClipRRect(
-         borderRadius: BorderRadius.circular(20),
-         child: Container(
-           color: Colors.transparent, // Set the color to transparent
-           child: Image.network(
-              menuImage,
-             fit: BoxFit.cover,
+       SizedBox(
+         height: 70,
+         child: ClipRRect(
+           borderRadius: BorderRadius.circular(20),
+           child: Container(
+             color: Colors.transparent,
+             child: Image.network(
+               menuImage,
+               fit: BoxFit.cover,
+             ),
            ),
          ),
        ),
        const SizedBox(height: 5),
-        Text(
+       Text(
          categoryName,
-         style: const TextStyle(fontFamily: semibold, color: Colors.black,fontSize: 18),
+         style: const TextStyle(
+           fontFamily: semibold,
+           color: Colors.black,
+           fontSize: 18,
+         ),
        ),
      ],
    );
  }
-

@@ -5,6 +5,7 @@ import 'package:e_commerce/controllers/products_controller.dart';
 import 'package:e_commerce/controllers/search_controller.dart';
 import 'package:e_commerce/customs/bg_widget.dart';
 import 'package:e_commerce/models/prducts_model.dart';
+import 'package:e_commerce/screens/auth_screen/intro_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../customs/custom_menu_container.dart';
@@ -16,153 +17,149 @@ class SearchScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var productController = Get.put(ProductController());
-    return bgWidget(
-      child: Scaffold(
+    return Scaffold(
+      backgroundColor: whiteColor,
         body: GetBuilder<SearchController>(
             init: SearchController(),
             builder: (searchController) {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(height: 70),
+                  const SizedBox(height: 70),
                  Expanded(child:
                  Column(
                    children: [
-                     TextField(
-                         onChanged: (value) {
+                     SizedBox(
+                       width: MediaQuery.of(context).size.width-40,
+                       child: TextField(
+                           onChanged: (value) {
 
-                           searchController.update();
-                         },
-                         controller:
-                         searchController.searchTextController,
-                         keyboardType: TextInputType.text,
-                         decoration: InputDecoration(
-                             focusedBorder: OutlineInputBorder(
-                               borderSide: const BorderSide(
-                                   color: myBlack, width: 1),
-                               borderRadius:
-                               BorderRadius.circular(10),
-                             ),
-                             suffixIconColor: myBlack,
-                             filled: true,
-                             hoverColor: myWhite,
-                             focusColor: myWhite,
-                             isDense: true,
-                             fillColor: myWhite,
-                             suffixIcon: IconButton(
-                                 onPressed: () {},
-                                 icon: const Icon(
-                                   Icons.search,
-                                   size: 30,
-                                 )),
-                             hintText: searchHint,
-                             border: OutlineInputBorder(
-                                 borderRadius:
-                                 BorderRadius.circular(20)))),
-                     // Expanded(
-                     //   child: SingleChildScrollView(
-                     //     child: StreamBuilder<List<Product>>(
-                     //         stream: searchController.getProductsAsSearched(searchController.filterdProductsName),
-                     //         builder: (context, snapshot) {
-                     //           if (snapshot.connectionState ==
-                     //               ConnectionState.waiting) {
-                     //             return const Center(
-                     //               child: CircularProgressIndicator(),
-                     //             );
-                     //           }
-                     //           else if (snapshot.hasError || !snapshot.hasData) {
-                     //             return Center(
-                     //               child: Text(errorSt +
-                     //                   snapshot.error.toString() ),
-                     //             );
-                     //           }
-                     //           else {
-                     //             var productsAsSearched = snapshot.data;
-                     //             return ListView.builder(
-                     //               shrinkWrap: true,
-                     //               scrollDirection: Axis.vertical,
-                     //               itemCount: productsAsSearched?.length,
-                     //               itemBuilder: (BuildContext context,
-                     //                   int index) {
-                     //                 print( "here is the name ${productsAsSearched![index]
-                     //                     .name}");
-                     //                 print("here is the price${productsAsSearched[index]
-                     //                     .price}");
-                     //                 print(productsAsSearched[index]
-                     //                     .offer);
-                     //                 print(productsAsSearched[index]
-                     //                     .urlImage);
-                     //                 print(productsAsSearched[index]
-                     //                     .description);
-                     //                 return GestureDetector(
-                     //                   onTap: () => Get.to((Products(
-                     //                       productsDada: productsAsSearched[index]))),
-                     //                   child: Container(
-                     //                     decoration: BoxDecoration(
-                     //                       border: Border.all(width: 0.6,
-                     //                           style: BorderStyle
-                     //                               .none),),
-                     //                     child:  Align(
-                     //                         alignment: Alignment
-                     //                             .bottomLeft,
-                     //                         child: menuContainer(
-                     //                             productsAsSearched[index]
-                     //                                 .name,
-                     //                             productsAsSearched[index]
-                     //                                 .description,
-                     //                             productsAsSearched[index]
-                     //                                 .price.toDouble()
-                     //                                 .toString(),
-                     //                             productsAsSearched[index]
-                     //                                 .urlImage,
-                     //                             productController
-                     //                                 .calculateDiscountedPrice(
-                     //                                 productsAsSearched[index]
-                     //                                     .price
-                     //                                     .toDouble(),
-                     //                                 productsAsSearched[index]
-                     //                                     .productDiscountRate
-                     //                                     .toDouble()),
-                     //                             productsAsSearched[index]
-                     //                                 .offer
-                     //                         )
-                     //                     ),
-                     //                   ),
-                     //                 );
-                     //               },
-                     //             );
-                     //           }
-                     //         } ),
-                     //   ),
-                     // )
-                     Expanded(
-                         child: StreamBuilder(
-                           stream: FirebaseFirestore.instance
-                               .collection('products')
-                               .where('search_keys',
-                               arrayContains: searchController
-                                   .searchTextController.text)
-                               .snapshots(),
-                           builder: (context, snapshot) {
-                             if (snapshot.hasData) {
-                               return ListView.builder(
-                                   itemCount:
-                                   snapshot.data?.docs.length,
-                                   itemBuilder: (context, index) {
-                                     return Text(snapshot
-                                         .data?.docs[index]
-                                         .data()['p_name']);
-                                   });
-                             }
-                             return const SizedBox();
+                             searchController.update();
                            },
-                         ))
+                           controller:
+                           searchController.searchTextController,
+                           keyboardType: TextInputType.text,
+                           decoration: InputDecoration(
+                               focusedBorder: OutlineInputBorder(
+                                 borderSide: const BorderSide(
+                                     color: myBlack, width: 1),
+                                 borderRadius:
+                                 BorderRadius.circular(10),
+                               ),
+                               suffixIconColor: myBlack,
+                               filled: true,
+                               hoverColor: myWhite,
+                               focusColor: myWhite,
+                               isDense: true,
+                               fillColor: myWhite,
+                               suffixIcon: IconButton(
+                                   onPressed: () {},
+                                   icon: const Icon(
+                                     Icons.search,
+                                     size: 30,
+                                   )),
+                               hintText: searchHint,
+                               border: OutlineInputBorder(
+                                   borderRadius:
+                                   BorderRadius.circular(20)))),
+                     ),
+                     Expanded(
+                       child: SingleChildScrollView(
+                         child: StreamBuilder(
+                             stream: FirebaseFirestore.instance
+                                 .collection('products')
+                                 .where('search_keys',
+                                 arrayContains: searchController
+                                     .searchTextController.text)
+                                 .snapshots(),
+                             builder: (context, snapshot) {
+                               if (snapshot.connectionState ==
+                                   ConnectionState.waiting) {
+                                 return const Center(
+                                   child: CircularProgressIndicator(),
+                                 );
+                               }
+                               else if (snapshot.hasError || snapshot.data == null) {
+                                 return Center(
+                                   child: Text(errorSt +
+                                       snapshot.error.toString() ),
+                                 );
+                               }
+                               else {
+                                 var productsAsSearched = snapshot.data;
+                                 return ListView.builder(
+                                   shrinkWrap: true,
+                                   scrollDirection: Axis.vertical,
+                                   itemCount: productsAsSearched?.docs.length,
+                                   itemBuilder: (BuildContext context, index) {
+                                     return GestureDetector(
+                                       onTap: () => Get.to( Products(
+                                         productsDada: Product(
+                                             name: productsAsSearched.docs[index].data()['p_name'],
+                                             price: productsAsSearched.docs[index].data()['p_price'],
+                                             description: productsAsSearched.docs[index].data()['p_description'],
+                                             urlImage: productsAsSearched.docs[index].data()['p_urlimage'],
+                                             offer: productsAsSearched.docs[index].data()['p_offer'],
+                                             categoryId: productsAsSearched.docs[index].data()['category_id'],
+                                             productId: productsAsSearched.docs[index].data()['p_id'],
+                                             productDiscountRate: productsAsSearched.docs[index].data()['p_discount_rate']),
+                                       )),
+                                       child: Container(
+                                         decoration: BoxDecoration(
+                                           border: Border.all(width: 0.6,
+                                               style: BorderStyle
+                                                   .none),),
+                                         child:  Align(
+                                             alignment: Alignment
+                                                 .bottomLeft,
+                                             child: menuContainer(
+                                                 productsAsSearched!.docs[index].data()['p_name'],
+                                                 productsAsSearched.docs[index].data()['p_description'],
+                                                 productsAsSearched.docs[index].data()['p_price'].toDouble()
+                                                     .toString(),
+                                                 productsAsSearched.docs[index].data()['p_urlimage'],
+                                                 productController
+                                                     .calculateDiscountedPrice(
+                                                     productsAsSearched.docs[index].data()['p_price'].toDouble(),
+                                                     productsAsSearched.docs[index].data()['p_discount_rate'].toDouble()),
+                                                 productsAsSearched.docs[index].data()['p_offer']
+                                             )
+                                         ),
+                                       ),
+                                     );
+                                   },
+                                 );
+                               }
+                             } ),
+                       ),
+                     ),
+                     // Expanded(
+                     //     child: StreamBuilder(
+                     //       stream: FirebaseFirestore.instance
+                     //           .collection('products')
+                     //           .where('search_keys',
+                     //           arrayContains: searchController
+                     //               .searchTextController.text)
+                     //           .snapshots(),
+                     //       builder: (context, snapshot) {
+                     //         if (snapshot.hasData) {
+                     //           return ListView.builder(
+                     //               itemCount:
+                     //               snapshot.data?.docs.length,
+                     //               itemBuilder: (context, index) {
+                     //                 return Text(snapshot
+                     //                     .data?.docs[index]
+                     //                     .data()['p_name']);
+                     //               });
+                     //         }
+                     //         return const SizedBox();
+                     //       },
+                     //     ))
                    ],
                  ))
                 ],
               );
             }),
-      ),
-    );
+      );
   }
 }
