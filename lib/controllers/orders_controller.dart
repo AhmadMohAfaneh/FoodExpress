@@ -8,7 +8,9 @@ import '../models/orders_model.dart';
 import '../models/prducts_model.dart';
 
 class OrdersController extends GetxController{
-   RxBool orderStatus = false.obs;
+  RxBool isOrderDetailsVisible = false.obs;
+  RxBool orderStatus = true.obs;
+  RxBool isOrderPlaced = false.obs;
  late RxString displayedStatus ;
   addOrder(Product product, CartModel? cartData , userId,totalPrice, qunatity)async{
     var db = FirebaseFirestore.instance;
@@ -20,7 +22,6 @@ class OrdersController extends GetxController{
       'status_id ' : statusRef.id,
       'status_name': 'Pending'
     });
-   print("here is the cart data id ddddddddddddddddddddddddddddddddddd");
      print(cartData?.cartId);
     //create order
    await orderRef.set({
@@ -30,7 +31,7 @@ class OrdersController extends GetxController{
       'date': DateTime.now(),
       'product_ids' : cartData!.products,
       'order_status_id' : statusRef.id
-    });
+    }).then((value) => listenOrderStatus(statusRef.id));
    CartController cartController = CartController();
    cartController.deleteCart(cartData.cartId);
   }
@@ -93,6 +94,30 @@ class OrdersController extends GetxController{
     var db = FirebaseFirestore.instance;
     return db.collection('users').doc(userId).get();
   }
+
+  void toggleOrderDetailsVisible() {
+    print(isOrderDetailsVisible.value);
+    isOrderDetailsVisible.value = !isOrderDetailsVisible.value;
+  }
+  void placeOrder(statusName){
+    if(statusName == 'Rejected' || statusName == "Completed" ){
+      isOrderPlaced.value = false;
+    }
+    else{
+      isOrderPlaced.value = true;
+    }
+
+  }
+  void listenOrderStatus(statusId) {
+    getOrderStatus(statusId).listen((QuerySnapshot snapshot) {
+      if (snapshot.docs.isNotEmpty) {
+        var statusData = snapshot.docs.first.data() as Map<String, dynamic>;
+        var statusName = statusData['status_name'];
+        placeOrder(statusName);
+      }
+    });
+  }
+
 
 
 

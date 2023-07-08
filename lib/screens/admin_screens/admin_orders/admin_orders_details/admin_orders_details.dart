@@ -52,228 +52,241 @@ class AdminOrdersDetails extends StatelessWidget {
                   width: MediaQuery.of(context).size.width - 35,
                   child: Column(
                     children: [
-                      Card(
-                        color: myWhite,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          side: const BorderSide(width: 1),
-                        ),
-                        child: FutureBuilder<DocumentSnapshot>(
-                          future: orderController.getUserrDataForOrders(ordersData.userId),
-                          builder: (context , snapshot) {
-                            if (snapshot.connectionState ==
-                                ConnectionState.waiting) {
-                              return const Center(
-                                child: CircularProgressIndicator(),
-                              );
-                            }
-                            else if (snapshot.hasError ||
-                                snapshot.data!.isNull) {
-                              return SingleChildScrollView(
-                                child: Center(
-                                  child: Text(errorSt +
-                                      snapshot.error.toString()),
-                                ),
-                              );
-                            }
-                            else {
-                              var userData = snapshot.data;
-                              return Column(
-                                children: [
-                                  35.heightBox,
-                                  Column(
-                                    children: [
-                                      RichText(
-                                        text: TextSpan(
-                                          style: const TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 12,
-                                              fontFamily: regular),
-                                          children: <TextSpan>[
-                                            TextSpan(
-                                                text: yourOrderFromSt
-                                                    .substring(
-                                                    5, 16),
-                                                style: const TextStyle(
-                                                    color: myBlack,
-                                                    fontFamily: brygadaVariable,
-                                                    fontSize: 22)),
-                                             TextSpan(
-                                                text: userData!['name'],
-                                                style: const TextStyle(
-                                                    color: myBlack,
-                                                    fontSize: 22,
-                                                    fontFamily: regular,
-                                                    fontWeight:
-                                                    FontWeight.bold)),
-                                          ],
-                                        ),
-                                      ),
-                                      5.heightBox,
-                                      const Text(
-                                        orderDetSt,
-                                        style: TextStyle(
-                                            fontSize: 22,
-                                            fontFamily: brygadaVariable),
-                                      ),
-                                      5.heightBox,
-                                      RichText(
-                                        text:  TextSpan(
-                                          style: const TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 12,
-                                              fontFamily: regular),
-                                          children: <TextSpan>[
-                                            const TextSpan(
-                                                text: hintPhoneNumber,
-                                                style: TextStyle(
-                                                    color: myBlack,
-                                                    fontFamily: brygadaVariable,
-                                                    fontSize: 15)),
-                                            TextSpan(
-                                                text: userData['phone number'],
-                                                style: const TextStyle(
-                                                    color: myBlack,
-                                                    fontSize: 15,
-                                                    fontFamily: regular,
-                                                    fontWeight: FontWeight
-                                                        .bold)),
-                                          ],
-                                        ),
-                                      ),
-                                      5.heightBox,
-                                      RichText(
-                                        text:  TextSpan(
-                                          style: const TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 12,
-                                              fontFamily: regular),
-                                          children: <TextSpan>[
-                                            const TextSpan(
-                                                text: locationSt,
-                                                style: TextStyle(
-                                                    color: myBlack,
-                                                    fontFamily: brygadaVariable,
-                                                    fontSize: 15)),
-                                            TextSpan(
-                                                text: userData['address'],
-                                                style: const TextStyle(
-                                                    color: myBlack,
-                                                    fontSize: 15,
-                                                    fontFamily: regular,
-                                                    fontWeight: FontWeight
-                                                        .bold)),
-                                          ],
-                                        ),
-                                      ),
-                                      10.heightBox,
-                                    ],
+                      Expanded(
+                        child: Card(
+                          color: myWhite,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            side: const BorderSide(width: 1),
+                          ),
+                          child: FutureBuilder<DocumentSnapshot>(
+                            future: orderController.getUserrDataForOrders(ordersData.userId),
+                            builder: (context , snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return const Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              }
+                              else if (snapshot.hasError ||
+                                  snapshot.data!.isNull) {
+                                return SingleChildScrollView(
+                                  child: Center(
+                                    child: Text(errorSt +
+                                        snapshot.error.toString()),
                                   ),
-                                  5.heightBox,
-                                  StreamBuilder<List<Product>>(
-                                      stream: orderController
-                                          .getProductDataFromOrderData(
-                                          ordersData.products.map((product) =>
-                                              product['p_id'].toString())
-                                              .toList()),
-                                      builder: (context, snapshot) {
-                                        if (snapshot.connectionState ==
-                                            ConnectionState.waiting) {
-                                          return const Center(
-                                            child: CircularProgressIndicator(),
-                                          );
-                                        }
-                                        else if (snapshot.hasError ||
-                                            snapshot.data!.isEmpty) {
-                                          return Center(
-                                            child: Text(errorSt +
-                                                snapshot.error.toString()),
-                                          );
-                                        }
-                                        else {
-                                          var productFromOrderData = snapshot
-                                              .data!;
-                                          return SizedBox(
-                                            height: 250,
-                                            child: ListView.builder(
-                                              itemCount: ordersData.products.length,
-                                              itemBuilder: (context, index) {
-                                                print("hohohoohoh ${orderController.displayedStatus.value}");
-                                                print(orderController.orderStatus);
-                                                return adminContainer(
-                                                  productFromOrderData[index].name,
-                                                  productFromOrderData[index].description,
-                                                  productFromOrderData[index].urlImage,
-                                                  ordersData.products[index]['quantity'],
-                                                );
-                                              },
-                                            ),
-                                          );
-
-                                      }
-                                      }
-                                  ),
-                                  20.heightBox,
-                                  Obx(()=>
-                                     Stack(
+                                );
+                              }
+                              else {
+                                var userData = snapshot.data;
+                                return Column(
+                                  children: [
+                                    35.heightBox,
+                                    Column(
                                       children: [
-                                       orderController.orderStatus == true ?
-
-                                       Text(orderController.displayedStatus.value, style: const TextStyle(fontSize: 20,color: redColor),)
-
-                                       :Row(
-                                          mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  right: 22,
-                                                  bottom: 17,
-                                                  top: 8),
-                                              child: Align(
-                                                alignment: Alignment
-                                                    .centerRight,
-                                                child: customElevatedButton(
-                                                  onPressed: () {
-                                                    orderController.updateOrderStatus(ordersData.orderStatusId, 'Rejected');
-                                                  },
-                                                  child: const Text(
-                                                    "Regect",
-                                                    style: TextStyle(
-                                                        color: redColor),
-                                                  ),
-                                                  fixedSize: const Size(
-                                                      120, 40),
-                                                  color: myWhite,
-                                                ),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  bottom: 17, top: 8),
-                                              child: Align(
-                                                alignment: Alignment
-                                                    .centerRight,
-                                                child: customElevatedButton(
-                                                  onPressed: () {
-                                                     orderController.updateOrderStatus(ordersData.orderStatusId , 'Accepted');
-                                                  },
-                                                  child: const Text("Accept "),
-                                                  fixedSize: const Size(
-                                                      120, 40),
-                                                  color: redColor,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
+                                        RichText(
+                                          text: TextSpan(
+                                            style: const TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 12,
+                                                fontFamily: regular),
+                                            children: <TextSpan>[
+                                              TextSpan(
+                                                  text: yourOrderFromSt
+                                                      .substring(
+                                                      5, 16),
+                                                  style: const TextStyle(
+                                                      color: myBlack,
+                                                      fontFamily: brygadaVariable,
+                                                      fontSize: 22)),
+                                               TextSpan(
+                                                  text: userData!['name'],
+                                                  style: const TextStyle(
+                                                      color: myBlack,
+                                                      fontSize: 22,
+                                                      fontFamily: regular,
+                                                      fontWeight:
+                                                      FontWeight.bold)),
+                                            ],
+                                          ),
                                         ),
+                                        5.heightBox,
+                                        const Text(
+                                          orderDetSt,
+                                          style: TextStyle(
+                                              fontSize: 22,
+                                              fontFamily: brygadaVariable),
+                                        ),
+                                        5.heightBox,
+                                        RichText(
+                                          text:  TextSpan(
+                                            style: const TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 12,
+                                                fontFamily: regular),
+                                            children: <TextSpan>[
+                                              const TextSpan(
+                                                  text: hintPhoneNumber,
+                                                  style: TextStyle(
+                                                      color: myBlack,
+                                                      fontFamily: brygadaVariable,
+                                                      fontSize: 15)),
+                                              TextSpan(
+                                                  text: userData['phone number'],
+                                                  style: const TextStyle(
+                                                      color: myBlack,
+                                                      fontSize: 15,
+                                                      fontFamily: regular,
+                                                      fontWeight: FontWeight
+                                                          .bold)),
+                                            ],
+                                          ),
+                                        ),
+                                        5.heightBox,
+                                        RichText(
+                                          text:  TextSpan(
+                                            style: const TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 12,
+                                                fontFamily: regular),
+                                            children: <TextSpan>[
+                                              const TextSpan(
+                                                  text: locationSt,
+                                                  style: TextStyle(
+                                                      color: myBlack,
+                                                      fontFamily: brygadaVariable,
+                                                      fontSize: 15)),
+                                              TextSpan(
+                                                  text: userData['address'],
+                                                  style: const TextStyle(
+                                                      color: myBlack,
+                                                      fontSize: 15,
+                                                      fontFamily: regular,
+                                                      fontWeight: FontWeight
+                                                          .bold)),
+                                            ],
+                                          ),
+                                        ),
+                                        10.heightBox,
                                       ],
                                     ),
-                                  ),
-                                ],
-                              );
+                                    5.heightBox,
+                                    StreamBuilder<List<Product>>(
+                                        stream: orderController
+                                            .getProductDataFromOrderData(
+                                            ordersData.products.map((product) =>
+                                                product['p_id'].toString())
+                                                .toList()),
+                                        builder: (context, snapshot) {
+                                          if (snapshot.connectionState ==
+                                              ConnectionState.waiting) {
+                                            return const Center(
+                                              child: CircularProgressIndicator(),
+                                            );
+                                          }
+                                          else if (snapshot.hasError ||
+                                              snapshot.data!.isEmpty) {
+                                            return Center(
+                                              child: Text(errorSt +
+                                                  snapshot.error.toString()),
+                                            );
+                                          }
+                                          else {
+                                            var productFromOrderData = snapshot
+                                                .data!;
+                                            return SizedBox(
+                                              height: 250,
+                                              child: ListView.builder(
+                                                itemCount: ordersData.products.length,
+                                                itemBuilder: (context, index) {
+                                                  return adminContainer(
+                                                    productFromOrderData[index].name,
+                                                    productFromOrderData[index].description,
+                                                    productFromOrderData[index].urlImage,
+                                                    ordersData.products[index]['quantity'],
+                                                  );
+                                                },
+                                              ),
+                                            );
+                                        }
+                                        }
+                                    ),
+                                    20.heightBox,
+                                       StreamBuilder<QuerySnapshot>(
+                                         stream: orderController.getOrderStatus(ordersData.orderStatusId),
+                                         builder: (context, snapshot) {
+                                                if(snapshot.connectionState == ConnectionState.waiting){
+                                                  return const Center(
+                                                    child: CircularProgressIndicator(),
+                                                  );
+                                                }
+                                                else if (snapshot.hasError){
+                                                 return Center(
+                                                    child: Text(errorSt +
+                                                        snapshot.error.toString()),
+                                                  );
+                                                }
+                                                else{
+                                           var statusData = snapshot.data!.docs.first.data() as Map<String, dynamic>;
+                                           return Column(
+                                            children: [
+                                             statusData['status_name']  == 'Pending'?
+                                             Row(
+                                                mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                                children: [
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(
+                                                        right: 22,
+                                                        bottom: 17,
+                                                        top: 8),
+                                                    child: Align(
+                                                      alignment: Alignment
+                                                          .centerRight,
+                                                      child: customElevatedButton(
+                                                        onPressed: () {
+                                                          orderController.updateOrderStatus(ordersData.orderStatusId, 'Rejected');
+                                                        },
+                                                        child: const Text(
+                                                          "Regect",
+                                                          style: TextStyle(
+                                                              color: redColor),
+                                                        ),
+                                                        fixedSize: const Size(
+                                                            120, 40),
+                                                        color: myWhite,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(
+                                                        bottom: 17, top: 8),
+                                                    child: Align(
+                                                      alignment: Alignment
+                                                          .centerRight,
+                                                      child: customElevatedButton(
+                                                        onPressed: () {
+                                                           orderController.updateOrderStatus(ordersData.orderStatusId , 'Accepted');
+                                                        },
+                                                        child: const Text("Accept "),
+                                                        fixedSize: const Size(
+                                                            120, 40),
+                                                        color: redColor,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ): Text(statusData['status_name'],style: const TextStyle(fontSize: 20,color: myBlack),)
+                                            ],
+                                      );
+                                         }
+                                         }
+                                       ),
+                                  ],
+                                );
+                              }
                             }
-                          }
+                          ),
                         ),
                       ),
                     ],

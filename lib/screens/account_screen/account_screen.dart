@@ -42,7 +42,8 @@ class AccountScreen extends StatelessWidget {
               );
             }
               else{
-                var data = snapshot.data!.docs;
+              var doc = snapshot.data!.docs.first.data() as Map<String, dynamic>;
+
                  // controller.nameController.text = data['name'];
                  // controller.addressController.text = data['address'];
                  // controller.phoneNumberController.text = data['phone number'];
@@ -73,20 +74,20 @@ class AccountScreen extends StatelessWidget {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(20),
                         child:
-                        data[0]['imageUrl'] == '' ?
+                        doc['imageUrl'] == '' ?
                         Image.asset(imgProfle, fit: BoxFit.cover,)
-                            : Image.network(data[0]['imageUrl'],fit: BoxFit.cover,)
+                            : Image.network(doc['imageUrl'], fit: BoxFit.cover,)
                       ),
                     ),
                   ),
                 ),
               ),
-               Text("${data[0]['name'].toString().capitalizeFirst}",style: const TextStyle(fontSize: 23,fontFamily: bold)),
+              Text("${doc['name'].toString().capitalizeFirst}", style: const TextStyle(fontSize: 23, fontFamily: bold)),
                Row(
                  mainAxisAlignment: MainAxisAlignment.center,
                  children: [
                    Image.asset(icLocation,width: 26,height: 20,),
-                   Text("${data[0]["address"].toString().capitalizeFirst}",style: const TextStyle(fontSize: 17,fontFamily: regular),),
+                   Text("${doc["address"].toString().capitalizeFirst}", style: const TextStyle(fontSize: 17, fontFamily: regular)),
                  ],
                ),
               35.heightBox,
@@ -119,7 +120,7 @@ class AccountScreen extends StatelessWidget {
 
               customTextButton(                                              // app dialop shows app informai
                 onTap: () {
-                    Get.to(() => UserEditProfileScreen(data: data));
+                    Get.to(() => UserEditProfileScreen(data: doc));
                 },
                 text: editProfileSt,
                 assetImage: const AssetImage(icEditProfile),

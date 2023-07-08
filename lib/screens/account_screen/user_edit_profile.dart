@@ -5,6 +5,7 @@ import 'package:e_commerce/consts/consts.dart';
 import 'package:e_commerce/consts/strings.dart';
 import 'package:e_commerce/controllers/profile_controller.dart';
 import 'package:e_commerce/customs/custom_elvated_button.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -45,69 +46,56 @@ class UserEditProfileScreen extends StatelessWidget {
 
                   Padding(
                     padding: const EdgeInsets.only(left: 50),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          // Check for each condition and return a corresponding widget
-                          data['imageUrl'] == '' && controller.chosenImagePath.isEmpty ?
-                          Container(
-                            width: 100,
-                            height: 100,
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                image: AssetImage(imgProfilePic),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          )
-                              : data['imageUrl'] != "" && controller.chosenImagePath.isEmpty ?
-                          Container(
-                            width: 100,
-                            height: 100,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                image: NetworkImage(data['imageUrl']),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          )
-                              : Container(
-                            width: 100,
-                            height: 100,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                image: FileImage(File(controller.chosenImagePath.value)),
-                                fit: BoxFit.cover,
-                              ),
+                    child: Stack(
+                      alignment: Alignment.bottomRight,
+                      children: [
+                        data['imageUrl'] == '' && controller.chosenImagePath.isEmpty ?
+                        Container(
+                          width: 100,
+                          height: 100,
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                              image: AssetImage(imgProfilePic),
+                              fit: BoxFit.cover,
                             ),
                           ),
-                          IconButton(onPressed: () {
+                        )
+                            : data['imageUrl'] != "" && controller.chosenImagePath.isEmpty ?
+                        Container(
+                          width: 100,
+                          height: 100,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                              image: NetworkImage(data['imageUrl']),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        )
+                            : Container(
+                          width: 100,
+                          height: 100,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                              image: FileImage(File(controller.chosenImagePath.value)),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+
+                        IconButton(
+                          onPressed: () {
                             controller.pickImageFromGallery(context);
-                          }, icon: const Icon(Icons.edit)),
-                        ]),
+                          },
+                          icon: const Icon(CupertinoIcons.plus_circle_fill),
+                          color: Colors.white,
+                        ),
+                      ],
+                    ),
                   ),
 
-                  // customElevatedButton(onPressed: (){},
-                  //     child: const Text("change"), fixedSize: const Size(50, 20), color: redColor),
-
-                  // Obx(
-
-                  //       () => CircleAvatar(
-                  //     radius: 70,
-                  //     backgroundColor: myWhite,
-                  //     backgroundImage: controller.chosenImagePath.value.isEmpty
-                  //         ? null
-                  //         : AssetImage(controller.chosenImagePath.value),
-                  //     child: IconButton(
-                  //       icon: const Icon(Icons.camera_alt),
-                  //       color: redColor,
-                  //       onPressed: controller.pickImageFromGallery(context),
-                  //     ),
-                  //   ),
-                  // ),
                   30.heightBox,
                   CustomTextField(
                     controller: controller.nameController,
@@ -134,9 +122,11 @@ class UserEditProfileScreen extends StatelessWidget {
                   customElevatedButton(
                     onPressed: () async{
                       controller.isLoading.value = true;
-                      await controller.uploadProfileImage();
+                      if (controller.chosenImagePath.isNotEmpty) {
+                        await controller.uploadProfileImage();
+                      }
                       await controller.updateProfile(
-                        imageUrl: controller.profileImageLink,
+                        imageUrl: controller.chosenImagePath.isNotEmpty ? controller.profileImageLink : data['imageUrl'],
                         name: controller.nameController.text,
                         address: controller.addressController.text,
                         phoneNumber: controller.phoneNumberController.text,
@@ -147,6 +137,7 @@ class UserEditProfileScreen extends StatelessWidget {
                     fixedSize: const Size(double.infinity, 48.0),
                     color: redColor,
                   ),
+
                 ],
               ),
           ),
