@@ -91,12 +91,6 @@ class ProductController extends GetxController {
     return double.tryParse(discountedPrice.toStringAsFixed(2)) ?? 0.0;
   }
 
-
-
-
-
-
-
   // getProductPriceAfterDiscount (originalPrice,discountRate,productId) async {
   //   FirebaseFirestore firestore = FirebaseFirestore.instance;
   //   double priceAfterDiscount;

@@ -177,118 +177,128 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
             ),
-            ordersController.isOrderPlaced.value ?  Container() : Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: StreamBuilder(
-                stream: ordersController.getLastOrderData(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  } else if (snapshot.hasError) {
-                    return Center(child: Text(errorSt + snapshot.error.toString()));
-                  } else {
-                    var lastOrderData = snapshot.data!.docs.first.data();
-                    return StreamBuilder<QuerySnapshot>(
-                      stream: ordersController.getOrderStatus(lastOrderData['order_status_id']),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.waiting) {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        } else if (snapshot.hasError) {
-                          return Center(child: Text(errorSt + snapshot.error.toString()));
-                        } else {
-                          var statusData = snapshot.data!.docs.first.data() as Map<String, dynamic>;
-                          return GestureDetector(
-                            onTap: () {
-                              ordersController.toggleOrderDetailsVisible();
-                            },
-                            child: Obx(() =>
-                                AnimatedContainer(
-                                    duration: const Duration(milliseconds: 500),
-                                    curve: Curves.easeInOut,
-                                    height: ordersController.isOrderDetailsVisible.value ? 200 : 60,
-                                    color: ordersController.isOrderDetailsVisible.value ? Colors.grey[300]!.withOpacity(1) :Colors.grey[300]!.withOpacity(0.7),
-                                    padding: const EdgeInsets.all(16),
-                                    child: ordersController.isOrderDetailsVisible.value?
+            Obx(()=>
+               ordersController.isOrderPlaced.value ?  Container() : Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: StreamBuilder(
+                  stream: ordersController.getLastOrderData(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    } else if (snapshot.hasError) {
+                      return Center(child: Text(errorSt + snapshot.error.toString()));
+                    }
+                    else if(snapshot.data!.docs.isEmpty){
+                      return const Text("");
+                    }else {
 
-                                    SingleChildScrollView(
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          RichText(
-                                            textAlign: TextAlign.center,
-                                            text: const TextSpan(
-                                              style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 12,
-                                                fontFamily: regular,
+
+                      var lastOrderData = snapshot.data!.docs.first.data();
+                      return StreamBuilder<QuerySnapshot>(
+                        stream: ordersController.getOrderStatus(lastOrderData['order_status_id']),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          } else if (snapshot.hasError) {
+                            return Center(child: Text(errorSt + snapshot.error.toString()));}
+                           else if ( snapshot.data!.docs.isEmpty) {
+                            return const Text("");
+                          }
+                           else {
+                            var statusData = snapshot.data!.docs.first.data() as Map<String, dynamic>;
+                            return GestureDetector(
+                              onTap: () {
+                                ordersController.toggleOrderDetailsVisible();
+                              },
+                              child: Obx(() =>
+                                  AnimatedContainer(
+                                      duration: const Duration(milliseconds: 500),
+                                      curve: Curves.easeInOut,
+                                      height: ordersController.isOrderDetailsVisible.value ? 200 : 60,
+                                      color: ordersController.isOrderDetailsVisible.value ? Colors.grey[300]!.withOpacity(1) :Colors.grey[300]!.withOpacity(0.7),
+                                      padding: const EdgeInsets.all(16),
+                                      child: ordersController.isOrderDetailsVisible.value?
+
+                                      SingleChildScrollView(
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            RichText(
+                                              textAlign: TextAlign.center,
+                                              text: const TextSpan(
+                                                style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 12,
+                                                  fontFamily: regular,
+                                                ),
+                                                children: <TextSpan>[
+                                                  TextSpan(
+                                                    text: thanksStatment,
+                                                    style: TextStyle(
+                                                      color: myBlack,
+                                                      fontFamily: brygadaVariable,
+                                                      fontSize: 22,
+                                                    ),
+                                                  ),
+                                                  TextSpan(
+                                                    text: restaurantNameSt,
+                                                    style: TextStyle(
+                                                      color: myBlack,
+                                                      fontSize: 22,
+                                                      fontFamily: regular,
+                                                      fontWeight: FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
-                                              children: <TextSpan>[
-                                                TextSpan(
-                                                  text: thanksStatment,
-                                                  style: TextStyle(
-                                                    color: myBlack,
-                                                    fontFamily: brygadaVariable,
-                                                    fontSize: 22,
-                                                  ),
-                                                ),
-                                                TextSpan(
-                                                  text: restaurantNameSt,
-                                                  style: TextStyle(
-                                                    color: myBlack,
-                                                    fontSize: 22,
-                                                    fontFamily: regular,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-                                              ],
                                             ),
-                                          ),
-                                          Visibility(
-                                            visible: ordersController.isOrderDetailsVisible.value,
-                                            child: Column(
-                                              children: [
-                                                const Text('Waiting for a response'),
-                                                const Text("Your Orders status is"),
-                                                Text(
-                                                  statusData['status_name'],
-                                                  style: const TextStyle(color: redColor),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ) :const Align(
-                                      alignment: Alignment.center,
-                                      child: Text('Tap for Order Status',
-                                        style: TextStyle(
-                                          fontSize: 20,
-                                          color: Colors.white,
-                                          shadows: [
-                                            Shadow(
-                                              blurRadius: 10.0,
-                                              color: Colors.black,
-                                              offset: Offset(5.0, 5.0),
+                                            Visibility(
+                                              visible: ordersController.isOrderDetailsVisible.value,
+                                              child: Column(
+                                                children: [
+                                                  const Text('Waiting for a response'),
+                                                  const Text("Your Orders status is"),
+                                                  Text(
+                                                    statusData['status_name'],
+                                                    style: const TextStyle(color: redColor),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           ],
                                         ),
-                                      ),
-                                    )
-                                ),
+                                      ) :const Align(
+                                        alignment: Alignment.center,
+                                        child: Text('Tap for Order Status',
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            color: Colors.white,
+                                            shadows: [
+                                              Shadow(
+                                                blurRadius: 10.0,
+                                                color: Colors.black,
+                                                offset: Offset(5.0, 5.0),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      )
+                                  ),
 
-                            ),
-                          );
-                        }
-                      },
-                    );
-                  }
-                },
+                              ),
+                            );
+                          }
+                        },
+                      );
+                    }
+                  },
+                ),
               ),
             ),
           ],

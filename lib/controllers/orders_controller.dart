@@ -11,6 +11,7 @@ class OrdersController extends GetxController{
   RxBool isOrderDetailsVisible = false.obs;
   RxBool orderStatus = true.obs;
   RxBool isOrderPlaced = false.obs;
+
  late RxString displayedStatus ;
   addOrder(Product product, CartModel? cartData , userId,totalPrice, qunatity)async{
     var db = FirebaseFirestore.instance;
@@ -36,7 +37,7 @@ class OrdersController extends GetxController{
    cartController.deleteCart(cartData.cartId);
   }
 
-  Stream<List<Orders>> getAllUserOrdersData() {
+  Stream<List<Orders>> getAllrOrdersData() {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     return firestore.collection('orders').orderBy('date',descending: true)
         .snapshots().map((querySnapshot) =>
@@ -44,6 +45,12 @@ class OrdersController extends GetxController{
             .map((doc) => Orders.fromFirestore(doc))
             .toList());
 
+  }
+  
+  Stream<List<Orders>> getUserAllOrdersData(){
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    return firestore.collection('orders').orderBy('date' , descending: true).where('user_Id', isEqualTo: auth.currentUser!.uid).snapshots().
+    map((querySnapshot) => querySnapshot.docs.map((docs) => Orders.fromFirestore(docs)).toList());
   }
 
   Stream<QuerySnapshot<Map<String, dynamic>>> getLastOrderData() {
@@ -100,7 +107,8 @@ class OrdersController extends GetxController{
     isOrderDetailsVisible.value = !isOrderDetailsVisible.value;
   }
   void placeOrder(statusName){
-    if(statusName == 'Rejected' || statusName == "Completed" ){
+    if(statusName == 'Rejected' || statusName == "Completed")
+    {
       isOrderPlaced.value = false;
     }
     else{
@@ -117,12 +125,4 @@ class OrdersController extends GetxController{
       }
     });
   }
-
-
-
-
-
-
-
-
 }

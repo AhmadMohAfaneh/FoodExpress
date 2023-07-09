@@ -108,7 +108,7 @@ Future checkOutSheet(CartModel? cartData, List<Product>? productsData, BuildCont
                           ),
                         ),
                         Text(
-                          priceSt + cartData!.totalPrice.toDouble().toStringAsFixed(2),
+                          priceSt + cartData!.totalPrice.roundToDouble().toStringAsFixed(2),
                           style: const TextStyle(
                             fontSize: 17,
                             color: myBlack,
@@ -175,7 +175,7 @@ Future checkOutSheet(CartModel? cartData, List<Product>? productsData, BuildCont
                           ),
                           Text(
                             //                                                               priceSt
-                            priceSt + (cartData.totalPrice.toDouble() + cartController.calculateTaxes(cartData.totalPrice.toDouble())).toStringAsFixed(2),
+                            priceSt + (cartData.totalPrice.toDouble() + cartController.calculateTaxes(cartData.totalPrice.toDouble())+cartController.deliveryFee.value).roundToDouble().toStringAsFixed(2),
                             style: const TextStyle(
                               fontSize: 20,
                               color: myBlack,

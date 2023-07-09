@@ -176,7 +176,6 @@ class CartScreen extends StatelessWidget {
                                                     return  ListView.builder(
                                                       itemCount: cartData[0].products.length,
                                                       itemBuilder: (context, index) {
-                                                        // Find the correct product in the list of products based on id
                                                         var product = productsData!.firstWhere((p) => p.productId == cartData[0].products[index]['p_id']);
                                                         productDataIdForOrders =  productsData[index];
                                                         totalAmountForOrders =  (cartData[0].totalPrice.toDouble() + cartController.calculateTaxes(cartData[0].totalPrice.toDouble())).toStringAsFixed(2);
@@ -231,7 +230,7 @@ class CartScreen extends StatelessWidget {
                                                 Text(
                                                     priceSt +
                                                         cartData[0]
-                                                            .totalPrice.toStringAsFixed(2)
+                                                            .totalPrice.roundToDouble().toStringAsFixed(2)
                                                             ,
                                                     style: const TextStyle(
                                                         fontSize: 17,
@@ -311,19 +310,18 @@ class CartScreen extends StatelessWidget {
                                         ),
                                         10.widthBox,
                                         Expanded(
-                                          // button for dialog box
                                           child: customElevatedButton(
                                               onPressed: () async{
                                                 checkOutSheet(cartData[0],productDataParam,context,()  {
-
                                                   ordersController.addOrder(
                                                       productDataIdForOrders,
                                                       cartData[0],
                                                       currentUser!.uid,
-                                                     double.tryParse(totalAmountForOrders),
+                                                     double.tryParse((cartData[0].totalPrice.toDouble() + cartController.calculateTaxes(cartData[0].totalPrice.toDouble())+cartController.deliveryFee.value).toStringAsFixed(2)),
                                                     quantityDataForOrders,
                                                   );
-                                                 Get.to(const OrderWaitingScreen());
+                                                  VxToast.show(context, msg: "You have successfully placed and order");
+                                                 Get.back();
                                                 },);
                                               },
                                               color: redColor,

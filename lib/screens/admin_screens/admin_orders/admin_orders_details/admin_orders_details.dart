@@ -230,8 +230,7 @@ class AdminOrdersDetails extends StatelessWidget {
                                            var statusData = snapshot.data!.docs.first.data() as Map<String, dynamic>;
                                            return Column(
                                             children: [
-                                             statusData['status_name']  == 'Pending'?
-                                             Row(
+                                             if (statusData['status_name']  == 'Pending') Row(
                                                 mainAxisAlignment:
                                                 MainAxisAlignment.spaceEvenly,
                                                 children: [
@@ -248,7 +247,7 @@ class AdminOrdersDetails extends StatelessWidget {
                                                           orderController.updateOrderStatus(ordersData.orderStatusId, 'Rejected');
                                                         },
                                                         child: const Text(
-                                                          "Regect",
+                                                          "Reject",
                                                           style: TextStyle(
                                                               color: redColor),
                                                         ),
@@ -276,7 +275,35 @@ class AdminOrdersDetails extends StatelessWidget {
                                                     ),
                                                   ),
                                                 ],
-                                              ): Text(statusData['status_name'],style: const TextStyle(fontSize: 20,color: myBlack),)
+                                           )
+                                             else if(
+                                                statusData['status_name'] == 'Accepted')
+                                               Align(
+                                                 alignment: Alignment
+                                                     .center,
+                                                 child: customElevatedButton(
+                                                   onPressed: () {
+                                                     orderController.updateOrderStatus(ordersData.orderStatusId, 'Rejected');
+                                                   },
+                                                   child: const Text(
+                                                     "Completed",
+                                                     style: TextStyle(
+                                                         color: whiteColor),
+                                                   ),
+                                                   fixedSize: const Size(
+                                                       120, 40),
+                                                   color: redColor,
+                                                 ),
+                                               )
+                                              else if(statusData['status_name'] == 'Rejected')
+                                               const Positioned(
+                                                 top: 300,
+                                                 child: Text("Rejected",
+                                                   style:TextStyle(
+                                                     color: redColor,
+                                                     fontSize: 22
+                                                 ) ,),
+                                               ),
                                             ],
                                       );
                                          }

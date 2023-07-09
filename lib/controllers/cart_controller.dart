@@ -14,8 +14,7 @@ import '../models/prducts_model.dart';
 
 class CartController extends GetxController{
   final FirebaseAuth _auth = FirebaseAuth.instance;
-
-
+  RxInt deliveryFee = 1.obs;
   Stream<List<CartModel>> getCartData() {
     // get the uid of the currently logged in user
     final String userId = _auth.currentUser!.uid;
@@ -83,7 +82,7 @@ class CartController extends GetxController{
 
   double calculateTaxes(cartTotal){
     double salesTax = cartTotal * salesTaxRate;
-     return salesTax;
+     return salesTax ;
   }
 
 

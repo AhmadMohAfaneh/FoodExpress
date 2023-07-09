@@ -21,7 +21,7 @@ class AdminOrders extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(),
         body: StreamBuilder<List<Orders>>(
-          stream: orderController.getAllUserOrdersData(),
+          stream: orderController.getAllrOrdersData(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
