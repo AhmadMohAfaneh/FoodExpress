@@ -116,7 +116,7 @@ class AdminHomePage extends StatelessWidget {
                                         width: constraints.maxWidth-15 ,
                                         child: Padding(
                                           padding: const EdgeInsets.all(15),
-                                          child: Image.asset(icFoodDelivery,fit: BoxFit.contain,),
+                                          child: Image.asset(icFoodIcon,fit: BoxFit.contain,),
                                         )),
                                   ),
                                   onTap: () =>  Get.to(() => const AdminDishes()),

@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-
 import '../../controllers/orders_controller.dart';
 import '../../models/category_model.dart';
 
@@ -177,12 +176,7 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
             ),
-            Obx(()=>
-               ordersController.isOrderPlaced.value ?  Container() : Positioned(
-                bottom: 0,
-                left: 0,
-                right: 0,
-                child: StreamBuilder(
+             StreamBuilder(
                   stream: ordersController.getLastOrderData(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
@@ -195,8 +189,6 @@ class HomeScreen extends StatelessWidget {
                     else if(snapshot.data!.docs.isEmpty){
                       return const Text("");
                     }else {
-
-
                       var lastOrderData = snapshot.data!.docs.first.data();
                       return StreamBuilder<QuerySnapshot>(
                         stream: ordersController.getOrderStatus(lastOrderData['order_status_id']),
@@ -212,95 +204,214 @@ class HomeScreen extends StatelessWidget {
                           }
                            else {
                             var statusData = snapshot.data!.docs.first.data() as Map<String, dynamic>;
-                            return GestureDetector(
-                              onTap: () {
-                                ordersController.toggleOrderDetailsVisible();
-                              },
-                              child: Obx(() =>
-                                  AnimatedContainer(
-                                      duration: const Duration(milliseconds: 500),
-                                      curve: Curves.easeInOut,
-                                      height: ordersController.isOrderDetailsVisible.value ? 200 : 60,
-                                      color: ordersController.isOrderDetailsVisible.value ? Colors.grey[300]!.withOpacity(1) :Colors.grey[300]!.withOpacity(0.7),
-                                      padding: const EdgeInsets.all(16),
-                                      child: ordersController.isOrderDetailsVisible.value?
+                            return statusData['status_name'] != "Order is finished" ?Positioned(
+                              bottom: 0,
+                              left: 0,
+                              right: 0,
+                              child: GestureDetector(
+                                onTap: () {
+                                  ordersController.toggleOrderDetailsVisible();
+                                },
+                                child: Obx(() =>
+                                    AnimatedContainer(
+                                        duration: const Duration(milliseconds: 500),
+                                        curve: Curves.easeInOut,
+                                        height: ordersController.isOrderDetailsVisible.value ? 400 : 60,
+                                        color: ordersController.isOrderDetailsVisible.value ? Colors.grey[300]!.withOpacity(1) :Colors.grey[300]!.withOpacity(0.7),
+                                        padding: const EdgeInsets.all(16),
+                                        child: ordersController.isOrderDetailsVisible.value?
 
-                                      SingleChildScrollView(
-                                        child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            RichText(
-                                              textAlign: TextAlign.center,
-                                              text: const TextSpan(
-                                                style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 12,
-                                                  fontFamily: regular,
+                                        SingleChildScrollView(
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              RichText(
+                                                textAlign: TextAlign.center,
+                                                text: const TextSpan(
+                                                  style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 12,
+                                                    fontFamily: regular,
+                                                  ),
+                                                  children: <TextSpan>[
+                                                    TextSpan(
+                                                      text: thanksStatment,
+                                                      style: TextStyle(
+                                                        color: myBlack,
+                                                        fontFamily: brygadaVariable,
+                                                        fontSize: 22,
+                                                      ),
+                                                    ),
+                                                    TextSpan(
+                                                      text: restaurantNameSt,
+                                                      style: TextStyle(
+                                                        color: myBlack,
+                                                        fontSize: 22,
+                                                        fontFamily: regular,
+                                                        fontWeight: FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
-                                                children: <TextSpan>[
-                                                  TextSpan(
-                                                    text: thanksStatment,
-                                                    style: TextStyle(
-                                                      color: myBlack,
-                                                      fontFamily: brygadaVariable,
-                                                      fontSize: 22,
-                                                    ),
-                                                  ),
-                                                  TextSpan(
-                                                    text: restaurantNameSt,
-                                                    style: TextStyle(
-                                                      color: myBlack,
-                                                      fontSize: 22,
-                                                      fontFamily: regular,
-                                                      fontWeight: FontWeight.bold,
-                                                    ),
-                                                  ),
-                                                ],
                                               ),
-                                            ),
-                                            Visibility(
-                                              visible: ordersController.isOrderDetailsVisible.value,
-                                              child: Column(
-                                                children: [
-                                                  const Text('Waiting for a response'),
-                                                  const Text("Your Orders status is"),
-                                                  Text(
-                                                    statusData['status_name'],
-                                                    style: const TextStyle(color: redColor),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ) :const Align(
-                                        alignment: Alignment.center,
-                                        child: Text('Tap for Order Status',
-                                          style: TextStyle(
-                                            fontSize: 20,
-                                            color: Colors.white,
-                                            shadows: [
-                                              Shadow(
-                                                blurRadius: 10.0,
-                                                color: Colors.black,
-                                                offset: Offset(5.0, 5.0),
+                                              Visibility(
+                                                visible: ordersController.isOrderDetailsVisible.value,
+                                                child: statusData['status_name'] == 'Great news! \n Your order has been completed and is now on its way to you. \n We appreciate your patience and hope you enjoy your meal!' ?
+                                               Column(
+                                                 children: [
+                                                   RichText(
+                                                       textAlign: TextAlign.center,
+                                                       text:TextSpan(
+                                                     children: <TextSpan> [
+                                                       TextSpan(
+                                                         text:  statusData['status_name'].toString().substring(0,11),
+                                                         style:const TextStyle(
+                                                           backgroundColor: redColor,
+                                                             color: myWhite,
+                                                           fontFamily: regular,
+                                                             fontWeight: FontWeight.bold,
+                                                             fontSize: 20
+                                                         ),
+                                                       ),
+                                                       TextSpan(
+                                                         text: statusData['status_name'].toString().substring(11),
+                                                         style: const TextStyle(
+                                                           color: myBlack,
+
+                                                         )
+                                                       )
+
+                                                     ]
+                                                   )),
+                                                   Padding(
+                                                     padding: const EdgeInsets.fromLTRB(60, 30, 60, 60),
+                                                     child: AspectRatio(
+                                                       aspectRatio: 15/14,
+                                                       child: Image.asset(icFoodDelivery,
+                                                         fit: BoxFit.fill,),
+                                                     ),
+                                                   )
+                                                 ],
+                                               )
+                                                    : statusData['status_name'] == 'Accepted' ?
+                                                Column(
+                                                  children: [
+                                                    const Text("Order In Progress",style: TextStyle(
+                                                        fontSize: 20,color: myWhite,backgroundColor: myBlack
+                                                    ),),
+
+                                                    Padding(
+                                                      padding: const EdgeInsets.fromLTRB(60, 30, 60, 60),
+                                                      child: AspectRatio(
+                                                        aspectRatio: 15/14,
+                                                        child: Image.asset(icApproved,
+                                                          fit: BoxFit.fill,),
+                                                      ),
+                                                    )
+                                                    // Text(
+                                                    //   statusData['status_name'],
+                                                    //   style: const TextStyle(color: redColor,fontFamily: regular,fontWeight: FontWeight.bold,fontSize: 20),textAlign: TextAlign.center,
+                                                    //   softWrap: true,
+                                                    // ),
+                                                  ],
+                                                )
+                                                    : statusData['status_name'] == 'Rejected' ?
+                                                Column(
+                                                  children: [
+                                                    const Text("Oops! Your order was rejected",style: TextStyle(
+                                                      fontSize: 18,color: redColor,backgroundColor: myWhite
+                                                    ),),
+
+                                                    Padding(
+                                                      padding: const EdgeInsets.fromLTRB(60, 30, 60, 60),
+                                                      child: AspectRatio(
+                                                        aspectRatio: 15/14,
+                                                        child: Image.asset(icRejected,
+                                                          fit: BoxFit.fill,),
+                                                      ),
+                                                    )
+                                                    // Text(
+                                                    //   statusData['status_name'],
+                                                    //   style: const TextStyle(color: redColor,fontFamily: regular,fontWeight: FontWeight.bold,fontSize: 20),textAlign: TextAlign.center,
+                                                    //   softWrap: true,
+                                                    // ),
+                                                  ],
+                                                )
+
+                                                : statusData['status_name'] == "Pending" ?
+                                                Column(
+                                                  children: [
+                                                    const Text("Awaiting Confirmation",style: TextStyle(
+                                                        fontSize: 18,color: myWhite,backgroundColor: myBlack
+                                                    ),),
+
+                                                    Padding(
+                                                      padding: const EdgeInsets.fromLTRB(60, 30, 60, 60),
+                                                      child: AspectRatio(
+                                                        aspectRatio: 15/14,
+                                                        child: Image.asset(icWaitingClock,
+                                                          fit: BoxFit.fill),
+                                                      ),
+                                                    )
+                                                  ],
+                                                )
+                                                    : statusData['status_name'] == "Rating" ?
+                                                Row(
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  children:  [
+                                                    GestureDetector(
+                                                        onTap:(){
+                                                          ordersController.firstStarRating.value != ordersController.firstStarRating.value;
+                                                        } ,
+                                                        child:  Icon(Icons.star,color: ordersController.firstStarRating.value ?Colors.yellow[900]:Colors.yellow[300],size: 20, )),
+
+                                                  ],
+                                                )
+
+
+                                                :
+                                                Column(
+                                                  children: [
+                                                    const Text("Your Orders status is"),
+                                                    Text(
+                                                      statusData['status_name'],
+                                                      style: const TextStyle(color: myBlack,fontFamily: regular,fontWeight: FontWeight.bold,fontSize: 20),textAlign: TextAlign.center,
+                                                      softWrap: true,
+                                                    ),
+                                                  ],
+                                                )
+
                                               ),
                                             ],
                                           ),
-                                        ),
-                                      )
-                                  ),
+                                        ) :const Align(
+                                          alignment: Alignment.center,
+                                          child: Text('Tap for Order Status',
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                              color: Colors.white,
+                                              shadows: [
+                                                Shadow(
+                                                  blurRadius: 10.0,
+                                                  color: Colors.black,
+                                                  offset: Offset(5.0, 5.0),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        )
+                                    ),
 
+                                ),
                               ),
-                            );
+                            )  :Container();
                           }
                         },
                       );
                     }
                   },
                 ),
-              ),
-            ),
+
           ],
         ),
       ),

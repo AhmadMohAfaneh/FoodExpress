@@ -1,6 +1,9 @@
+import 'dart:html';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce/controllers/cart_controller.dart';
 import 'package:e_commerce/models/cart_model.dart';
+import 'package:e_commerce/models/rating_model.dart';
 import 'package:get/get.dart';
 
 import '../consts/firebase_consts.dart';
@@ -10,7 +13,11 @@ import '../models/prducts_model.dart';
 class OrdersController extends GetxController{
   RxBool isOrderDetailsVisible = false.obs;
   RxBool orderStatus = true.obs;
-  RxBool isOrderPlaced = false.obs;
+  RxBool firstStarRating = false.obs;
+  RxBool secondStarRating = false.obs;
+  RxBool thirdStarRating = false.obs;
+  RxBool fourthStarRating = false.obs;
+  RxBool fifthStarRating = false.obs;
 
  late RxString displayedStatus ;
   addOrder(Product product, CartModel? cartData , userId,totalPrice, qunatity)async{
@@ -106,23 +113,43 @@ class OrdersController extends GetxController{
     print(isOrderDetailsVisible.value);
     isOrderDetailsVisible.value = !isOrderDetailsVisible.value;
   }
-  void placeOrder(statusName){
-    if(statusName == 'Rejected' || statusName == "Completed")
-    {
-      isOrderPlaced.value = false;
-    }
-    else{
-      isOrderPlaced.value = true;
-    }
 
-  }
   void listenOrderStatus(statusId) {
     getOrderStatus(statusId).listen((QuerySnapshot snapshot) {
       if (snapshot.docs.isNotEmpty) {
         var statusData = snapshot.docs.first.data() as Map<String, dynamic>;
         var statusName = statusData['status_name'];
-        placeOrder(statusName);
       }
     });
   }
+
+  Future<List<Rating>> getProductRating(String productId) async {
+    var db = FirebaseFirestore.instance;
+    try {
+      var querySnapshot = await db.collection('rating').where('product_id', isEqualTo: productId).get();
+      return querySnapshot.docs.map((doc) => Rating.fromFirestore(doc)).toList();
+    } catch (e) {
+      print(e.toString());
+      return [];
+    }
+  }
+
+  Future<void> ratingProduct(String productId, int ratingValue) async {
+    var db = FirebaseFirestore.instance;
+    var docRef = db.collection('rating').doc();
+
+    try {
+      await docRef.set({
+        'rating_id' : docRef.id,
+        'user_id' : auth.currentUser!.uid,
+        'product_id' : productId,
+        'rating_value' : ratingValue,
+      });
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+
+
 }

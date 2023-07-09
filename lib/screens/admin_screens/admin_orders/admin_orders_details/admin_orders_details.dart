@@ -283,7 +283,7 @@ class AdminOrdersDetails extends StatelessWidget {
                                                      .center,
                                                  child: customElevatedButton(
                                                    onPressed: () {
-                                                     orderController.updateOrderStatus(ordersData.orderStatusId, 'Rejected');
+                                                     orderController.updateOrderStatus(ordersData.orderStatusId, 'Great news! \n Your order has been completed and is now on its way to you. \n We appreciate your patience and hope you enjoy your meal!');
                                                    },
                                                    child: const Text(
                                                      "Completed",
@@ -295,18 +295,35 @@ class AdminOrdersDetails extends StatelessWidget {
                                                    color: redColor,
                                                  ),
                                                )
-                                              else if(statusData['status_name'] == 'Rejected')
-                                               const Positioned(
-                                                 top: 300,
-                                                 child: Text("Rejected",
-                                                   style:TextStyle(
+                                               else if((statusData['status_name'] == 'Great news! \n Your order has been completed and is now on its way to you. \n We appreciate your patience and hope you enjoy your meal!'))
+                                                 Align(
+                                                   alignment: Alignment
+                                                       .center,
+                                                   child: customElevatedButton(
+                                                     onPressed: () {
+                                                       orderController.updateOrderStatus(ordersData.orderStatusId, 'Rating');
+                                                     },
+                                                     child: const Text(
+                                                       "Finish Order",
+                                                       style: TextStyle(
+                                                           color: whiteColor),
+                                                     ),
+                                                     fixedSize: const Size(
+                                                         120, 40),
                                                      color: redColor,
-                                                     fontSize: 22
-                                                 ) ,),
+                                                   ),
+                                                 )
+
+                                              else if(statusData['status_name'] == 'Rejected')
+                                               const Text("Rejected",
+                                                 style:TextStyle(
+                                                   color: redColor,
+                                                   fontSize: 22
                                                ),
-                                            ],
-                                      );
-                                         }
+                                               ),
+                                                ],
+                                            );
+                                           }
                                          }
                                        ),
                                   ],
