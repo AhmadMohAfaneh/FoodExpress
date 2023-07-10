@@ -1,4 +1,4 @@
-import 'dart:html';
+
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce/controllers/cart_controller.dart';
@@ -18,6 +18,7 @@ class OrdersController extends GetxController{
   RxBool thirdStarRating = false.obs;
   RxBool fourthStarRating = false.obs;
   RxBool fifthStarRating = false.obs;
+  RxBool ratingBoolean = true.obs;
 
  late RxString displayedStatus ;
   addOrder(Product product, CartModel? cartData , userId,totalPrice, qunatity)async{

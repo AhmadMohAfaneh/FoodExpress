@@ -4,6 +4,7 @@ import 'package:e_commerce/consts/strings.dart';
 import 'package:e_commerce/controllers/category_controller.dart';
 import 'package:e_commerce/controllers/home_controller.dart';
 import 'package:e_commerce/customs/home_menu.dart';
+import 'package:e_commerce/models/prducts_model.dart';
 import 'package:e_commerce/screens/home_screen/menu/menu.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -204,6 +205,9 @@ class HomeScreen extends StatelessWidget {
                           }
                            else {
                             var statusData = snapshot.data!.docs.first.data() as Map<String, dynamic>;
+                           // here why the code is giveng this error visitChildElements() called during build. what i want is when the order is finished and the boolean is true to autamtically without tapping on anything it opens this dialog to rate the products
+                            // //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
                             return statusData['status_name'] != "Order is finished" ?Positioned(
                               bottom: 0,
                               left: 0,
@@ -290,7 +294,7 @@ class HomeScreen extends StatelessWidget {
                                                        child: Image.asset(icFoodDelivery,
                                                          fit: BoxFit.fill,),
                                                      ),
-                                                   )
+                                                   ),
                                                  ],
                                                )
                                                     : statusData['status_name'] == 'Accepted' ?
@@ -355,22 +359,40 @@ class HomeScreen extends StatelessWidget {
                                                     )
                                                   ],
                                                 )
-                                                    : statusData['status_name'] == "Rating" ?
-                                                Row(
-                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                  children:  [
-                                                    GestureDetector(
-                                                        onTap:(){
-                                                          ordersController.firstStarRating.value != ordersController.firstStarRating.value;
-                                                        } ,
-                                                        child:  Icon(Icons.star,color: ordersController.firstStarRating.value ?Colors.yellow[900]:Colors.yellow[300],size: 20, )),
 
-                                                  ],
+                                                : statusData['status_name'] == 'Arrived' ?
+                                                StreamBuilder<List<Product>>(
+                                                  stream: ordersController.getProductDataFromOrderData(
+                                                    lastOrderData['product_ids'].map((product) => product['p_id'].toString()).toList(),
+                                                  ),
+                                                  builder: (context, snapshot) {
+                                                    if (snapshot.connectionState == ConnectionState.waiting) {
+                                                      return const Center(
+                                                        child: CircularProgressIndicator(),
+                                                      );
+                                                    } else if (snapshot.hasError || snapshot.data!.isEmpty) {
+                                                      return Center(
+                                                        child: Text(errorSt + snapshot.error.toString()),
+                                                      );
+                                                    } else {
+                                                      var productsData = snapshot.data;
+                                                      print(productsData);
+                                                      return Column(
+                                                        children: const [
+                                                          Text('Great news',style: TextStyle(
+                                                            fontWeight: FontWeight.bold,
+                                                            fontFamily: regular,
+                                                            color: myWhite,
+                                                            backgroundColor: redColor
+                                                          ),),
+                                                          Text('Your Order had arrived'),
+                                                        ],
+                                                      );
+                                                    }
+                                                  },
                                                 )
 
-
-                                                :
-                                                Column(
+                                                    :Column(
                                                   children: [
                                                     const Text("Your Orders status is"),
                                                     Text(
@@ -404,7 +426,11 @@ class HomeScreen extends StatelessWidget {
 
                                 ),
                               ),
-                            )  :Container();
+                            )  : Column(
+                              children: [
+                                Container(),
+                              ],
+                            );
                           }
                         },
                       );

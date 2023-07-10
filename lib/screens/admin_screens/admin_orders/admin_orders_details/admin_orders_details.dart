@@ -301,7 +301,8 @@ class AdminOrdersDetails extends StatelessWidget {
                                                        .center,
                                                    child: customElevatedButton(
                                                      onPressed: () {
-                                                       orderController.updateOrderStatus(ordersData.orderStatusId, 'Rating');
+                                                       // orderController.ratingBoolean.value == true;
+                                                       orderController.updateOrderStatus(ordersData.orderStatusId, 'Arrived');
                                                      },
                                                      child: const Text(
                                                        "Finish Order",
