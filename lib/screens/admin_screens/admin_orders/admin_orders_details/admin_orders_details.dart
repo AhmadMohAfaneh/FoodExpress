@@ -305,7 +305,7 @@ class AdminOrdersDetails extends StatelessWidget {
                                                        orderController.updateOrderStatus(ordersData.orderStatusId, 'Arrived');
                                                      },
                                                      child: const Text(
-                                                       "Finish Order",
+                                                       "Arrived?",
                                                        style: TextStyle(
                                                            color: whiteColor),
                                                      ),
@@ -314,6 +314,30 @@ class AdminOrdersDetails extends StatelessWidget {
                                                      color: redColor,
                                                    ),
                                                  )
+                                               else if((statusData['status_name'] == 'Arrived'))
+                                                   Align(
+                                                     alignment: Alignment
+                                                         .center,
+                                                     child: customElevatedButton(
+                                                       onPressed: () {
+                                                         // orderController.ratingBoolean.value == true;
+                                                         const Text("Rejected",
+                                                           style:TextStyle(
+                                                               color: redColor,
+                                                               fontSize: 22
+                                                           ),
+                                                         );
+                                                       },
+                                                       child: const Text(
+                                                         "Finish Order",
+                                                         style: TextStyle(
+                                                             color: whiteColor),
+                                                       ),
+                                                       fixedSize: const Size(
+                                                           120, 40),
+                                                       color: redColor,
+                                                     ),
+                                                   )
 
                                               else if(statusData['status_name'] == 'Rejected')
                                                const Text("Rejected",

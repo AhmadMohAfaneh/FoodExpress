@@ -9,16 +9,21 @@ import 'package:get/get.dart';
 import '../consts/firebase_consts.dart';
 import '../models/orders_model.dart';
 import '../models/prducts_model.dart';
+import '../models/products_rate.dart';
 
 class OrdersController extends GetxController{
   RxBool isOrderDetailsVisible = false.obs;
   RxBool orderStatus = true.obs;
-  RxBool firstStarRating = false.obs;
-  RxBool secondStarRating = false.obs;
-  RxBool thirdStarRating = false.obs;
-  RxBool fourthStarRating = false.obs;
-  RxBool fifthStarRating = false.obs;
-  RxBool ratingBoolean = true.obs;
+  Map<String, ProductRating> productRatings = {};
+  Map<String, double> productAverageRatings = {};
+
+  ProductRating getRating(String productId) {
+    if (!productRatings.containsKey(productId)) {
+      productRatings[productId] = ProductRating();
+    }
+    return productRatings[productId]!;
+  }
+
 
  late RxString displayedStatus ;
   addOrder(Product product, CartModel? cartData , userId,totalPrice, qunatity)async{
@@ -150,7 +155,47 @@ class OrdersController extends GetxController{
       print(e.toString());
     }
   }
+  Future<List<Product>> getTopRatedProducts() async {
+    var db = FirebaseFirestore.instance;
+
+    var productQuerySnapshot = await db.collection('products').get();
+    var productList = productQuerySnapshot.docs.map((doc) => Product.fromFirestore(doc)).toList();
+
+    for (Product product in productList) {
+      var averageRating = await getAverageRating(product.productId);
+      productAverageRatings[product.productId] = averageRating;
+    }
+
+    productList.sort((a, b) => productAverageRatings[b.productId]!.compareTo(productAverageRatings[a.productId]!));
+
+    var topRatedProducts = productList.take(10).toList();
+
+    return topRatedProducts;
+  }
 
 
+  Future<double> getAverageRating(String productId) async {
+    var db = FirebaseFirestore.instance;
+    try {
+      var querySnapshot = await db.collection('rating').where('product_id', isEqualTo: productId).get();
+      List<Rating> ratings = querySnapshot.docs.map((doc) => Rating.fromFirestore(doc)).toList();
+      if (ratings.isEmpty) {
+        return 0.0;
+      }
+      var sum = ratings.fold(0.0, (prev, curr) => prev + curr.ratingValue);
+      return sum / ratings.length; // Average
+    } catch (e) {
+      print(e.toString());
+      return 0.0;
+    }
+  }
 
+
+}
+class ProductAverageRating {
+  double averageRating;
+
+  ProductAverageRating({
+    this.averageRating = 0.0
+  });
 }

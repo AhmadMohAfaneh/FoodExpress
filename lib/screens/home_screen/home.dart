@@ -3,9 +3,11 @@ import 'package:e_commerce/consts/consts.dart';
 import 'package:e_commerce/consts/strings.dart';
 import 'package:e_commerce/controllers/category_controller.dart';
 import 'package:e_commerce/controllers/home_controller.dart';
+import 'package:e_commerce/customs/custom_elvated_button.dart';
 import 'package:e_commerce/customs/home_menu.dart';
 import 'package:e_commerce/models/prducts_model.dart';
 import 'package:e_commerce/screens/home_screen/menu/menu.dart';
+import 'package:e_commerce/screens/home_screen/menu/products.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -151,28 +153,45 @@ class HomeScreen extends StatelessWidget {
                   const SizedBox(height: 5),
                   SizedBox(
                     height: 115,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: topRatingList.length,
-                      itemBuilder: (BuildContext ctx, index) {
-                        return Padding(
-                          padding:  EdgeInsets.fromLTRB(10, 10, 10, 5),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(20),
-                            child: Container(
-                              height: 60,
-                              width: 110,
-                              color: Colors.transparent,
-                              child: Image.asset(
-                                topRatingList[index],
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                        );
+                    child: FutureBuilder<List<Product>>(
+                      future: ordersController.getTopRatedProducts(),
+                      builder: (BuildContext context, AsyncSnapshot<List<Product>> snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return const Center(child: CircularProgressIndicator());
+                        } else if (snapshot.hasError) {
+                          return Text('Error: ${snapshot.error}');
+                        } else {
+                          return ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: snapshot.data!.length,
+                            itemBuilder: (BuildContext ctx, index) {
+                              return Padding(
+                                padding: EdgeInsets.fromLTRB(10, 10, 10, 5),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(20),
+                                  child: Container(
+                                    height: 60,
+                                    width: 110,
+                                    color: Colors.transparent,
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Get.to( Products(productsDada: snapshot.data![index]));
+                                      },
+                                      child: Image.network(
+                                        snapshot.data![index].urlImage,
+                                        fit: BoxFit.contain,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        }
                       },
                     ),
                   ),
+
                   const SizedBox(height: 10),
                 ],
               ),
@@ -205,7 +224,7 @@ class HomeScreen extends StatelessWidget {
                           }
                            else {
                             var statusData = snapshot.data!.docs.first.data() as Map<String, dynamic>;
-                           // here why the code is giveng this error visitChildElements() called during build. what i want is when the order is finished and the boolean is true to autamtically without tapping on anything it opens this dialog to rate the products
+
                             // //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
                             return statusData['status_name'] != "Order is finished" ?Positioned(
@@ -376,16 +395,123 @@ class HomeScreen extends StatelessWidget {
                                                       );
                                                     } else {
                                                       var productsData = snapshot.data;
-                                                      print(productsData);
                                                       return Column(
-                                                        children: const [
-                                                          Text('Great news',style: TextStyle(
+                                                        children:   [
+                                                          const Text('Great news',style: TextStyle(
                                                             fontWeight: FontWeight.bold,
                                                             fontFamily: regular,
                                                             color: myWhite,
-                                                            backgroundColor: redColor
+                                                            backgroundColor: redColor,
+                                                            fontSize: 22
                                                           ),),
-                                                          Text('Your Order had arrived'),
+                                                          const Text('Your Order has arrived',style: TextStyle(
+                                                            fontSize: 18
+                                                          ),),
+                                                          const Text("Dont forget to Rate your order",style: TextStyle(
+                                                            fontSize: 18
+                                                          ),),
+                                                          // customElevatedButton(onPressed: (){
+                                                          // },
+                                                          //
+                                                          //     child: const Text("Rate your Order?"),
+                                                          //     fixedSize: const Size(150, 50), color: redColor),
+                                                          SizedBox(
+
+                                                            height: 250,
+
+                                                            child: ListView.builder(
+                                                                scrollDirection: Axis.vertical,
+                                                                shrinkWrap: true,
+                                                                itemCount: productsData!.length,
+                                                                itemBuilder: (context,index){
+                                                                  var product = productsData[index];
+                                                                  var rating = ordersController.getRating(productsData[index].productId);
+                                                                  return Column(
+                                                                    children:  [
+                                                                       Row(
+                                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                        children: [
+                                                                          // padding for screen and border
+                                                                          Expanded(
+                                                                            child: Padding(
+                                                                              padding: const EdgeInsets.only(left: 12),
+                                                                              child: Column(
+                                                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                children: [
+                                                                                   Text(productsData[index].name,style: const TextStyle(fontFamily: regular,fontSize: 17,fontWeight: FontWeight.bold),),
+                                                                                  5.heightBox,
+                                                                                  // here add the rate code
+                                                                                  Obx(()=>
+                                                                                     Row(
+                                                                                      children: [
+                                                                                           GestureDetector(
+                                                                                              onTap : () async {
+                                                                                                rating.firstStarRating.value = !rating.firstStarRating.value;
+                                                                                                if(rating.firstStarRating.value){
+                                                                                                  await ordersController.ratingProduct(productsData[index].productId, 1);
+                                                                                                }
+                                                                                              },
+                                                                                              child: Icon(Icons.star,color: rating.firstStarRating.value ? Colors.yellow[900] : Colors.yellow[400],)),
+                                                                                        GestureDetector(
+                                                                                            onTap : () async {
+                                                                                              rating.secondStarRating.value = ! rating.secondStarRating.value;
+                                                                                              if(rating.secondStarRating.value){
+                                                                                                await ordersController.ratingProduct(productsData[index].productId, 2);
+                                                                                              }
+                                                                                            },
+                                                                                            child: Icon(Icons.star,color: rating.secondStarRating.value ? Colors.yellow[900] : Colors.yellow[400],)),
+                                                                                        GestureDetector(
+                                                                                            onTap : () async {
+                                                                                              rating.thirdStarRating.value = ! rating.thirdStarRating.value;
+                                                                                              if(rating.thirdStarRating.value){
+                                                                                                await ordersController.ratingProduct(productsData[index].productId, 3);
+                                                                                              }
+                                                                                            },
+                                                                                            child: Icon(Icons.star,color: rating.thirdStarRating.value ? Colors.yellow[900] : Colors.yellow[400],)),
+                                                                                        GestureDetector(
+                                                                                            onTap : () async {
+                                                                                              rating.fourthStarRating.value = !rating.fourthStarRating.value;
+                                                                                              if(rating.fourthStarRating.value){
+                                                                                                await ordersController.ratingProduct(productsData[index].productId, 4);
+                                                                                              }
+                                                                                            },
+                                                                                            child: Icon(Icons.star,color: rating.fourthStarRating.value ? Colors.yellow[900] : Colors.yellow[400],)),
+                                                                                        GestureDetector(
+                                                                                            onTap : () async {
+                                                                                              rating.fifthStarRating.value = !rating.fifthStarRating.value;
+                                                                                              if(rating.fifthStarRating.value){
+                                                                                                await ordersController.ratingProduct(productsData[index].productId, 5);
+                                                                                              }
+                                                                                            },
+                                                                                            child: Icon(Icons.star,color: rating.fifthStarRating.value ? Colors.yellow[900] : Colors.yellow[400],)),
+
+                                                                                      ],
+                                                                                    ),
+                                                                                  )
+
+                                                                                ],
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                          SizedBox(
+                                                                              height: 90,
+                                                                              width:  90,
+                                                                              child: Image.network(productsData[index].urlImage),
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                    ],
+                                                                  );
+                                                                }),
+                                                          ),
+                                                          customElevatedButton(onPressed: (){
+                                                            ordersController.updateOrderStatus(lastOrderData['order_status_id'], "Order is finished");
+                                                          },
+                                                              child: const Text('Finished?'),
+                                                              fixedSize: const Size(100, 60),
+                                                              color: redColor)
+
+
                                                         ],
                                                       );
                                                     }
