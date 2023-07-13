@@ -244,7 +244,8 @@ class AdminOrdersDetails extends StatelessWidget {
                                                           .centerRight,
                                                       child: customElevatedButton(
                                                         onPressed: () {
-                                                          orderController.updateOrderStatus(ordersData.orderStatusId, 'Rejected');
+
+                                                          orderController.updateOrderStatus(ordersData.orderStatusId, 'Rejected', userData['token'] , "Your Order IS Rejected" , "FoodExpress" );
                                                         },
                                                         child: const Text(
                                                           "Reject",
@@ -265,7 +266,7 @@ class AdminOrdersDetails extends StatelessWidget {
                                                           .centerRight,
                                                       child: customElevatedButton(
                                                         onPressed: () {
-                                                           orderController.updateOrderStatus(ordersData.orderStatusId , 'Accepted');
+                                                           orderController.updateOrderStatus(ordersData.orderStatusId , 'Accepted',userData['token'],'Your Order has Approved', 'FoodExpress');
                                                         },
                                                         child: const Text("Accept "),
                                                         fixedSize: const Size(
@@ -283,7 +284,7 @@ class AdminOrdersDetails extends StatelessWidget {
                                                      .center,
                                                  child: customElevatedButton(
                                                    onPressed: () {
-                                                     orderController.updateOrderStatus(ordersData.orderStatusId, 'Great news! \n Your order has been completed and is now on its way to you. \n We appreciate your patience and hope you enjoy your meal!');
+                                                     orderController.updateOrderStatus(ordersData.orderStatusId, 'Great news! \n Your order has been completed and is now on its way to you. \n We appreciate your patience and hope you enjoy your meal!',userData['token'] , "Your Order IS On The Way!" , "FoodExpress");
                                                    },
                                                    child: const Text(
                                                      "Completed",
@@ -301,8 +302,8 @@ class AdminOrdersDetails extends StatelessWidget {
                                                        .center,
                                                    child: customElevatedButton(
                                                      onPressed: () {
-                                                       // orderController.ratingBoolean.value == true;
-                                                       orderController.updateOrderStatus(ordersData.orderStatusId, 'Arrived');
+
+                                                       orderController.updateOrderStatus(ordersData.orderStatusId, 'Arrived', userData['token'] , "Good News\n Your order has arrived" , "FoodExpress");
                                                      },
                                                      child: const Text(
                                                        "Arrived?",
@@ -315,34 +316,21 @@ class AdminOrdersDetails extends StatelessWidget {
                                                    ),
                                                  )
                                                else if((statusData['status_name'] == 'Arrived'))
-                                                   Align(
+                                                   const Align(
                                                      alignment: Alignment
                                                          .center,
-                                                     child: customElevatedButton(
-                                                       onPressed: () {
-                                                         // orderController.ratingBoolean.value == true;
-                                                         const Text("Rejected",
-                                                           style:TextStyle(
-                                                               color: redColor,
-                                                               fontSize: 22
-                                                           ),
-                                                         );
-                                                       },
-                                                       child: const Text(
-                                                         "Finish Order",
-                                                         style: TextStyle(
-                                                             color: whiteColor),
-                                                       ),
-                                                       fixedSize: const Size(
-                                                           120, 40),
-                                                       color: redColor,
-                                                     ),
+                                                     child:
+                                                       Text("Order is Finished",style: TextStyle(
+                                                         fontSize: 22,
+                                                         color: Colors.white,backgroundColor: redColor
+                                                       ),)
                                                    )
 
                                               else if(statusData['status_name'] == 'Rejected')
                                                const Text("Rejected",
                                                  style:TextStyle(
-                                                   color: redColor,
+                                                   color: myWhite,
+                                                   backgroundColor: redColor,
                                                    fontSize: 22
                                                ),
                                                ),

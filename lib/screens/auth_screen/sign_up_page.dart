@@ -1,4 +1,5 @@
 import 'package:e_commerce/consts/consts.dart';
+import 'package:e_commerce/controllers/notefication_controller.dart';
 import 'package:e_commerce/customs/custom_text_button.dart';
 import 'package:e_commerce/screens/auth_screen/log_in_screen.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,7 @@ class SignUpPage extends StatelessWidget {
 
   final AuthController authController = Get.put(AuthController());
   final SignupController signupController =Get.put(SignupController());
+  final NotificationController notificationController = Get.put(NotificationController());
 
   @override
   Widget build(BuildContext context) {

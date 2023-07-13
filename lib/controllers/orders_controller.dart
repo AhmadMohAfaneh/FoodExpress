@@ -2,6 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce/controllers/cart_controller.dart';
+import 'package:e_commerce/controllers/notefication_controller.dart';
 import 'package:e_commerce/models/cart_model.dart';
 import 'package:e_commerce/models/rating_model.dart';
 import 'package:get/get.dart';
@@ -12,6 +13,7 @@ import '../models/prducts_model.dart';
 import '../models/products_rate.dart';
 
 class OrdersController extends GetxController{
+  NotificationController notificationController = NotificationController();
   RxBool isOrderDetailsVisible = false.obs;
   RxBool orderStatus = true.obs;
   Map<String, ProductRating> productRatings = {};
@@ -101,12 +103,12 @@ class OrdersController extends GetxController{
     print(statusId);
      return  db.collection('status').where('status_id ', isEqualTo: statusId).snapshots();
   }
-  updateOrderStatus(statusId, statusName){
+  updateOrderStatus(statusId, statusName ,token,body,title){
     var db = FirebaseFirestore.instance;
     return db.collection('status').doc(statusId).
     update({
       'status_name' : statusName
-    }).then((value) => orderStatus.value = true);
+    }).then((value) => orderStatus.value = true).then((value) => notificationController.sendPushMessage(token, body, title) );
 
   }
 
@@ -142,7 +144,7 @@ class OrdersController extends GetxController{
 
   Future<void> ratingProduct(String productId, int ratingValue) async {
     var db = FirebaseFirestore.instance;
-    var docRef = db.collection('rating').doc();
+    var docRef = db.collection('products').doc();
 
     try {
       await docRef.set({
@@ -162,7 +164,7 @@ class OrdersController extends GetxController{
     var productList = productQuerySnapshot.docs.map((doc) => Product.fromFirestore(doc)).toList();
 
     for (Product product in productList) {
-      var averageRating = await getAverageRating(product.productId);
+      var averageRating =double.tryParse(product.rating.toString())??0.0;
       productAverageRatings[product.productId] = averageRating;
     }
 
