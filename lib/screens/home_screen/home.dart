@@ -534,9 +534,8 @@ class HomeScreen extends StatelessWidget {
                                                                   //     child: const Text("Rate your Order?"),
                                                                   //     fixedSize: const Size(150, 50), color: redColor),
                                                                   SizedBox(
-
+                                                                    width: MediaQuery.of(context).size.width,
                                                                     height: 250,
-
                                                                     child: ListView
                                                                         .builder(
                                                                         scrollDirection: Axis
@@ -548,96 +547,53 @@ class HomeScreen extends StatelessWidget {
                                                                             context,
                                                                             index) {
                                                                           var product = productsData[index];
-                                                                          var rating = ordersController
-                                                                              .getRating(
-                                                                              productsData[index]
-                                                                                  .productId);
+                                                                          // var rating = ordersController
+                                                                          //     .getRating(
+                                                                          //     productsData[index]
+                                                                          //         .productId);
                                                                           return Column(
                                                                             children: [
                                                                               Row(
                                                                                 mainAxisAlignment: MainAxisAlignment
                                                                                     .spaceBetween,
                                                                                 children: [
-                                                                                  // padding for screen and border
                                                                                   Expanded(
-                                                                                    child: Padding(
-                                                                                      padding: const EdgeInsets
-                                                                                          .only(
-                                                                                          left: 12),
-                                                                                      child: Column(
-                                                                                        crossAxisAlignment: CrossAxisAlignment
-                                                                                            .start,
-                                                                                        children: [
-                                                                                          Text(
-                                                                                            productsData[index]
-                                                                                                .name,
-                                                                                            style: const TextStyle(
-                                                                                                fontFamily: regular,
-                                                                                                fontSize: 17,
-                                                                                                fontWeight: FontWeight
-                                                                                                    .bold),),
-                                                                                          5.heightBox,
-                                                                                          // here add the rate code
-                                                                                          Obx(() =>
-                                                                                              Row(
-                                                                                                children: [
-                                                                                                  GestureDetector(
-                                                                                                      onTap: () async {
-                                                                                                        rating.firstStarRating.value = !rating.firstStarRating.value;
-                                                                                                        if (rating.firstStarRating.value) {await ordersController.ratingProduct(productsData[index].productId, 1);
-                                                                                                        }
-                                                                                                      },
-                                                                                                      child: Icon(
-                                                                                                        Icons.star,
-                                                                                                        color: rating.firstStarRating.value ? Colors.yellow[900] : Colors.yellow[400],)),
-                                                                                                  GestureDetector(
-                                                                                                      onTap: () async {
-                                                                                                        rating.secondStarRating.value = !rating.secondStarRating.value;
-                                                                                                        if (rating.secondStarRating.value) {
-                                                                                                          await ordersController.ratingProduct(productsData[index].productId, 2);
-                                                                                                        }
-                                                                                                      },
-                                                                                                      child: Icon(
-                                                                                                        Icons.star, color: rating.secondStarRating.value ? Colors.yellow[900] : Colors.yellow[400],)),
-                                                                                                  GestureDetector(
-                                                                                                      onTap: () async {
-                                                                                                        rating.thirdStarRating.value = !rating.thirdStarRating.value;
-                                                                                                        if (rating.thirdStarRating.value) {
-                                                                                                          await ordersController.ratingProduct(productsData[index].productId, 3);
-                                                                                                        }
-                                                                                                      },
-                                                                                                      child: Icon(
-                                                                                                        Icons
-                                                                                                            .star,
-                                                                                                        color: rating.thirdStarRating.value ? Colors.yellow[900] : Colors.yellow[400],)),
-                                                                                                  GestureDetector(
-                                                                                                      onTap: () async {
-                                                                                                        rating.fourthStarRating.value = !rating.fourthStarRating.value;
-                                                                                                        if (rating.fourthStarRating.value) {
-                                                                                                          await ordersController.ratingProduct(productsData[index].productId, 4);
-                                                                                                        }
-                                                                                                      },
-                                                                                                      child: Icon(
-                                                                                                        Icons.star, color: rating.fourthStarRating.value ? Colors.yellow[900] : Colors.yellow[400],)),
-                                                                                                  GestureDetector(
-                                                                                                      onTap: () async {
-                                                                                                        rating
-                                                                                                            .fifthStarRating.value = !rating.fifthStarRating.value;
-                                                                                                        if (rating.fifthStarRating.value) {
-                                                                                                          await ordersController
-                                                                                                              .ratingProduct(productsData[index].productId, 5);
-                                                                                                        }
-                                                                                                      },
-                                                                                                      child: Icon(
-                                                                                                        Icons.star,
-                                                                                                        color: rating.fifthStarRating.value ? Colors.yellow[900] : Colors.yellow[400],)),
-
-                                                                                                ],
+                                                                                    child: Column(
+                                                                                      crossAxisAlignment: CrossAxisAlignment
+                                                                                          .start,
+                                                                                      children: [
+                                                                                        Text(
+                                                                                          productsData[index]
+                                                                                              .name,
+                                                                                          style: const TextStyle(
+                                                                                              fontFamily: regular,
+                                                                                              fontSize: 17,
+                                                                                              fontWeight: FontWeight
+                                                                                                  .bold),),
+                                                                                        5.heightBox,
+                                                                                        Row(
+                                                                                          children: List<Widget>.generate(5, (starIndex) {
+                                                                                            return Obx(
+                                                                                                  () => GestureDetector(
+                                                                                                onTap: () async {
+                                                                                                  await ordersController.ratingProduct(
+                                                                                                    productId: productsData[index].productId,
+                                                                                                    ratingValue: starIndex + 1,
+                                                                                                  );
+                                                                                                },
+                                                                                                child: Icon(
+                                                                                                  Icons.star,
+                                                                                                  color: ordersController.productRatings[productsData[index].productId] != null &&
+                                                                                                      ordersController.productRatings[productsData[index].productId]! >= (starIndex + 1)
+                                                                                                      ? Colors.yellow[900]
+                                                                                                      : Colors.grey,
+                                                                                                ),
                                                                                               ),
-                                                                                          )
+                                                                                            );
+                                                                                          }),
+                                                                                        ),
 
-                                                                                        ],
-                                                                                      ),
+                                                                                      ],
                                                                                     ),
                                                                                   ),
                                                                                   SizedBox(
@@ -656,7 +612,7 @@ class HomeScreen extends StatelessWidget {
                                                                   ),
                                                                   customElevatedButton(
                                                                       onPressed: () {
-                                                                        ordersController.updateOrderStatus(lastOrderData['order_status_id'],"Order is finished",userData!['token'] ,"Thank you For Ordering From FoodExpress", "FoodExpress");
+                                                                        ordersController.updateOrderStatus(lastOrderData['order_status_id'], "Order is finished", userData!['token'], "Thank you For Ordering From FoodExpress", "FoodExpress");
                                                                       },
                                                                       child: const Text(
                                                                           'Finished?'),

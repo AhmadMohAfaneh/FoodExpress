@@ -11,6 +11,7 @@ class Product {
   final String categoryId;
   final String productId;
   final int rating;
+  final int numberOfRating;
   final num productDiscountRate;
 
   // p_discount_rate
@@ -24,7 +25,9 @@ class Product {
       required this.offer,
       required this.categoryId,
       required this.productId,
-      required this.productDiscountRate});
+      required this.productDiscountRate,
+      required this.numberOfRating,
+      });
 
   /////////////////////////////////////////////////////////////////
   factory Product.fromFirestore(DocumentSnapshot doc) {
@@ -39,6 +42,7 @@ class Product {
       urlImage: data['p_urlimage'] ?? '',
       offer: data['p_offer'] ?? '',
       productDiscountRate: data['p_discount_rate'] ?? 0,
+      numberOfRating: doc['number_of_rating'] ?? 0,
       // all is done
     );
   }

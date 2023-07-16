@@ -108,7 +108,9 @@ class SearchScreen extends StatelessWidget {
                                             productDiscountRate:
                                                 productsAsSearched.docs[index]
                                                     .data()['p_discount_rate'],
-                                            rating: productsAsSearched.docs[index].data()['rating']),
+                                            rating: productsAsSearched.docs[index].data()['rating'],
+                                            numberOfRating: productsAsSearched.docs[index]
+                                                .data()['number_of_rating'],),
                                       )),
                                       child: Container(
                                         decoration: BoxDecoration(

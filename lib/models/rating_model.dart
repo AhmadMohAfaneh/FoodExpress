@@ -18,7 +18,7 @@ class Rating {
   factory Rating.fromFirestore(DocumentSnapshot doc) {
     Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
     return Rating(
-      ratingId: doc.id, // Use document ID as rating ID
+      ratingId: doc.id,
       userId: data['user_id'],
       productId: data['product_id'],
       ratingValue: data['rating_value'],

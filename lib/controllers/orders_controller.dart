@@ -14,17 +14,17 @@ import '../models/products_rate.dart';
 
 class OrdersController extends GetxController{
   NotificationController notificationController = NotificationController();
+  RxMap<String, int> productRatings = <String, int>{}.obs;
   RxBool isOrderDetailsVisible = false.obs;
   RxBool orderStatus = true.obs;
-  Map<String, ProductRating> productRatings = {};
   Map<String, double> productAverageRatings = {};
 
-  ProductRating getRating(String productId) {
-    if (!productRatings.containsKey(productId)) {
-      productRatings[productId] = ProductRating();
-    }
-    return productRatings[productId]!;
-  }
+  // ProductRating getRating(String productId) {
+  //   if (!productRatings.containsKey(productId)) {
+  //     productRatings[productId] = ProductRating();
+  //   }
+  //   return productRatings[productId]!;
+  // }
 
 
  late RxString displayedStatus ;
@@ -141,18 +141,19 @@ class OrdersController extends GetxController{
       return [];
     }
   }
-
-  Future<void> ratingProduct(String productId, int ratingValue) async {
+  // this method is for rating products
+  Future<void> ratingProduct({required String productId, int? ratingValue }) async {
     var db = FirebaseFirestore.instance;
-    var docRef = db.collection('products').doc();
+    var docRef = db.collection('products').doc(productId);
 
     try {
-      await docRef.set({
-        'rating_id' : docRef.id,
-        'user_id' : auth.currentUser!.uid,
-        'product_id' : productId,
-        'rating_value' : ratingValue,
-      });
+      if (productRatings[productId] == null || productRatings[productId]! < ratingValue!) {
+        await docRef.update({
+          'number_of_rating': FieldValue.increment(1),
+          'rating': FieldValue.increment(ratingValue as num),
+        });
+        productRatings[productId] = ratingValue!;
+      }
     } catch (e) {
       print(e.toString());
     }
