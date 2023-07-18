@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../consts/strings.dart';
 import '../../../customs/bg_widget.dart';
@@ -67,6 +68,14 @@ class MenuPage extends StatelessWidget {
                  const Text(restaurantNameSt, style: TextStyle(
                     fontFamily: bold, fontSize: 22, color: myBlack),),
                 GestureDetector(
+                  onTap: () async {
+                    Uri phoneno = Uri.parse('tel:0799075898');
+                    if (await launchUrl(phoneno)) {
+                    //dialer opened
+                    }else{
+                    print("something went wrong with the dailer ");
+                    }
+                  },
                     child: const Text(callUsSt, style: TextStyle(fontSize: 17,
                         fontFamily: orgenao,
                         color: redColor,

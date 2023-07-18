@@ -86,9 +86,7 @@ class OrdersController extends GetxController{
     map((querySnapshot) => querySnapshot.docs.map((doc) => Product.fromFirestore(doc)).toList());
     
   }
-  
-  
-  
+
   Stream getOrderData(statusId){
     var db = FirebaseFirestore.instance;
 

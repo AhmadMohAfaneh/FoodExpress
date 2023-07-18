@@ -44,56 +44,53 @@ class UserEditProfileScreen extends StatelessWidget {
                             fontFamily: bold, color: redColor, fontSize: 22),
                       )),
 
-                  Padding(
-                    padding: const EdgeInsets.only(left: 50),
-                    child: Stack(
-                      alignment: Alignment.bottomRight,
-                      children: [
-                        data['imageUrl'] == '' && controller.chosenImagePath.isEmpty ?
-                        Container(
-                          width: 100,
-                          height: 100,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                              image: AssetImage(imgProfilePic),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        )
-                            : data['imageUrl'] != "" && controller.chosenImagePath.isEmpty ?
-                        Container(
-                          width: 100,
-                          height: 100,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                              image: NetworkImage(data['imageUrl']),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        )
-                            : Container(
-                          width: 100,
-                          height: 100,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                              image: FileImage(File(controller.chosenImagePath.value)),
-                              fit: BoxFit.cover,
-                            ),
+                  Stack(
+                    alignment: Alignment.bottomRight,
+                    children: [
+                      data['imageUrl'] == '' && controller.chosenImagePath.isEmpty ?
+                      Container(
+                        width: 100,
+                        height: 100,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                            image: AssetImage(imgProfilePic),
+                            fit: BoxFit.cover,
                           ),
                         ),
+                      )
+                          : data['imageUrl'] != "" && controller.chosenImagePath.isEmpty ?
+                      Container(
+                        width: 100,
+                        height: 100,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                            image: NetworkImage(data['imageUrl']),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      )
+                          : Container(
+                        width: 100,
+                        height: 100,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                            image: FileImage(File(controller.chosenImagePath.value)),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
 
-                        IconButton(
-                          onPressed: () {
-                            controller.pickImageFromGallery(context);
-                          },
-                          icon: const Icon(CupertinoIcons.plus_circle_fill),
-                          color: Colors.white,
-                        ),
-                      ],
-                    ),
+                      IconButton(
+                        onPressed: () {
+                          controller.pickImageFromGallery(context);
+                        },
+                        icon: const Icon(CupertinoIcons.plus_circle_fill),
+                        color: Colors.white,
+                      ),
+                    ],
                   ),
 
                   30.heightBox,
