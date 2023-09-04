@@ -17,7 +17,7 @@ import '../../../models/category_model.dart';
 
 class MenuPage extends StatelessWidget {
   final Category ?categoryData;
-   const MenuPage({Key? key, this.categoryData}) : super(key: key);
+  const MenuPage({Key? key, this.categoryData}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -65,17 +65,17 @@ class MenuPage extends StatelessWidget {
             15.heightBox,
             Column(
               children: [
-                 const Text(restaurantNameSt, style: TextStyle(
+                const Text(restaurantNameSt, style: TextStyle(
                     fontFamily: bold, fontSize: 22, color: myBlack),),
                 GestureDetector(
-                  onTap: () async {
-                    Uri phoneno = Uri.parse('tel:0799075898');
-                    if (await launchUrl(phoneno)) {
-                    //dialer opened
-                    }else{
-                    print("something went wrong with the dailer ");
-                    }
-                  },
+                    onTap: () async {
+                      Uri phoneno = Uri.parse('tel:0799075898');
+                      if (await launchUrl(phoneno)) {
+                        //dialer opened
+                      }else{
+                        print("something went wrong with the dailer ");
+                      }
+                    },
                     child: const Text(callUsSt, style: TextStyle(fontSize: 17,
                         fontFamily: orgenao,
                         color: redColor,
@@ -112,8 +112,8 @@ class MenuPage extends StatelessWidget {
                                   alignment: Alignment.bottomLeft,
                                   child: menuContainer(products[index].name, products[index].description,
                                       products[index].price.toDouble().toString(), products[index].urlImage,
-                                  productController.calculateDiscountedPrice(products[index].price.toDouble(), products[index].productDiscountRate.toDouble()),
-                                    products[index].offer
+                                      productController.calculateDiscountedPrice(products[index].price.toDouble(), products[index].productDiscountRate.toDouble()),
+                                      products[index].offer
                                   )
                               ),
                             ),
@@ -136,5 +136,3 @@ class MenuPage extends StatelessWidget {
     );
   }
 }
-
-

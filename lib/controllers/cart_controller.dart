@@ -59,8 +59,8 @@ class CartController extends GetxController{
     var productInCart = cart.products.firstWhere((product) => product['p_id'] == productId, orElse: () => {});
     if (productInCart.isNotEmpty) {
       // Calculate the price of the product being removed
-       double? productPrice = priceToUse.toDouble();
-       // productInCart['price']?.toDouble();
+      double? productPrice = priceToUse.toDouble();
+      // productInCart['price']?.toDouble();
       int quantity = productInCart['quantity'];
       if (productPrice != null) {
         double removedProductPrice = productPrice * quantity;
@@ -70,7 +70,7 @@ class CartController extends GetxController{
 
         // Calculate the new total price
         double newTotalPrice = cart.totalPrice - removedProductPrice;
-         double.tryParse(newTotalPrice.toStringAsFixed(2));
+        double.tryParse(newTotalPrice.toStringAsFixed(2));
         // Update the cart in Firestore
         return firestore.collection('carts').doc(cartId).update({
           'product_ids': cart.products,
@@ -82,7 +82,7 @@ class CartController extends GetxController{
 
   double calculateTaxes(cartTotal){
     double salesTax = cartTotal * salesTaxRate;
-     return salesTax ;
+    return salesTax ;
   }
 
 
